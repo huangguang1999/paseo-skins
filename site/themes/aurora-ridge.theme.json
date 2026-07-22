@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "aurora-ridge",
+  "version": "1.0.0",
+  "name": "极光雪境",
+  "description": "墨绿极光掠过雪岭，安静、冷冽，适合深夜专注。",
+  "image": "aurora-ridge.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.67,
+    "focusY": 0.42,
+    "homeOpacity": 0.94,
+    "workspaceOpacity": 0.22,
+    "utilityOpacity": 0.34
+  },
+  "colors": {
+    "background": "#06100d",
+    "panel": "rgba(5, 17, 15, 0.92)",
+    "panelAlt": "rgba(8, 27, 23, 0.76)",
+    "accent": "#79c9a1",
+    "glow": "#4f9f7b",
+    "text": "#eff8f3",
+    "muted": "#9db8aa",
+    "line": "rgba(121, 201, 161, 0.24)"
+  }
+}

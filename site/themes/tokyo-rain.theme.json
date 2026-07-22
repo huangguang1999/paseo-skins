@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "tokyo-rain",
+  "version": "1.0.0",
+  "name": "东京雨幕",
+  "description": "雨夜街头、霓虹反光与暖红招牌，城市感更强烈。",
+  "image": "tokyo-rain.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.48,
+    "homeOpacity": 0.9,
+    "workspaceOpacity": 0.18,
+    "utilityOpacity": 0.3
+  },
+  "colors": {
+    "background": "#100907",
+    "panel": "rgba(19, 10, 8, 0.93)",
+    "panelAlt": "rgba(36, 15, 12, 0.78)",
+    "accent": "#ff7357",
+    "glow": "#f29c68",
+    "text": "#fff3ed",
+    "muted": "#c2a29a",
+    "line": "rgba(255, 115, 87, 0.25)"
+  }
+}

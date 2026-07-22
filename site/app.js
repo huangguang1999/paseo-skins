@@ -12,6 +12,7 @@ const elements = {
   dialogClose: document.querySelector("#dialog-close"),
   dialogCommand: document.querySelector("#dialog-command"),
   dialogCopy: document.querySelector("#dialog-copy"),
+  dialogCredit: document.querySelector("#dialog-credit"),
   dialogDescription: document.querySelector("#dialog-description"),
   dialogPreview: document.querySelector("#dialog-preview"),
   dialogTags: document.querySelector("#dialog-tags"),
@@ -87,6 +88,8 @@ function openTheme(theme) {
   state.dialogTheme = theme;
   elements.dialogTitle.textContent = theme.name;
   elements.dialogDescription.textContent = theme.description;
+  elements.dialogCredit.href = theme.sourceUrl;
+  elements.dialogCredit.textContent = `图片：${theme.author} · ${theme.license} ↗`;
   elements.dialogCommand.textContent = getInstallCommand(theme);
   elements.dialogPreview.style.backgroundImage =
     `linear-gradient(180deg, color-mix(in srgb, ${theme.accent} 10%, transparent), rgba(4,6,8,.32)), url("${new URL(theme.preview, window.location.href).href}")`;
@@ -124,6 +127,13 @@ function createThemeCard(theme, index) {
   title.textContent = theme.name;
   const description = document.createElement("p");
   description.textContent = theme.description;
+  const credit = document.createElement("a");
+  credit.className = "theme-credit";
+  credit.href = theme.sourceUrl;
+  credit.target = "_blank";
+  credit.rel = "noreferrer";
+  credit.textContent = `图片：${theme.author} ↗`;
+  credit.addEventListener("click", (event) => event.stopPropagation());
   const footer = document.createElement("div");
   footer.className = "theme-card-footer";
   const tags = document.createElement("div");
@@ -135,7 +145,7 @@ function createThemeCard(theme, index) {
   copyButton.textContent = "复制安装命令";
   copyButton.addEventListener("click", () => copyThemeCommand(theme, copyButton));
   footer.append(tags, copyButton);
-  content.append(title, description, footer);
+  content.append(title, description, credit, footer);
   card.append(preview, content);
 
   preview.addEventListener("click", () => openTheme(theme));

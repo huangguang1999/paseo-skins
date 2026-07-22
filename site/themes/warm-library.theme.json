@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "warm-library",
+  "version": "1.0.0",
+  "name": "暖灯书页",
+  "description": "木质书架与窗边软垫，把 Paseo 变成安静阅读角。",
+  "image": "warm-library.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.45,
+    "homeOpacity": 0.88,
+    "workspaceOpacity": 0.16,
+    "utilityOpacity": 0.28
+  },
+  "colors": {
+    "background": "#120b08",
+    "panel": "rgba(24, 14, 10, 0.93)",
+    "panelAlt": "rgba(42, 23, 16, 0.78)",
+    "accent": "#e39a67",
+    "glow": "#c6784e",
+    "text": "#fff5ec",
+    "muted": "#c3a795",
+    "line": "rgba(227, 154, 103, 0.24)"
+  }
+}

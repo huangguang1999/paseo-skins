@@ -21,14 +21,14 @@ test("loadTheme validates the bundled manifest and image metadata", async () => 
 
 test("loadTheme validates a gallery color preset", async () => {
   const loadedTheme = await loadTheme(
-    new URL("../site/themes/cold-moon-wuxia.theme.json", import.meta.url),
+    new URL("../site/themes/aurora-ridge.theme.json", import.meta.url),
   );
 
-  assert.equal(loadedTheme.theme.id, "cold-moon-wuxia");
-  assert.equal(loadedTheme.theme.colors.accent, "#8fc5dd");
-  assert.equal(loadedTheme.image.mediaType, "image/png");
-  assert.equal(loadedTheme.image.width, 1672);
-  assert.equal(loadedTheme.image.height, 941);
+  assert.equal(loadedTheme.theme.id, "aurora-ridge");
+  assert.equal(loadedTheme.theme.colors.accent, "#79c9a1");
+  assert.equal(loadedTheme.image.mediaType, "image/jpeg");
+  assert.equal(loadedTheme.image.width, 2400);
+  assert.equal(loadedTheme.image.height, 1350);
 });
 
 test("loadTheme rejects images outside the manifest directory", async (context) => {

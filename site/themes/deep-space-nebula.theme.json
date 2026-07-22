@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "deep-space-nebula",
+  "version": "1.0.0",
+  "name": "深空泡影",
+  "description": "蓝紫星云与金色尘埃交汇，给工作台一片辽阔深空。",
+  "image": "deep-space-nebula.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.55,
+    "focusY": 0.48,
+    "homeOpacity": 0.92,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#050916",
+    "panel": "rgba(6, 10, 27, 0.92)",
+    "panelAlt": "rgba(11, 20, 45, 0.76)",
+    "accent": "#65c7e8",
+    "glow": "#a16cc8",
+    "text": "#f2f4ff",
+    "muted": "#a7add0",
+    "line": "rgba(101, 199, 232, 0.24)"
+  }
+}
