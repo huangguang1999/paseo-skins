@@ -155,15 +155,25 @@ nav a:hover { color: var(--text); }
 .theme-index { position: absolute; z-index: 1; right: 16px; bottom: 12px; color: rgba(255,255,255,.45); font-family: var(--serif); font-size: 28px; }
 .theme-card-content { padding: 24px; }
 .theme-card h3 { margin: 0; font-family: var(--serif); font-size: 30px; font-weight: 500; letter-spacing: -.03em; }
+.theme-card .theme-english-name { min-height: 0; margin: 5px 0 12px; color: color-mix(in srgb, var(--card-accent) 72%, #fff); font-size: 11px; letter-spacing: .06em; }
 .theme-card p { min-height: 48px; margin: 10px 0 18px; color: var(--muted); font-size: 14px; line-height: 1.65; }
 .theme-credit, .dialog-credit { display: inline-block; margin: -7px 0 18px; color: color-mix(in srgb, var(--card-accent, var(--gold)) 74%, #fff); font-size: 11px; }
 .theme-credit:hover, .dialog-credit:hover { text-decoration: underline; }
 .theme-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.theme-card-actions { display: flex; align-items: center; gap: 8px; }
+.detail-link { padding: 8px 3px; color: #aeb3bc; font-size: 11px; }
+.detail-link:hover { color: var(--card-accent); }
 .tag-list { display: flex; flex-wrap: wrap; gap: 7px; }
 .tag { padding: 6px 9px; border: 1px solid var(--line); border-radius: 999px; color: #aeb3bc; font-size: 10px; }
 .copy-button { min-width: 112px; min-height: 36px; padding: 0 12px; border: 1px solid color-mix(in srgb, var(--card-accent) 40%, transparent); border-radius: 10px; background: color-mix(in srgb, var(--card-accent) 10%, transparent); color: var(--card-accent); cursor: pointer; font-size: 12px; font-weight: 650; }
 .copy-button:hover { background: color-mix(in srgb, var(--card-accent) 17%, transparent); }
 .empty-state { padding: 60px 0; color: var(--muted); text-align: center; }
+.theme-index-links { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 28px; color: var(--muted); }
+.theme-index-links > span { display: inline-flex; align-items: center; margin-right: 4px; font-size: 11px; font-weight: 700; letter-spacing: .08em; }
+.theme-index-links a { display: inline-flex; align-items: baseline; gap: 6px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 9px; background: rgba(255,255,255,.025); }
+.theme-index-links a:hover { border-color: rgba(213,179,107,.38); color: var(--gold-bright); }
+.theme-index-links strong { font-size: 11px; }
+.theme-index-links a span { color: #737a84; font-size: 9px; }
 
 .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin: 0; padding: 0; list-style: none; border: 1px solid var(--line); border-radius: 20px; background: rgba(14,17,22,.78); }
 .steps li { display: flex; min-height: 190px; gap: 20px; padding: 34px; border-right: 1px solid var(--line); }

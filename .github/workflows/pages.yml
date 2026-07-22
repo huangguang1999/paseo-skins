@@ -23,11 +23,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
-      - name: Assemble site and Agent Skill
-        run: |
-          mkdir -p _site
-          cp -R site/. _site/
-          cp skills/paseo-skins/SKILL.md _site/SKILL.md
+      - name: Build searchable theme gallery
+        run: node ./scripts/build-site.mjs
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site

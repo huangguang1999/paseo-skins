@@ -1,17 +1,31 @@
 {
   "name": "paseo-skin-loader",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "private": true,
-  "description": "Agent-ready Paseo skin gallery, skill, and safe local CDP theme loader",
+  "description": "Open-source Paseo themes, skins, Agent Skill, and safe macOS CDP theme loader",
   "keywords": [
     "paseo",
-    "electron",
-    "cdp",
+    "paseo-theme",
+    "paseo-skins",
     "theme",
-    "skin"
+    "skin",
+    "agent-skill",
+    "ai-agent",
+    "macos",
+    "electron",
+    "chrome-devtools-protocol",
+    "desktop-customization"
   ],
   "author": "Huang Guang",
   "license": "MIT",
+  "homepage": "https://huangguang1999.github.io/paseo-skins/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/huangguang1999/paseo-skins.git"
+  },
+  "bugs": {
+    "url": "https://github.com/huangguang1999/paseo-skins/issues"
+  },
   "bin": {
     "paseo-skin": "./src/cli.mjs"
   },
@@ -33,8 +47,9 @@
     "doctor": "node ./src/cli.mjs doctor",
     "verify": "node ./src/cli.mjs verify",
     "test": "node --test",
-    "site": "node ./scripts/serve-site.mjs",
-    "check": "node --check ./src/cli.mjs && node --check ./src/cdp-client.mjs && node --check ./src/electron-launcher.mjs && node --check ./src/remote-theme.mjs && node --check ./src/stage-black-gold-skin.mjs && node --check ./src/theme-loader.mjs && node --check ./site/agent-integration.js && node --check ./site/app.js && node --test"
+    "build:site": "node ./scripts/build-site.mjs",
+    "site": "npm run build:site && node ./scripts/serve-site.mjs",
+    "check": "node --check ./src/cli.mjs && node --check ./src/cdp-client.mjs && node --check ./src/electron-launcher.mjs && node --check ./src/remote-theme.mjs && node --check ./src/stage-black-gold-skin.mjs && node --check ./src/theme-loader.mjs && node --check ./site/agent-integration.js && node --check ./site/app.js && node --check ./scripts/build-site.mjs && node --test"
   },
   "engines": {
     "node": ">=22"

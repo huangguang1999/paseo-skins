@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.6.0 - 2026-07-22
+
+- **S（背景）**：仓库已有公开页面和主题目录，但搜索引擎只能稳定读取单一首页，GitHub 与社交平台也缺少完整的项目语义和分享预览。
+- **T（任务）**：让用户能通过 Paseo theme、Paseo skin、Agent Skill、CDP loader 等准确关键词发现项目，并让每套主题拥有可独立收录的入口。
+- **A（行动）**：补充双语 README、包元数据、canonical、Open Graph、Twitter Card、SoftwareApplication JSON-LD、robots 与 sitemap；构建六套静态主题详情页、内部索引和 1280×640 站点社交预览图；扩展 GitHub About 与 topics。
+- **R（结果）**：GitHub 站内、Google/Bing 抓取和社交分享现在都能读取明确项目描述，六套主题可通过独立 URL 被发现，同时保留原有动态画廊与 Agent 一键接入体验。
+
 ## 0.5.0 - 2026-07-22
 
 - **S（背景）**：网页只能复制终端命令，用户仍要自己判断环境、处理 Paseo 运行状态并完成验收，Agent 无法直接接管换肤流程。

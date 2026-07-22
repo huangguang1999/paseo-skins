@@ -5,10 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Paseo Skins 是一个非官方 Paseo 皮肤画廊，支持预览主题并一键复制安全安装命令。"
+      content="Paseo Skins 是开源 Paseo 主题与皮肤画廊，提供 Agent Skill 一键换肤、安全 macOS CDP 加载器、主题预览和随时还原能力。"
     />
+    <meta name="author" content="Huang Guang" />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
+    <meta name="application-name" content="Paseo Skins" />
     <meta name="theme-color" content="#080a0d" />
-    <title>Paseo Skins — 一键换肤</title>
+    <title>Paseo Skins — 开源 Paseo 主题、皮肤与 Agent 一键换肤</title>
+    <link rel="canonical" href="https://huangguang1999.github.io/paseo-skins/" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="./sitemap.xml" type="application/xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Paseo Skins" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:title" content="Paseo Skins — 开源 Paseo 主题与 Agent 一键换肤" />
+    <meta property="og:description" content="浏览独立 Paseo 主题皮肤，通过标准 Agent Skill 一键接入，使用安全的本机 CDP 注入并随时还原。" />
+    <meta property="og:url" content="https://huangguang1999.github.io/paseo-skins/" />
+    <meta property="og:image" content="https://huangguang1999.github.io/paseo-skins/social-preview.png" />
+    <meta property="og:image:width" content="1280" />
+    <meta property="og:image:height" content="640" />
+    <meta property="og:image:alt" content="Paseo Skins 开源主题画廊与 Agent Skill" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Paseo Skins — Open-source Paseo Themes" />
+    <meta name="twitter:description" content="Paseo themes, skins, Agent Skill, and a safe macOS CDP theme loader." />
+    <meta name="twitter:image" content="https://huangguang1999.github.io/paseo-skins/social-preview.png" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://huangguang1999.github.io/paseo-skins/#website",
+            "name": "Paseo Skins",
+            "alternateName": "Paseo 皮肤画廊",
+            "url": "https://huangguang1999.github.io/paseo-skins/",
+            "description": "Open-source Paseo themes, skins, and Agent Skill gallery.",
+            "inLanguage": ["zh-CN", "en"]
+          },
+          {
+            "@type": "SoftwareApplication",
+            "@id": "https://huangguang1999.github.io/paseo-skins/#software",
+            "name": "Paseo Skins",
+            "description": "Open-source Paseo themes, Agent Skill, and safe macOS CDP theme loader.",
+            "url": "https://huangguang1999.github.io/paseo-skins/",
+            "codeRepository": "https://github.com/huangguang1999/paseo-skins",
+            "downloadUrl": "https://github.com/huangguang1999/paseo-skins",
+            "license": "https://github.com/huangguang1999/paseo-skins/blob/main/LICENSE",
+            "softwareVersion": "__SOFTWARE_VERSION__",
+            "operatingSystem": "macOS",
+            "applicationCategory": "DesktopEnhancementApplication",
+            "isAccessibleForFree": true,
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "author": {
+              "@type": "Person",
+              "name": "Huang Guang",
+              "url": "https://github.com/huangguang1999"
+            }
+          }
+        ]
+      }
+    </script>
     <link rel="stylesheet" href="./styles.css" />
     <script type="module" src="./app.js"></script>
   </head>
@@ -88,6 +148,10 @@
 
         <div class="theme-grid" id="theme-grid" aria-live="polite"></div>
         <p class="empty-state" id="empty-state" hidden>没有匹配的主题，换个关键词试试。</p>
+        <nav class="theme-index-links" aria-label="全部 Paseo 主题详情">
+          <span>主题详情</span>
+          <!-- THEME_INDEX -->
+        </nav>
       </section>
 
       <section class="agent-connect section" id="agent">

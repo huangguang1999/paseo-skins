@@ -1,6 +1,15 @@
 # Paseo Skins
 
-一个面向 Paseo 的非官方皮肤画廊、Agent Skill 与本地加载器。网页负责主题预览、搜索和一键复制 Agent 任务；Skill 负责安全工作流，CLI 负责下载声明式主题，并通过 `127.0.0.1` 上的 Chrome DevTools Protocol（CDP）只向 `paseo://app/` 渲染窗口注入样式。
+[![CI](https://github.com/huangguang1999/paseo-skins/actions/workflows/ci.yml/badge.svg)](https://github.com/huangguang1999/paseo-skins/actions/workflows/ci.yml)
+[![GitHub Pages](https://github.com/huangguang1999/paseo-skins/actions/workflows/pages.yml/badge.svg)](https://huangguang1999.github.io/paseo-skins/)
+[![MIT License](https://img.shields.io/badge/license-MIT-d5b36b.svg)](LICENSE)
+[![Agent Skill](https://img.shields.io/badge/Agent%20Skill-paseo--skins-79c9a1.svg)](skills/paseo-skins/SKILL.md)
+
+**Open-source Paseo themes and skins, a standard Agent Skill, and a safe macOS CDP theme loader.** Browse independent backgrounds, hand any theme to Codex, Claude Code, Cursor, or another compatible agent, and restore the native Paseo UI at any time.
+
+一个面向 Paseo 的非官方开源主题皮肤画廊、Agent Skill 与本地加载器。网页负责主题预览、搜索和一键复制 Agent 任务；Skill 负责安全工作流，CLI 负责下载声明式主题，并通过 `127.0.0.1` 上的 Chrome DevTools Protocol（CDP）只向 `paseo://app/` 渲染窗口注入样式。
+
+**[在线浏览 Paseo 主题](https://huangguang1999.github.io/paseo-skins/)** · **[一键接入 Agent](https://huangguang1999.github.io/paseo-skins/#agent)** · **[查看主题格式](docs/THEME_FORMAT.md)**
 
 默认主题是原创「暗夜江湖·黑金」。公开画廊另提供极光、星云、雨夜城市、暖色书房与荒漠落日等独立背景；每套主题分别配置焦点、安全区和颜色。首页完整展示主视觉，进入 workspace 后自动降低背景强度，避免影响代码与对话阅读。
 
@@ -18,6 +27,15 @@
 - Node.js 原生实现，无运行时第三方依赖。
 
 ## 皮肤画廊
+
+| Paseo 主题 | English name | 风格 |
+|---|---|---|
+| 暗夜江湖·黑金 | Midnight Wuxia Gold | 武侠、黑金、深色 |
+| 极光雪境 | Aurora Ridge | 自然、极光、冷色 |
+| 深空泡影 | Deep Space Nebula | 太空、蓝紫、科幻 |
+| 东京雨幕 | Tokyo Rain | 城市、雨夜、霓虹 |
+| 暖灯书页 | Warm Library | 书房、暖色、安静 |
+| 赤沙落日 | Desert Sunset | 荒漠、落日、橙色 |
 
 本地预览站点：
 
@@ -46,7 +64,7 @@ npx skills add huangguang1999/paseo-skins --skill paseo-skins -g
 ## 快速开始
 
 ```bash
-cd paseo-skin-loader
+cd paseo-skins
 npm install
 npm run doctor
 npm start

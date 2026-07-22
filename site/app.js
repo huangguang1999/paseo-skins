@@ -135,6 +135,10 @@ function createThemeCard(theme, index) {
   content.className = "theme-card-content";
   const title = document.createElement("h3");
   title.textContent = theme.name;
+  const englishName = document.createElement("p");
+  englishName.className = "theme-english-name";
+  englishName.lang = "en";
+  englishName.textContent = theme.englishName;
   const description = document.createElement("p");
   description.textContent = theme.description;
   const credit = document.createElement("a");
@@ -154,8 +158,16 @@ function createThemeCard(theme, index) {
   agentButton.className = "copy-button";
   agentButton.textContent = "复制给 Agent";
   agentButton.addEventListener("click", () => copyAgentPrompt(theme, agentButton));
-  footer.append(tags, agentButton);
-  content.append(title, description, credit, footer);
+  const actions = document.createElement("div");
+  actions.className = "theme-card-actions";
+  const detailLink = document.createElement("a");
+  detailLink.className = "detail-link";
+  detailLink.href = `./themes/${theme.id}/`;
+  detailLink.textContent = "详情";
+  detailLink.setAttribute("aria-label", `查看 ${theme.name} 主题详情`);
+  actions.append(detailLink, agentButton);
+  footer.append(tags, actions);
+  content.append(title, englishName, description, credit, footer);
   card.append(preview, content);
 
   preview.addEventListener("click", () => openTheme(theme));
@@ -172,7 +184,9 @@ function getVisibleThemes() {
   const normalizedQuery = state.query.trim().toLocaleLowerCase("zh-CN");
   return state.catalog.themes.filter((theme) => {
     const matchesFilter = state.activeFilter === "全部" || theme.tags.includes(state.activeFilter);
-    const searchText = [theme.name, theme.description, ...theme.tags].join(" ").toLocaleLowerCase("zh-CN");
+    const searchText = [theme.name, theme.englishName, theme.description, theme.englishDescription, ...theme.tags]
+      .join(" ")
+      .toLocaleLowerCase("zh-CN");
     return matchesFilter && (!normalizedQuery || searchText.includes(normalizedQuery));
   });
 }
