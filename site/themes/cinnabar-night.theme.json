@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "cinnabar-night",
+  "version": "1.0.0",
+  "name": "朱砂夜行",
+  "description": "暗红朱砂作强调色，保留夜行氛围与清晰层级。",
+  "image": "stage-black-gold-wuxia-hero-v1.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.72,
+    "focusY": 0.48,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.24,
+    "utilityOpacity": 0.38
+  },
+  "colors": {
+    "background": "#120807",
+    "panel": "rgba(21, 9, 8, 0.92)",
+    "panelAlt": "rgba(35, 14, 12, 0.74)",
+    "accent": "#d96f5f",
+    "glow": "#b85b4f",
+    "text": "#faefeb",
+    "muted": "#c09e97",
+    "line": "rgba(217, 111, 95, 0.25)"
+  }
+}

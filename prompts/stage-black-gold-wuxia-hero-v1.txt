@@ -1,0 +1,10 @@
+Use case: stylized-concept
+Asset type: landing-page hero background for a developer-tool theme
+Primary request: Create an original cinematic dark Chinese wuxia character scene, evoking the tense jianghu atmosphere of ancient martial-arts animation without copying any existing franchise, character, costume, logo, or composition.
+Scene/backdrop: ruined Tang-era ceremonial hall at night, black lacquered pillars, drifting ash and thin fog, torn banners, distant golden backlight.
+Subject: one original young male wandering swordsman and assassin, long black hair tied loosely, layered black robe with weathered dark-bronze armor, one hand resting on a sheathed straight sword, calm and dangerous expression.
+Style/medium: premium Chinese animated-feature concept art, realistic painterly 2D and 3D hybrid, theatrical stage-black-and-gold visual language.
+Composition/framing: ultra-wide 16:9 website hero, character on the right third, left half deliberately dark and uncluttered for UI copy, low camera angle, strong silhouette.
+Lighting/mood: warm gold rim light against deep matte black, restrained dark-crimson accents, volumetric rays, cinematic high contrast, mysterious and majestic.
+Materials/textures: worn silk, aged bronze, lacquered wood, smoke and floating dust.
+Constraints: original design only; no text; no logos; no watermark; no recognizable existing characters; clean negative space; polished production-ready hero artwork.

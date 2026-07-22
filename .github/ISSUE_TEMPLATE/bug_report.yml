@@ -1,0 +1,28 @@
+name: Bug report
+description: 报告可复现的注入、样式或恢复问题
+title: "[Bug] "
+labels: [bug]
+body:
+  - type: textarea
+    attributes:
+      label: 问题描述
+      description: 实际结果与预期结果是什么？
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 复现步骤
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 环境与诊断
+      description: 请附脱敏后的 `npm run doctor -- --port 9224` 和 `npm run status -- --port 9224` 输出。
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 恢复结果
+      description: 停止 watcher 后执行 reset 是否恢复？不要上传私密对话截图。
+    validations:
+      required: true

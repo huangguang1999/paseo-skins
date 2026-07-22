@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "name": "Paseo Skins",
+  "themes": [
+    {
+      "id": "stage-black-gold",
+      "name": "暗夜江湖·黑金",
+      "description": "香槟金描边、浓黑工作台与克制的武侠夜色。",
+      "author": "Huang Guang",
+      "tags": ["武侠", "黑金", "深色"],
+      "accent": "#e3c377",
+      "preview": "./themes/stage-black-gold-wuxia-hero-v1.png",
+      "manifest": "./themes/stage-black-gold.theme.json"
+    },
+    {
+      "id": "cold-moon-wuxia",
+      "name": "冷月青锋",
+      "description": "冷蓝钢色压低视觉噪音，适合长时间阅读与编码。",
+      "author": "Huang Guang",
+      "tags": ["武侠", "冷蓝", "深色"],
+      "accent": "#8fc5dd",
+      "previewHue": 18,
+      "previewSaturation": 0.72,
+      "preview": "./themes/stage-black-gold-wuxia-hero-v1.png",
+      "manifest": "./themes/cold-moon-wuxia.theme.json"
+    },
+    {
+      "id": "cinnabar-night",
+      "name": "朱砂夜行",
+      "description": "暗红朱砂作强调色，保留夜行氛围与清晰层级。",
+      "author": "Huang Guang",
+      "tags": ["武侠", "朱砂", "深色"],
+      "accent": "#d96f5f",
+      "previewHue": -12,
+      "previewSaturation": 1.15,
+      "preview": "./themes/stage-black-gold-wuxia-hero-v1.png",
+      "manifest": "./themes/cinnabar-night.theme.json"
+    }
+  ]
+}

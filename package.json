@@ -1,0 +1,42 @@
+{
+  "name": "paseo-skin-loader",
+  "version": "0.4.0",
+  "private": true,
+  "description": "Community skin gallery and local CDP theme loader for Paseo",
+  "keywords": [
+    "paseo",
+    "electron",
+    "cdp",
+    "theme",
+    "skin"
+  ],
+  "author": "Huang Guang",
+  "license": "MIT",
+  "bin": {
+    "paseo-skin": "./src/cli.mjs"
+  },
+  "files": [
+    "assets/",
+    "src/",
+    "LICENSE",
+    "NOTICE.md",
+    "README.md",
+    "SECURITY.md"
+  ],
+  "type": "module",
+  "scripts": {
+    "start": "node ./src/cli.mjs start",
+    "inject": "node ./src/cli.mjs inject",
+    "pause": "node ./src/cli.mjs pause",
+    "reset": "node ./src/cli.mjs reset",
+    "status": "node ./src/cli.mjs status",
+    "doctor": "node ./src/cli.mjs doctor",
+    "verify": "node ./src/cli.mjs verify",
+    "test": "node --test",
+    "site": "node ./scripts/serve-site.mjs",
+    "check": "node --check ./src/cli.mjs && node --check ./src/cdp-client.mjs && node --check ./src/electron-launcher.mjs && node --check ./src/remote-theme.mjs && node --check ./src/stage-black-gold-skin.mjs && node --check ./src/theme-loader.mjs && node --check ./site/app.js && node --test"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

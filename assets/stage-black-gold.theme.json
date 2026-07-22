@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "stage-black-gold",
+  "version": "1.0.0",
+  "name": "舞台黑金·暗夜江湖",
+  "description": "黑金武侠舞台、香槟金描边与低干扰工作区背景。",
+  "image": "stage-black-gold-wuxia-hero-v1.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.72,
+    "focusY": 0.48,
+    "homeOpacity": 1,
+    "workspaceOpacity": 0.3,
+    "utilityOpacity": 0.46
+  },
+  "colors": {
+    "background": "#050505",
+    "panel": "rgba(10, 9, 8, 0.90)",
+    "panelAlt": "rgba(14, 13, 11, 0.74)",
+    "accent": "#d9b86f",
+    "glow": "#e8c377",
+    "text": "#f6f1e7",
+    "muted": "#b9aa8d",
+    "line": "rgba(220, 188, 122, 0.24)"
+  }
+}
