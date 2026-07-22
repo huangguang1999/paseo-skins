@@ -1,5 +1,6 @@
 {
-  "schemaVersion": 1,
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
   "id": "stage-black-gold",
   "version": "1.0.0",
   "name": "舞台黑金·暗夜江湖",
@@ -22,5 +23,12 @@
     "text": "#f6f1e7",
     "muted": "#b9aa8d",
     "line": "rgba(220, 188, 122, 0.24)"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "b6ad54644a61c465d4c07af22a7b8e54ef66d29e7b6e86454f9f91a28735d356",
+    "bytes": 1711054,
+    "width": 1672,
+    "height": 941
   }
 }

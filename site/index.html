@@ -15,13 +15,17 @@
     <link rel="canonical" href="https://huangguang1999.github.io/paseo-skins/" />
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="./sitemap.xml" type="application/xml" />
+    <link rel="alternate" href="./catalog.json" type="application/json" title="Paseo theme catalog" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Paseo Skins" />
     <meta property="og:locale" content="zh_CN" />
+    <meta property="og:locale:alternate" content="en_US" />
     <meta property="og:title" content="Paseo Skins — 开源 Paseo 主题与 Agent 一键换肤" />
     <meta property="og:description" content="浏览独立 Paseo 主题皮肤，通过标准 Agent Skill 一键接入，使用安全的本机 CDP 注入并随时还原。" />
     <meta property="og:url" content="https://huangguang1999.github.io/paseo-skins/" />
     <meta property="og:image" content="https://huangguang1999.github.io/paseo-skins/social-preview.png" />
+    <meta property="og:image:secure_url" content="https://huangguang1999.github.io/paseo-skins/social-preview.png" />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1280" />
     <meta property="og:image:height" content="640" />
     <meta property="og:image:alt" content="Paseo Skins 开源主题画廊与 Agent Skill" />
@@ -29,6 +33,7 @@
     <meta name="twitter:title" content="Paseo Skins — Open-source Paseo Themes" />
     <meta name="twitter:description" content="Paseo themes, skins, Agent Skill, and a safe macOS CDP theme loader." />
     <meta name="twitter:image" content="https://huangguang1999.github.io/paseo-skins/social-preview.png" />
+    <meta name="twitter:image:alt" content="Paseo Skins open-source theme gallery and Agent Skill" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -71,6 +76,7 @@
     </script>
     <link rel="stylesheet" href="./styles.css" />
     <script type="module" src="./app.js"></script>
+    <script type="module" src="./theme-builder.js"></script>
   </head>
   <body>
     <header class="site-header">
@@ -80,6 +86,7 @@
       </a>
       <nav aria-label="主导航">
         <a href="#gallery">皮肤</a>
+        <a href="#builder">制作主题</a>
         <a href="#install">安装</a>
         <a href="#safety">安全</a>
         <a class="nav-github" href="https://github.com/huangguang1999/paseo-skins">GitHub ↗</a>
@@ -152,6 +159,48 @@
           <span>主题详情</span>
           <!-- THEME_INDEX -->
         </nav>
+      </section>
+
+      <section class="theme-builder section" id="builder">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow"><span></span> ONE IMAGE → ONE THEME</p>
+            <h2>上传一张图，自动生成主题</h2>
+          </div>
+          <p>图片只在浏览器本地处理，不会上传。自动提取配色、生成 SHA-256 完整性记录，并导出标准 Paseo Theme v2 清单。</p>
+        </div>
+        <div class="builder-panel">
+          <div class="builder-form">
+            <label class="builder-upload" for="builder-file">
+              <strong>选择背景图片</strong>
+              <span>PNG、JPEG 或 WebP · 最大 16 MB</span>
+              <input id="builder-file" type="file" accept="image/png,image/jpeg,image/webp" />
+            </label>
+            <div class="builder-fields">
+              <label>主题名称<input id="builder-name" type="text" maxlength="80" placeholder="例如：山海夜航" /></label>
+              <label>主题 ID<input id="builder-id" type="text" maxlength="64" pattern="[a-z0-9][a-z0-9-]*" placeholder="例如：mountain-night" /></label>
+              <label class="builder-field-wide">主题描述<input id="builder-description" type="text" maxlength="200" placeholder="一句话描述主题氛围" /></label>
+            </div>
+            <div class="builder-ranges">
+              <label>水平焦点 <output id="builder-focus-x-value">70%</output><input id="builder-focus-x" type="range" min="0" max="1" step="0.01" value="0.7" /></label>
+              <label>垂直焦点 <output id="builder-focus-y-value">50%</output><input id="builder-focus-y" type="range" min="0" max="1" step="0.01" value="0.5" /></label>
+            </div>
+            <div class="builder-palette" id="builder-palette" aria-label="自动生成的主题配色"></div>
+            <input id="builder-accent" type="color" value="#d5b36b" disabled hidden />
+            <label class="builder-rights"><input id="builder-rights" type="checkbox" /><span>我确认拥有该图片的使用权；公开投稿时会提供作者、来源和许可证。</span></label>
+            <button class="button button-primary" id="builder-download" type="button" disabled>下载 Theme v2 清单</button>
+            <p class="builder-status" id="builder-status">选择图片后会在本机自动取色，不会发起网络请求。</p>
+            <p class="builder-help">下载后把清单与原图放在同一目录，即可让 Agent 执行 <code>paseo-skin inspect</code> 和 <code>start</code>。<a href="./schema/paseo-theme-v2.schema.json">查看 JSON Schema ↗</a></p>
+          </div>
+          <div class="builder-preview" id="builder-preview">
+            <div class="builder-preview-sidebar"><span>P</span><i></i><i></i><i></i></div>
+            <div class="builder-preview-content">
+              <small>LOCAL THEME PREVIEW</small>
+              <strong id="builder-preview-name">你的 Paseo 主题</strong>
+              <div class="builder-preview-composer">今晚想完成什么？<b>↗</b></div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section class="agent-connect section" id="agent">

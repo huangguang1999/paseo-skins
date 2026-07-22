@@ -13,7 +13,12 @@ const mediaTypes = new Map([
   [".jpeg", "image/jpeg"],
   [".js", "text/javascript; charset=utf-8"],
   [".json", "application/json; charset=utf-8"],
+  [".mjs", "text/javascript; charset=utf-8"],
   [".png", "image/png"],
+  [".svg", "image/svg+xml"],
+  [".txt", "text/plain; charset=utf-8"],
+  [".webp", "image/webp"],
+  [".xml", "application/xml; charset=utf-8"],
 ]);
 
 const server = createServer(async (request, response) => {
@@ -43,5 +48,6 @@ const server = createServer(async (request, response) => {
 });
 
 server.listen(port, "127.0.0.1", () => {
-  console.log(`Paseo Skins site ready at http://127.0.0.1:${port}`);
+  const address = server.address();
+  console.log(`Paseo Skins site ready at http://127.0.0.1:${address.port}`);
 });

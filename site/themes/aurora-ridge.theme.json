@@ -1,5 +1,6 @@
 {
-  "schemaVersion": 1,
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
   "id": "aurora-ridge",
   "version": "1.0.0",
   "name": "极光雪境",
@@ -22,5 +23,12 @@
     "text": "#eff8f3",
     "muted": "#9db8aa",
     "line": "rgba(121, 201, 161, 0.24)"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "068f0b8744758abebb5665630ae5f726f7a612f76302aebf83f27dfdb619e205",
+    "bytes": 391592,
+    "width": 2400,
+    "height": 1350
   }
 }

@@ -1,14 +1,17 @@
 {
   "name": "paseo-skin-loader",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "private": true,
-  "description": "Open-source Paseo themes, skins, Agent Skill, and safe macOS CDP theme loader",
+  "description": "Open-source Paseo themes, local theme builder, Agent Skill, and safe macOS CDP loader",
   "keywords": [
     "paseo",
     "paseo-theme",
     "paseo-skins",
+    "paseo-desktop",
     "theme",
     "skin",
+    "theme-builder",
+    "theme-gallery",
     "agent-skill",
     "ai-agent",
     "macos",
@@ -31,11 +34,21 @@
   },
   "files": [
     "assets/",
+    "schema/",
+    "shared/",
+    "skills/",
     "src/",
     "LICENSE",
+    "ASSET_PROVENANCE.md",
+    "CHANGELOG.md",
+    "CODE_OF_CONDUCT.md",
+    "COMPATIBILITY.md",
+    "CONTRIBUTING.md",
     "NOTICE.md",
     "README.md",
-    "SECURITY.md"
+    "SECURITY.md",
+    "SUPPORT.md",
+    "docs/"
   ],
   "type": "module",
   "scripts": {
@@ -46,10 +59,17 @@
     "status": "node ./src/cli.mjs status",
     "doctor": "node ./src/cli.mjs doctor",
     "verify": "node ./src/cli.mjs verify",
-    "test": "node --test",
+    "list": "node ./src/cli.mjs list",
+    "inspect": "node ./src/cli.mjs inspect",
+    "create": "node ./src/cli.mjs create",
+    "test": "npm run build:site && node --test",
     "build:site": "node ./scripts/build-site.mjs",
+    "provenance:check": "node ./scripts/check-asset-provenance.mjs --check",
+    "provenance:release": "node ./scripts/check-asset-provenance.mjs --release",
+    "links:check": "node ./scripts/check-site-links.mjs",
+    "release:check": "npm run check && npm run build:site && npm run links:check && npm run provenance:release && node ./scripts/check-release.mjs",
     "site": "npm run build:site && node ./scripts/serve-site.mjs",
-    "check": "node --check ./src/cli.mjs && node --check ./src/cdp-client.mjs && node --check ./src/electron-launcher.mjs && node --check ./src/remote-theme.mjs && node --check ./src/stage-black-gold-skin.mjs && node --check ./src/theme-loader.mjs && node --check ./site/agent-integration.js && node --check ./site/app.js && node --check ./scripts/build-site.mjs && node --test"
+    "check": "node --check ./src/cli.mjs && node --check ./src/catalog-client.mjs && node --check ./src/cdp-client.mjs && node --check ./src/electron-launcher.mjs && node --check ./src/remote-theme.mjs && node --check ./src/stage-black-gold-skin.mjs && node --check ./src/theme-creator.mjs && node --check ./src/theme-loader.mjs && node --check ./src/watcher-lock.mjs && node --check ./shared/theme-palette.mjs && node --check ./shared/theme-standard.mjs && node --check ./site/agent-integration.js && node --check ./site/app.js && node --check ./site/theme-builder-core.js && node --check ./site/theme-builder.js && node --check ./scripts/build-site.mjs && node --check ./scripts/check-asset-provenance.mjs && node --check ./scripts/check-site-links.mjs && node --check ./scripts/check-release.mjs && node --check ./scripts/serve-site.mjs && npm run provenance:check && npm test"
   },
   "engines": {
     "node": ">=22"

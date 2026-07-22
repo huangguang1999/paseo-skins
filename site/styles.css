@@ -182,6 +182,43 @@ nav a:hover { color: var(--text); }
 .steps h3 { margin: 0 0 12px; font-family: var(--serif); font-size: 25px; font-weight: 500; }
 .steps p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.75; }
 
+.builder-panel { display: grid; grid-template-columns: minmax(360px, .85fr) minmax(480px, 1.15fr); overflow: hidden; border: 1px solid rgba(213,179,107,.22); border-radius: 22px; background: #0e1116; }
+.builder-form { padding: clamp(28px, 4vw, 48px); }
+.builder-upload { display: flex; min-height: 108px; flex-direction: column; justify-content: center; padding: 22px; border: 1px dashed rgba(213,179,107,.42); border-radius: 15px; background: rgba(213,179,107,.05); cursor: pointer; }
+.builder-upload:hover { background: rgba(213,179,107,.09); }
+.builder-upload strong { color: var(--gold-bright); font-family: var(--serif); font-size: 20px; font-weight: 500; }
+.builder-upload span { margin-top: 6px; color: var(--muted); font-size: 11px; }
+.builder-upload input { margin-top: 14px; color: #aeb3bc; font-size: 11px; }
+.builder-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px; }
+.builder-fields label, .builder-ranges label { color: var(--muted); font-size: 11px; }
+.builder-fields input { width: 100%; height: 42px; margin-top: 7px; padding: 0 12px; border: 1px solid var(--line); border-radius: 10px; outline: 0; background: #090b0e; color: var(--text); }
+.builder-fields input:focus { border-color: rgba(213,179,107,.52); }
+.builder-field-wide { grid-column: 1 / -1; }
+.builder-ranges { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 20px; }
+.builder-ranges output { float: right; color: var(--gold-bright); }
+.builder-ranges input { width: 100%; margin-top: 10px; accent-color: var(--gold); }
+.builder-palette { display: flex; min-height: 30px; gap: 8px; margin-top: 18px; }
+.builder-palette span { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 9px; }
+.builder-palette span::before { width: 17px; height: 17px; border: 1px solid rgba(255,255,255,.16); border-radius: 6px; background: var(--swatch); content: ""; }
+.builder-rights { display: flex; align-items: start; gap: 9px; margin: 18px 0; color: var(--muted); font-size: 10px; line-height: 1.55; }
+.builder-rights input { margin: 2px 0 0; accent-color: var(--gold); }
+.builder-form .button { width: 100%; }
+.builder-form .button:disabled { cursor: not-allowed; filter: grayscale(.7); opacity: .45; transform: none; }
+.builder-status { min-height: 18px; margin: 12px 0 0; color: var(--gold-bright); font-size: 10px; line-height: 1.6; }
+.builder-help { margin: 10px 0 0; color: #747b85; font-size: 10px; line-height: 1.65; }
+.builder-help code { color: #aeb4bd; }
+.builder-help a { color: var(--gold-bright); }
+.builder-preview { --builder-accent: var(--gold); position: relative; display: grid; min-height: 620px; grid-template-columns: 120px 1fr; overflow: hidden; background: linear-gradient(135deg, #14181f, #080a0d); background-position: 70% 50%; background-size: cover; }
+.builder-preview::after { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(3,4,6,.58), rgba(3,4,6,.02) 62%); content: ""; pointer-events: none; }
+.builder-preview-sidebar { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 18px; padding-top: 30px; border-right: 1px solid rgba(255,255,255,.1); background: rgba(6,8,11,.65); backdrop-filter: blur(14px); }
+.builder-preview-sidebar span { display: grid; width: 38px; height: 38px; place-items: center; border: 1px solid color-mix(in srgb, var(--builder-accent) 55%, transparent); border-radius: 12px; color: var(--builder-accent); font-family: var(--serif); font-weight: 700; }
+.builder-preview-sidebar i { width: 52px; height: 8px; border-radius: 5px; background: rgba(255,255,255,.13); }
+.builder-preview-content { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: flex-end; padding: 56px; }
+.builder-preview-content small { color: var(--builder-accent); font-size: 10px; letter-spacing: .15em; }
+.builder-preview-content strong { margin: 10px 0 22px; font-family: var(--serif); font-size: clamp(32px, 4vw, 58px); font-weight: 500; text-shadow: 0 2px 20px rgba(0,0,0,.65); }
+.builder-preview-composer { display: flex; min-height: 58px; align-items: center; justify-content: space-between; padding: 0 18px; border: 1px solid color-mix(in srgb, var(--builder-accent) 32%, transparent); border-radius: 15px; background: rgba(8,10,13,.78); color: #aeb3bc; font-size: 12px; backdrop-filter: blur(14px); }
+.builder-preview-composer b { display: grid; width: 30px; height: 30px; place-items: center; border-radius: 9px; background: var(--builder-accent); color: #080a0d; }
+
 .agent-connect-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; overflow: hidden; border: 1px solid rgba(213,179,107,.22); border-radius: 22px; background: var(--line); }
 .agent-connect-copy, .skill-command-box { padding: clamp(30px, 5vw, 58px); background: rgba(14,17,22,.96); }
 .agent-connect-copy { background: linear-gradient(135deg, rgba(213,179,107,.1), rgba(14,17,22,.96) 62%); }
@@ -236,6 +273,8 @@ dialog h2 { margin-bottom: 12px; font-size: 48px; }
   .filters { width: 100%; }
   .safety-panel { grid-template-columns: 1fr; }
   .agent-connect-panel { grid-template-columns: 1fr; }
+  .builder-panel { grid-template-columns: 1fr; }
+  .builder-preview { min-height: 500px; }
 }
 
 @media (max-width: 720px) {
@@ -252,6 +291,10 @@ dialog h2 { margin-bottom: 12px; font-size: 48px; }
   .filters { width: 100%; overflow-x: auto; }
   .result-count { display: none; }
   .theme-grid { grid-template-columns: 1fr; }
+  .builder-fields, .builder-ranges { grid-template-columns: 1fr; }
+  .builder-field-wide { grid-column: auto; }
+  .builder-preview { min-height: 390px; grid-template-columns: 72px 1fr; }
+  .builder-preview-content { padding: 28px; }
   .steps { grid-template-columns: 1fr; }
   .steps li { min-height: 0; border-right: 0; border-bottom: 1px solid var(--line); }
   .steps li:last-child { border-bottom: 0; }

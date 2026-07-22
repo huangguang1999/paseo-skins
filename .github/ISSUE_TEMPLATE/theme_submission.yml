@@ -1,0 +1,35 @@
+name: Theme submission
+description: 提交一套拥有明确来源和再分发权的 Paseo 主题
+title: "[Theme] "
+labels: [theme]
+body:
+  - type: input
+    attributes:
+      label: 主题名称与 ID
+      description: 例如「极光雪境 / aurora-ridge」
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 主题说明与预览
+      description: 说明视觉方向，并拖入首页和 workspace 的脱敏截图。
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 图片作者、原始来源与许可证
+      description: 三项都必须明确；仅写“来自网络”不会进入公开画廊。
+    validations:
+      required: true
+  - type: checkboxes
+    attributes:
+      label: 投稿确认
+      options:
+        - label: 我拥有图片的使用与公开再分发权，并允许项目按注明的许可证发布。
+          required: true
+        - label: 主题只包含 Theme v2 JSON 与 PNG/JPEG/WebP，不包含脚本、远程资源或隐私数据。
+          required: true
+        - label: 我已运行 `npm run inspect -- --theme <manifest>`、`npm run check` 和 `npm run provenance:check`。
+          required: true
+        - label: 我已验证首页、workspace、弹窗和 reset 恢复路径。
+          required: true

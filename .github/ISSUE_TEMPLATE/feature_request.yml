@@ -1,0 +1,23 @@
+name: Feature request
+description: 提议可验证的功能、兼容性或开发体验改进
+title: "[Feature] "
+labels: [enhancement]
+body:
+  - type: textarea
+    attributes:
+      label: 使用场景
+      description: 谁在什么情况下遇到了什么限制？
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 期望结果
+      description: 用可验收的行为描述结果，不只描述实现方式。
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 安全与恢复边界
+      description: 是否涉及 CDP、Paseo 进程、持久化、远程资源或用户数据？如何恢复？
+    validations:
+      required: true

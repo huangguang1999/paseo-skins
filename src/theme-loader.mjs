@@ -1,7 +1,10 @@
 import { constants as fileSystemConstants } from "node:fs";
+import { createHash } from "node:crypto";
 import { open } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+
+import { THEME_SCHEMA_URL } from "../shared/theme-standard.mjs";
 
 const MAXIMUM_THEME_CONFIGURATION_BYTES = 64 * 1024;
 const MAXIMUM_THEME_IMAGE_BYTES = 16 * 1024 * 1024;
@@ -9,6 +12,8 @@ const MAXIMUM_THEME_IMAGE_SIDE_PIXELS = 16_384;
 const MAXIMUM_THEME_IMAGE_PIXELS = 50_000_000;
 const OPEN_READ_ONLY_NO_FOLLOW =
   fileSystemConstants.O_RDONLY | (fileSystemConstants.O_NOFOLLOW ?? 0);
+
+export { THEME_SCHEMA_URL };
 
 export const DEFAULT_THEME_MANIFEST_URL = new URL(
   "../assets/stage-black-gold.theme.json",
@@ -86,6 +91,19 @@ async function readStableRegularFile(filePath, label, maximumBytes) {
   }
 }
 
+export async function readThemeImageFile(filePath) {
+  const resolvedFilePath = filePath instanceof URL ? fileURLToPath(filePath) : path.resolve(filePath);
+  const bytes = await readStableRegularFile(
+    resolvedFilePath,
+    "Theme source image",
+    MAXIMUM_THEME_IMAGE_BYTES,
+  );
+  if (bytes.length === 0) {
+    throw new Error("Theme source image must not be empty");
+  }
+  return { bytes, metadata: parseImageMetadata(bytes) };
+}
+
 function parsePngMetadata(bytes) {
   const pngSignature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
   if (bytes.length < 24 || !bytes.subarray(0, 8).equals(pngSignature)) {
@@ -135,10 +153,66 @@ function parseJpegMetadata(bytes) {
   throw new Error("Theme image is an invalid or unsupported JPEG file");
 }
 
-function parseImageMetadata(bytes) {
-  const metadata = parsePngMetadata(bytes) ?? parseJpegMetadata(bytes);
+function readUnsigned24BitLittleEndian(bytes, offset) {
+  return bytes[offset] | (bytes[offset + 1] << 8) | (bytes[offset + 2] << 16);
+}
+
+function parseWebpMetadata(bytes) {
+  if (
+    bytes.length < 30 ||
+    bytes.subarray(0, 4).toString("ascii") !== "RIFF" ||
+    bytes.subarray(8, 12).toString("ascii") !== "WEBP"
+  ) {
+    return null;
+  }
+
+  let offset = 12;
+  while (offset + 8 <= bytes.length) {
+    const chunkType = bytes.subarray(offset, offset + 4).toString("ascii");
+    const chunkLength = bytes.readUInt32LE(offset + 4);
+    const dataOffset = offset + 8;
+    if (dataOffset + chunkLength > bytes.length) {
+      throw new Error("Theme image is an invalid WebP file");
+    }
+
+    if (chunkType === "VP8X" && chunkLength >= 10) {
+      return {
+        height: readUnsigned24BitLittleEndian(bytes, dataOffset + 7) + 1,
+        mediaType: "image/webp",
+        width: readUnsigned24BitLittleEndian(bytes, dataOffset + 4) + 1,
+      };
+    }
+    if (chunkType === "VP8L" && chunkLength >= 5 && bytes[dataOffset] === 0x2f) {
+      const dimensions = bytes.readUInt32LE(dataOffset + 1);
+      return {
+        height: ((dimensions >>> 14) & 0x3fff) + 1,
+        mediaType: "image/webp",
+        width: (dimensions & 0x3fff) + 1,
+      };
+    }
+    if (
+      chunkType === "VP8 " &&
+      chunkLength >= 10 &&
+      bytes[dataOffset + 3] === 0x9d &&
+      bytes[dataOffset + 4] === 0x01 &&
+      bytes[dataOffset + 5] === 0x2a
+    ) {
+      return {
+        height: bytes.readUInt16LE(dataOffset + 8) & 0x3fff,
+        mediaType: "image/webp",
+        width: bytes.readUInt16LE(dataOffset + 6) & 0x3fff,
+      };
+    }
+
+    offset = dataOffset + chunkLength + (chunkLength % 2);
+  }
+  throw new Error("Theme image is an invalid or unsupported WebP file");
+}
+
+export function parseImageMetadata(bytes) {
+  const metadata = parsePngMetadata(bytes) ?? parseJpegMetadata(bytes) ?? parseWebpMetadata(bytes);
   if (!metadata) {
-    throw new Error("Theme image must be a PNG or JPEG file");
+    throw new Error("Theme image must be a PNG, JPEG, or WebP file");
   }
   if (
     metadata.width < 1 ||
@@ -152,12 +226,78 @@ function parseImageMetadata(bytes) {
   return metadata;
 }
 
+function assertExactKeys(value, allowedKeys, fieldName) {
+  const unknownKeys = Object.keys(value).filter((key) => !allowedKeys.has(key));
+  if (unknownKeys.length > 0) {
+    throw new Error(`Theme ${fieldName} contains unsupported fields: ${unknownKeys.join(", ")}`);
+  }
+}
+
+function validateIntegrity(rawIntegrity) {
+  if (!rawIntegrity || typeof rawIntegrity !== "object" || Array.isArray(rawIntegrity)) {
+    throw new Error("Theme integrity must be an object for schema version 2");
+  }
+  assertExactKeys(
+    rawIntegrity,
+    new Set(["algorithm", "sha256", "bytes", "width", "height"]),
+    "integrity",
+  );
+  if (rawIntegrity.algorithm !== "sha256") {
+    throw new Error("Theme integrity algorithm must be sha256");
+  }
+  if (typeof rawIntegrity.sha256 !== "string" || !/^[0-9a-f]{64}$/.test(rawIntegrity.sha256)) {
+    throw new Error("Theme integrity sha256 must be 64 lowercase hexadecimal characters");
+  }
+  if (
+    !Number.isInteger(rawIntegrity.bytes) ||
+    rawIntegrity.bytes < 1 ||
+    rawIntegrity.bytes > MAXIMUM_THEME_IMAGE_BYTES
+  ) {
+    throw new Error("Theme integrity bytes is outside the supported range");
+  }
+  for (const dimension of ["width", "height"]) {
+    if (
+      !Number.isInteger(rawIntegrity[dimension]) ||
+      rawIntegrity[dimension] < 1 ||
+      rawIntegrity[dimension] > MAXIMUM_THEME_IMAGE_SIDE_PIXELS
+    ) {
+      throw new Error(`Theme integrity ${dimension} is outside the supported range`);
+    }
+  }
+  if (rawIntegrity.width * rawIntegrity.height > MAXIMUM_THEME_IMAGE_PIXELS) {
+    throw new Error("Theme integrity dimensions exceed the supported pixel count");
+  }
+  return { ...rawIntegrity };
+}
+
 export function validateThemeManifest(rawTheme) {
   if (!rawTheme || typeof rawTheme !== "object" || Array.isArray(rawTheme)) {
     throw new Error("Theme manifest must be a JSON object");
   }
-  if (rawTheme.schemaVersion !== 1) {
+  if (rawTheme.schemaVersion !== 1 && rawTheme.schemaVersion !== 2) {
     throw new Error(`Unsupported theme schema version: ${rawTheme.schemaVersion}`);
+  }
+  if (rawTheme.schemaVersion === 2) {
+    assertExactKeys(
+      rawTheme,
+      new Set([
+        "$schema",
+        "schemaVersion",
+        "id",
+        "version",
+        "name",
+        "description",
+        "image",
+        "appearance",
+        "art",
+        "colors",
+        "integrity",
+      ]),
+      "manifest",
+    );
+    if (rawTheme.$schema !== THEME_SCHEMA_URL) {
+      throw new Error(`Theme $schema must be ${THEME_SCHEMA_URL}`);
+    }
   }
   if (typeof rawTheme.id !== "string" || !/^[a-z0-9][a-z0-9-]{0,63}$/.test(rawTheme.id)) {
     throw new Error("Theme id must contain lowercase letters, digits, and hyphens only");
@@ -182,9 +322,22 @@ export function validateThemeManifest(rawTheme) {
   if (!art || typeof art !== "object" || Array.isArray(art)) {
     throw new Error("Theme art must be an object");
   }
+  if (rawTheme.schemaVersion === 2) {
+    assertExactKeys(
+      art,
+      new Set(["focusX", "focusY", "homeOpacity", "workspaceOpacity", "utilityOpacity"]),
+      "art",
+    );
+    assertExactKeys(
+      colors,
+      new Set(["background", "panel", "panelAlt", "accent", "glow", "text", "muted", "line"]),
+      "colors",
+    );
+  }
 
   return {
-    schemaVersion: 1,
+    $schema: rawTheme.schemaVersion === 2 ? THEME_SCHEMA_URL : null,
+    schemaVersion: rawTheme.schemaVersion,
     id: rawTheme.id,
     version: rawTheme.version,
     name: assertPlainText(rawTheme.name, "name", 80),
@@ -201,13 +354,20 @@ export function validateThemeManifest(rawTheme) {
     colors: {
       background: assertCssColor(colors.background, "colors.background"),
       panel: assertCssColor(colors.panel, "colors.panel"),
-      panelAlt: assertCssColor(colors.panelAlt ?? colors.panel, "colors.panelAlt"),
+      panelAlt: assertCssColor(
+        rawTheme.schemaVersion === 2 ? colors.panelAlt : (colors.panelAlt ?? colors.panel),
+        "colors.panelAlt",
+      ),
       accent: assertCssColor(colors.accent, "colors.accent"),
-      glow: assertCssColor(colors.glow ?? colors.accent, "colors.glow"),
+      glow: assertCssColor(
+        rawTheme.schemaVersion === 2 ? colors.glow : (colors.glow ?? colors.accent),
+        "colors.glow",
+      ),
       text: assertCssColor(colors.text, "colors.text"),
       muted: assertCssColor(colors.muted, "colors.muted"),
       line: assertCssColor(colors.line, "colors.line"),
     },
+    integrity: rawTheme.schemaVersion === 2 ? validateIntegrity(rawTheme.integrity) : null,
   };
 }
 
@@ -239,6 +399,30 @@ export async function loadTheme(themeManifest = DEFAULT_THEME_MANIFEST_URL) {
     throw new Error("Theme image must not be empty");
   }
   const imageMetadata = parseImageMetadata(imageBytes);
+  const imageExtension = path.extname(theme.image).toLowerCase();
+  const supportedExtensions = {
+    "image/png": new Set([".png"]),
+    "image/jpeg": new Set([".jpg", ".jpeg"]),
+    "image/webp": new Set([".webp"]),
+  };
+  if (!supportedExtensions[imageMetadata.mediaType].has(imageExtension)) {
+    throw new Error("Theme image extension does not match its detected media type");
+  }
+  if (theme.integrity) {
+    const actualDigest = createHash("sha256").update(imageBytes).digest("hex");
+    if (actualDigest !== theme.integrity.sha256) {
+      throw new Error("Theme image sha256 does not match the manifest integrity record");
+    }
+    if (imageBytes.length !== theme.integrity.bytes) {
+      throw new Error("Theme image byte length does not match the manifest integrity record");
+    }
+    if (
+      imageMetadata.width !== theme.integrity.width ||
+      imageMetadata.height !== theme.integrity.height
+    ) {
+      throw new Error("Theme image dimensions do not match the manifest integrity record");
+    }
+  }
 
   return {
     image: {

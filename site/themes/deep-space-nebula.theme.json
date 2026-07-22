@@ -1,5 +1,6 @@
 {
-  "schemaVersion": 1,
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
   "id": "deep-space-nebula",
   "version": "1.0.0",
   "name": "深空泡影",
@@ -22,5 +23,12 @@
     "text": "#f2f4ff",
     "muted": "#a7add0",
     "line": "rgba(101, 199, 232, 0.24)"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "3e8788beed44ef7e6f23e44f6b0fe151b6b7c34b93f6a0eb45225231417e0c46",
+    "bytes": 537219,
+    "width": 2400,
+    "height": 1350
   }
 }

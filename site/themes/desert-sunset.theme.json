@@ -1,5 +1,6 @@
 {
-  "schemaVersion": 1,
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
   "id": "desert-sunset",
   "version": "1.0.0",
   "name": "赤沙落日",
@@ -22,5 +23,12 @@
     "text": "#fff6e9",
     "muted": "#c5a486",
     "line": "rgba(255, 176, 74, 0.25)"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "fae68b52daf1b0152143c3855b2b581480256efd993876febda71ec87e8d7395",
+    "bytes": 212582,
+    "width": 2400,
+    "height": 1350
   }
 }

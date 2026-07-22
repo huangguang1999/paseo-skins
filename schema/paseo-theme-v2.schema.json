@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "title": "Paseo Theme Manifest v2",
+  "description": "A data-only, integrity-verified visual theme for Paseo Skins.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schemaVersion",
+    "id",
+    "version",
+    "name",
+    "description",
+    "image",
+    "appearance",
+    "art",
+    "colors",
+    "integrity"
+  ],
+  "properties": {
+    "$schema": {
+      "const": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json"
+    },
+    "schemaVersion": { "const": 2 },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "name": { "type": "string", "minLength": 1, "maxLength": 80 },
+    "description": { "type": "string", "minLength": 1, "maxLength": 200 },
+    "image": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160,
+      "pattern": "^[^/\\\\]+\\.(png|jpe?g|webp)$"
+    },
+    "appearance": { "const": "dark" },
+    "art": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["focusX", "focusY", "homeOpacity", "workspaceOpacity", "utilityOpacity"],
+      "properties": {
+        "focusX": { "$ref": "#/$defs/unitInterval" },
+        "focusY": { "$ref": "#/$defs/unitInterval" },
+        "homeOpacity": { "$ref": "#/$defs/unitInterval" },
+        "workspaceOpacity": { "$ref": "#/$defs/unitInterval" },
+        "utilityOpacity": { "$ref": "#/$defs/unitInterval" }
+      }
+    },
+    "colors": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["background", "panel", "panelAlt", "accent", "glow", "text", "muted", "line"],
+      "properties": {
+        "background": { "$ref": "#/$defs/color" },
+        "panel": { "$ref": "#/$defs/color" },
+        "panelAlt": { "$ref": "#/$defs/color" },
+        "accent": { "$ref": "#/$defs/color" },
+        "glow": { "$ref": "#/$defs/color" },
+        "text": { "$ref": "#/$defs/color" },
+        "muted": { "$ref": "#/$defs/color" },
+        "line": { "$ref": "#/$defs/color" }
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "sha256", "bytes", "width", "height"],
+      "properties": {
+        "algorithm": { "const": "sha256" },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "bytes": { "type": "integer", "minimum": 1, "maximum": 16777216 },
+        "width": { "type": "integer", "minimum": 1, "maximum": 16384 },
+        "height": { "type": "integer", "minimum": 1, "maximum": 16384 }
+      }
+    }
+  },
+  "$defs": {
+    "unitInterval": { "type": "number", "minimum": 0, "maximum": 1 },
+    "color": {
+      "type": "string",
+      "pattern": "^(#[0-9a-fA-F]{6}|rgba?\\([0-9., %]+\\))$"
+    }
+  }
+}

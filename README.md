@@ -1,15 +1,16 @@
 # Paseo Skins
 
 [![CI](https://github.com/huangguang1999/paseo-skins/actions/workflows/ci.yml/badge.svg)](https://github.com/huangguang1999/paseo-skins/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/huangguang1999/paseo-skins/actions/workflows/codeql.yml/badge.svg)](https://github.com/huangguang1999/paseo-skins/actions/workflows/codeql.yml)
 [![GitHub Pages](https://github.com/huangguang1999/paseo-skins/actions/workflows/pages.yml/badge.svg)](https://huangguang1999.github.io/paseo-skins/)
 [![MIT License](https://img.shields.io/badge/license-MIT-d5b36b.svg)](LICENSE)
 [![Agent Skill](https://img.shields.io/badge/Agent%20Skill-paseo--skins-79c9a1.svg)](skills/paseo-skins/SKILL.md)
 
-**Open-source Paseo themes and skins, a standard Agent Skill, and a safe macOS CDP theme loader.** Browse independent backgrounds, hand any theme to Codex, Claude Code, Cursor, or another compatible agent, and restore the native Paseo UI at any time.
+**Open-source Paseo themes and skins, a local theme builder, a standard Agent Skill, and a safe macOS CDP theme loader.** Browse independent backgrounds, turn one image into a verified theme, hand it to Codex, Claude Code, Cursor, or another compatible agent, and restore the native Paseo UI at any time.
 
 一个面向 Paseo 的非官方开源主题皮肤画廊、Agent Skill 与本地加载器。网页负责主题预览、搜索和一键复制 Agent 任务；Skill 负责安全工作流，CLI 负责下载声明式主题，并通过 `127.0.0.1` 上的 Chrome DevTools Protocol（CDP）只向 `paseo://app/` 渲染窗口注入样式。
 
-**[在线浏览 Paseo 主题](https://huangguang1999.github.io/paseo-skins/)** · **[一键接入 Agent](https://huangguang1999.github.io/paseo-skins/#agent)** · **[查看主题格式](docs/THEME_FORMAT.md)**
+**[在线浏览 Paseo 主题](https://huangguang1999.github.io/paseo-skins/)** · **[用一张图制作主题](https://huangguang1999.github.io/paseo-skins/#builder)** · **[一键接入 Agent](https://huangguang1999.github.io/paseo-skins/#agent)** · **[查看主题格式](docs/THEME_FORMAT.md)**
 
 默认主题是原创「暗夜江湖·黑金」。公开画廊另提供极光、星云、雨夜城市、暖色书房与荒漠落日等独立背景；每套主题分别配置焦点、安全区和颜色。首页完整展示主视觉，进入 workspace 后自动降低背景强度，避免影响代码与对话阅读。
 
@@ -19,11 +20,13 @@
 
 - 不 patch Paseo，不覆盖官方文件，Paseo 升级不会删除本仓库。
 - CDP 固定绑定回环地址，并校验 WebSocket 仍指向指定端口的 page target。
-- watcher 覆盖当前窗口、reload 和后续新窗口；停止时注销 reload hook。
+- watcher 覆盖当前窗口、reload 和后续新窗口；停止时注销 reload hook，同一端口只允许一个 watcher。
 - `pause` / `reset` 可恢复根节点、样式、overlay 和动态内联样式。
-- `theme.json` 描述图片、焦点、路由强度和颜色；加载前校验路径、类型、大小及像素数。
-- 支持通过 `--theme-url` 安装远程主题；只接受 HTTPS 同目录 JSON 与 PNG/JPEG，不执行远程脚本。
+- Theme v2 提供公开 JSON Schema；加载前校验图片类型、SHA-256、字节数、尺寸和像素数。
+- 一张本地 PNG、JPEG 或 WebP 即可自动取色并生成完整性可验证的主题，浏览器端不会上传图片。
+- 支持通过 `--theme-url` 安装远程主题；只接受 HTTPS 同目录 JSON 与图片，不执行远程脚本。
 - `doctor` 提供只读环境诊断，`verify` 检查根节点可见性、overlay 安全和横向溢出。
+- 主题素材逐项记录作者、来源和许可证；Release 同时生成校验和与 GitHub artifact attestation。
 - Node.js 原生实现，无运行时第三方依赖。
 
 ## 皮肤画廊
@@ -43,7 +46,7 @@
 npm run site
 ```
 
-打开 `http://127.0.0.1:4173` 即可浏览主题、搜索筛选、查看详情并复制给 Agent；手动终端命令保留在详情页作为备用。站点是纯静态 HTML/CSS/JS，可直接发布到 GitHub Pages；主题目录位于 `site/catalog.json`。
+打开 `http://127.0.0.1:4173` 即可浏览主题、搜索筛选、查看详情、从一张本地图片生成 Theme v2 清单并复制给 Agent；手动终端命令保留在详情页作为备用。站点是纯静态 HTML/CSS/JS，可直接发布到 GitHub Pages；主题目录位于 `site/catalog.json`。
 
 ## Agent 一键接入
 
@@ -91,9 +94,13 @@ npx --yes github:huangguang1999/paseo-skins start \
 | `npm run doctor -- --port 9224` | 只读检查环境、主题资源和可选实时连接 |
 | `npm run verify -- --port 9224` | 验证根节点、主题生命周期和布局安全 |
 | `npm run verify -- --port 9224 --screenshot /tmp/paseo-skin.jpg` | 验证并保存当前 renderer 截图；4K 窗口推荐 JPEG |
+| `npm run list -- --json` | 列出公开目录中的所有 Paseo 主题 |
+| `npm run inspect -- --theme /path/to/theme.json` | 不连接 Paseo，校验并说明本地或远程主题 |
+| `npm run create -- --image /path/to/image.webp --name "山海夜航" --output ./my-theme` | 从一张图自动取色并生成 Theme v2 |
 | `npm run pause -- --port 9224` | 移除当前主题，恢复官方渲染样式 |
 | `npm run reset -- --port 9224` | 与 `pause` 相同，用于故障恢复 |
 | `npm run check` | 运行语法检查和全部测试 |
+| `npm run release:check` | 执行发布前测试、站点链接、素材权利和包内容审计 |
 
 一键恢复的推荐顺序：
 
@@ -106,10 +113,17 @@ npm run reset -- --port 9224
 
 ## 自定义主题
 
-复制 `assets/stage-black-gold.theme.json`，让图片和清单位于同一目录，再执行：
+最省事的方式是打开[在线主题生成器](https://huangguang1999.github.io/paseo-skins/#builder)：图片只在浏览器本地处理，不会上传。也可以直接用 CLI：
 
 ```bash
-npm start -- --theme /absolute/path/to/my-theme.json
+npm run create -- \
+  --image /absolute/path/to/background.webp \
+  --name "山海夜航" \
+  --id mountain-night \
+  --output ./my-theme
+
+npm run inspect -- --theme "$PWD/my-theme/mountain-night.theme.json"
+npm start -- --theme "$PWD/my-theme/mountain-night.theme.json"
 ```
 
 如需切回原黑金主题：
@@ -124,7 +138,7 @@ npm start -- --theme "$PWD/assets/stage-black-gold.theme.json"
 npm run doctor -- --theme-url 'https://example.com/themes/my-theme.theme.json'
 ```
 
-主题格式、字段范围和图片限制见 [主题格式](docs/THEME_FORMAT.md)。当前支持 PNG/JPEG，单图不超过 16 MB、单边不超过 16384 px、总像素不超过 5000 万。建议使用 16:9 横图，并让主体避开左侧导航区域。
+主题格式、字段范围和图片限制见 [Theme v2 格式](docs/THEME_FORMAT.md) 与公开 [JSON Schema](schema/paseo-theme-v2.schema.json)。当前支持 PNG、JPEG、WebP，单图不超过 16 MB、单边不超过 16384 px、总像素不超过 5000 万。建议使用 16:9 横图，并让主体避开左侧导航区域。公开投稿还需在 [ASSET_PROVENANCE.md](ASSET_PROVENANCE.md) 登记作者、来源和许可证。
 
 ## 工作原理
 
@@ -150,6 +164,9 @@ reset  ──► destroy observer + overlay + style + 动态内联样式
 - `src/electron-launcher.mjs`：合并 localhost-only Electron flags。
 - `src/cdp-client.mjs`：target 过滤、CDP 校验、watcher 生命周期和截图。
 - `src/theme-loader.mjs`：主题清单与图片安全校验。
+- `src/theme-creator.mjs`：本地图片取色、Theme v2 生成和事务式写入。
+- `src/catalog-client.mjs`：公开目录读取与同源 URL 约束。
+- `src/watcher-lock.mjs`：单端口 watcher 所有权和陈旧锁恢复。
 - `src/remote-theme.mjs`：HTTPS 下载、重定向约束、体积限制和本地缓存。
 - `src/stage-black-gold-skin.mjs`：路由感知的视觉层和完整 destroy 生命周期。
 - `site/`：静态皮肤商店、主题目录与公开原创资源。
@@ -163,6 +180,6 @@ CDP 对 renderer 拥有完整控制能力。绑定 `127.0.0.1` 可以避免局�
 
 ## 参考与许可证
 
-项目的安全与生命周期设计参考了 [Codex Dream Skin](https://github.com/Fei-Away/Codex-Dream-Skin) 和 [codex-plusplus tweaks](https://github.com/b-nnett/codex-plusplus) 的公开做法，但没有复制 Paseo、Codex 或第三方主题代码。默认壁纸来源和权利说明见 [NOTICE.md](NOTICE.md)，具体工程对齐项见 [参考说明](docs/REFERENCE_NOTES.md)。
+项目的安全与生命周期设计参考了多个公开 Codex 主题、主题编辑器与 Agent Skill 项目，但没有复制 Paseo、Codex 或第三方主题代码。量化对比、采用项和拒绝项见 [GitHub 同类项目基准](docs/BENCHMARK.md)；素材来源与权利说明见 [ASSET_PROVENANCE.md](ASSET_PROVENANCE.md) 和 [NOTICE.md](NOTICE.md)，Paseo 兼容范围见 [COMPATIBILITY.md](COMPATIBILITY.md)。
 
 代码采用 [MIT License](LICENSE)。品牌与素材声明见 [NOTICE.md](NOTICE.md)。

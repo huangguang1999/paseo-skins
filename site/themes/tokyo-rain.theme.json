@@ -1,5 +1,6 @@
 {
-  "schemaVersion": 1,
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
   "id": "tokyo-rain",
   "version": "1.0.0",
   "name": "东京雨幕",
@@ -22,5 +23,12 @@
     "text": "#fff3ed",
     "muted": "#c2a29a",
     "line": "rgba(255, 115, 87, 0.25)"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "f4ce75bec8a6533dd0a912ee2b9671b89be71bebed1e4391fc3b8dc6f0b02103",
+    "bytes": 604492,
+    "width": 2400,
+    "height": 1350
   }
 }

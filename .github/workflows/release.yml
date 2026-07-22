@@ -1,0 +1,42 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  attestations: write
+  contents: write
+  id-token: write
+
+jobs:
+  release:
+    runs-on: macos-14
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run release:check
+      - name: Build release package and checksums
+        run: |
+          mkdir release
+          npm pack --pack-destination release
+          cd release
+          shasum -a 256 *.tgz > SHA256SUMS
+      - name: Attest release package
+        uses: actions/attest@v4
+        with:
+          subject-path: release/*.tgz
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh release create "$GITHUB_REF_NAME"
+          release/*.tgz release/SHA256SUMS
+          --verify-tag
+          --generate-notes
+          --title "Paseo Skins $GITHUB_REF_NAME"

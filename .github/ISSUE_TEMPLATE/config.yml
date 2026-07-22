@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/huangguang1999/paseo-skins/security/advisories/new
+    about: 请通过私密安全公告报告漏洞，不要公开 cookies、token、对话或本机路径。

@@ -75,18 +75,24 @@ function renderThemePage(theme) {
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
     <link rel="canonical" href="${canonicalUrl}" />
     <link rel="icon" href="../../favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" href="${manifestUrl}" type="application/json" title="${escapeHtml(theme.name)} Theme v2 manifest" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Paseo Skins" />
     <meta property="og:locale" content="zh_CN" />
+    <meta property="og:locale:alternate" content="en_US" />
     <meta property="og:title" content="${escapeHtml(theme.name)} / ${escapeHtml(theme.englishName)} — Paseo 主题皮肤" />
     <meta property="og:description" content="${escapeHtml(description)}" />
     <meta property="og:url" content="${canonicalUrl}" />
     <meta property="og:image" content="${previewUrl}" />
+    <meta property="og:image:secure_url" content="${previewUrl}" />
+    <meta property="og:image:width" content="${theme.previewWidth}" />
+    <meta property="og:image:height" content="${theme.previewHeight}" />
     <meta property="og:image:alt" content="${escapeHtml(theme.name)} Paseo 主题预览" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${escapeHtml(theme.name)} / ${escapeHtml(theme.englishName)}" />
     <meta name="twitter:description" content="${escapeHtml(description)}" />
     <meta name="twitter:image" content="${previewUrl}" />
+    <meta name="twitter:image:alt" content="${escapeHtml(theme.name)} Paseo theme preview" />
     <meta name="theme-color" content="${escapeHtml(theme.accent)}" />
     <script type="application/ld+json">${jsonLd(structuredData)}</script>
     <link rel="stylesheet" href="../../theme-detail.css" />
@@ -130,6 +136,21 @@ await cp(
   path.join(repositoryRoot, "skills/paseo-skins/SKILL.md"),
   path.join(outputRoot, "SKILL.md"),
 );
+await cp(
+  path.join(repositoryRoot, "schema"),
+  path.join(outputRoot, "schema"),
+  { recursive: true },
+);
+await cp(
+  path.join(repositoryRoot, "shared"),
+  path.join(outputRoot, "shared"),
+  { recursive: true },
+);
+for (const browserModule of ["theme-builder-core.js", "theme-builder.js"]) {
+  const modulePath = path.join(outputRoot, browserModule);
+  const moduleSource = await readFile(modulePath, "utf8");
+  await writeFile(modulePath, moduleSource.replaceAll("../shared/", "./shared/"));
+}
 
 const catalog = JSON.parse(await readFile(path.join(sourceRoot, "catalog.json"), "utf8"));
 const packageMetadata = JSON.parse(await readFile(path.join(repositoryRoot, "package.json"), "utf8"));
@@ -141,8 +162,16 @@ await writeFile(path.join(outputRoot, "index.html"), indexHtml);
 
 for (const theme of catalog.themes) {
   const themeDirectory = path.join(outputRoot, "themes", theme.id);
+  const manifest = JSON.parse(await readFile(
+    path.join(sourceRoot, theme.manifest.replace(/^\.\//, "")),
+    "utf8",
+  ));
   await mkdir(themeDirectory, { recursive: true });
-  await writeFile(path.join(themeDirectory, "index.html"), renderThemePage(theme));
+  await writeFile(path.join(themeDirectory, "index.html"), renderThemePage({
+    ...theme,
+    previewHeight: manifest.integrity.height,
+    previewWidth: manifest.integrity.width,
+  }));
 }
 
 const sitemapUrls = [baseUrl, ...catalog.themes.map((theme) => new URL(`themes/${theme.id}/`, baseUrl).href)];

@@ -41,6 +41,17 @@ test("loadRemoteTheme rejects a redirect that downgrades to public HTTP", async 
   assert.equal(requestCount, 1);
 });
 
+test("loadRemoteTheme rejects a cross-origin HTTPS redirect", async () => {
+  const fetchImplementation = async () => new Response(null, {
+    status: 302,
+    headers: { location: "https://cdn.example.net/night.theme.json" },
+  });
+  await assert.rejects(
+    () => loadRemoteTheme("https://themes.example.com/night.theme.json", { fetchImplementation }),
+    /redirects must remain on https:\/\/themes\.example\.com/,
+  );
+});
+
 test("loadRemoteTheme downloads, validates, and caches a theme", async (context) => {
   const cacheRoot = await mkdtemp(path.join(os.tmpdir(), "paseo-skin-cache-"));
   context.after(() => rm(cacheRoot, { force: true, recursive: true }));

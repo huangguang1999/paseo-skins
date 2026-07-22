@@ -26,3 +26,27 @@ test("parseArguments rejects privileged and invalid ports", () => {
   assert.throws(() => parseArguments(["status", "--port", "80"]), /Invalid CDP port/);
   assert.throws(() => parseArguments(["status", "--port", "not-a-number"]), /Invalid CDP port/);
 });
+
+test("parseArguments validates one-image theme creation", () => {
+  const options = parseArguments([
+    "create",
+    "--image",
+    "/tmp/background.webp",
+    "--name",
+    "Mountain Night",
+    "--id",
+    "mountain-night",
+    "--output",
+    "/tmp/generated-theme",
+    "--focus-x",
+    "0.62",
+  ]);
+
+  assert.equal(options.command, "create");
+  assert.equal(options.themeId, "mountain-night");
+  assert.equal(options.focusX, 0.62);
+  assert.throws(
+    () => parseArguments(["create", "--image", "/tmp/a.png", "--name", "A"]),
+    /create requires --image, --name, and --output/,
+  );
+});

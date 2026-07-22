@@ -8,7 +8,10 @@
 4. 不隐藏、替换或删除 `#root`；视觉层必须 `pointer-events: none`。
 5. 新主题图片必须说明来源与使用权，不接受直接搬运影视、游戏或其他主题站素材。
 6. 改 UI 后在独立临时窗口验收首页与 workspace，避免影响正在使用的主窗口。
-7. 画廊主题必须同时提交可校验的 `.theme.json`、同目录图片和 `site/catalog.json` 元数据。
+7. 画廊主题必须使用 Theme v2，同时提交可校验的 `.theme.json`、同目录图片和 `site/catalog.json` 元数据。
+8. Theme v2 的 `integrity` 必须由 `npm run create` 生成或由 `inspect` 验证，不要手写 SHA-256、尺寸和字节数。
+9. 每个新增视觉素材都必须在 `ASSET_PROVENANCE.md` 登记作者、来源、许可证、修改情况和分发状态。
+10. 主题预览图与实际加载图片必须分别登记；不接受只提供搜索结果页、模糊“网络来源”或无法复核的授权声明。
 
 本地检查：
 
@@ -16,6 +19,17 @@
 npm install
 npm run check
 npm run doctor
+npm run release:check
 ```
 
-Pull Request 请说明改动目标、风险、验证证据和恢复方式。不要顺手重构无关代码。
+制作本地主题时优先使用：
+
+```bash
+npm run create -- \
+  --image /absolute/path/to/background.webp \
+  --name "Theme name" \
+  --id theme-id \
+  --output ./generated-theme
+```
+
+公开投稿可以直接使用 GitHub 的 **Theme submission** Issue 模板；代码 Pull Request 请说明改动目标、风险、验证证据和恢复方式。不要顺手重构无关代码。

@@ -55,7 +55,8 @@ async function readLimitedResponse(response, label, maximumBytes) {
 }
 
 async function downloadBytes(url, label, maximumBytes, fetchImplementation) {
-  let currentUrl = validateRemoteThemeUrl(url);
+  const initialUrl = validateRemoteThemeUrl(url);
+  let currentUrl = initialUrl;
   for (let redirectCount = 0; redirectCount <= 3; redirectCount += 1) {
     const response = await fetchImplementation(currentUrl, {
       redirect: "manual",
@@ -65,10 +66,17 @@ async function downloadBytes(url, label, maximumBytes, fetchImplementation) {
       const location = response.headers.get("location");
       if (!location) throw new Error(`${label} redirect has no location`);
       if (redirectCount === 3) throw new Error(`${label} has too many redirects`);
-      currentUrl = validateRemoteThemeUrl(new URL(location, currentUrl));
+      const redirectedUrl = validateRemoteThemeUrl(new URL(location, currentUrl));
+      if (redirectedUrl.origin !== initialUrl.origin) {
+        throw new Error(`${label} redirects must remain on ${initialUrl.origin}`);
+      }
+      currentUrl = redirectedUrl;
       continue;
     }
-    validateRemoteThemeUrl(response.url || currentUrl);
+    const responseUrl = validateRemoteThemeUrl(response.url || currentUrl);
+    if (responseUrl.origin !== initialUrl.origin) {
+      throw new Error(`${label} redirects must remain on ${initialUrl.origin}`);
+    }
     return readLimitedResponse(response, label, maximumBytes);
   }
   throw new Error(`${label} has too many redirects`);
