@@ -1,6 +1,6 @@
 # Paseo Skins
 
-一个面向 Paseo 的非官方皮肤画廊与本地加载器。网页负责主题预览、搜索和复制安装命令；CLI 负责安全下载声明式主题，并通过 `127.0.0.1` 上的 Chrome DevTools Protocol（CDP）只向 `paseo://app/` 渲染窗口注入样式。
+一个面向 Paseo 的非官方皮肤画廊、Agent Skill 与本地加载器。网页负责主题预览、搜索和一键复制 Agent 任务；Skill 负责安全工作流，CLI 负责下载声明式主题，并通过 `127.0.0.1` 上的 Chrome DevTools Protocol（CDP）只向 `paseo://app/` 渲染窗口注入样式。
 
 默认主题是原创「暗夜江湖·黑金」。公开画廊另提供极光、星云、雨夜城市、暖色书房与荒漠落日等独立背景；每套主题分别配置焦点、安全区和颜色。首页完整展示主视觉，进入 workspace 后自动降低背景强度，避免影响代码与对话阅读。
 
@@ -25,7 +25,17 @@
 npm run site
 ```
 
-打开 `http://127.0.0.1:4173` 即可浏览主题、搜索筛选、查看详情并复制安装命令。站点是纯静态 HTML/CSS/JS，可直接发布到 GitHub Pages；主题目录位于 `site/catalog.json`。
+打开 `http://127.0.0.1:4173` 即可浏览主题、搜索筛选、查看详情并复制给 Agent；手动终端命令保留在详情页作为备用。站点是纯静态 HTML/CSS/JS，可直接发布到 GitHub Pages；主题目录位于 `site/catalog.json`。
+
+## Agent 一键接入
+
+网页主题卡默认复制一份完整 Agent 任务，包含标准 Skill URL、主题清单和安全约束。用户也可以全局安装 Skill：
+
+```bash
+npx skills add huangguang1999/paseo-skins --skill paseo-skins -g
+```
+
+安装后可直接对支持 Agent Skills 的 Codex、Claude Code、Cursor 等工具说“使用 `$paseo-skins` 换成极光雪境”。Skill 源码位于 `skills/paseo-skins/`，网站同时将它发布为 `https://huangguang1999.github.io/paseo-skins/SKILL.md`，供尚未安装 Skill 的 Agent 临时读取。
 
 ## 环境要求
 

@@ -32,11 +32,11 @@
           <p class="eyebrow"><span></span> 非官方社区画廊 · CDP 安全注入</p>
           <h1>让 Paseo，<br /><em>长成你喜欢的样子。</em></h1>
           <p class="hero-description">
-            选一套皮肤，复制一行命令。保留 Paseo 原生交互，不改安装包，随时可以还原。
+            选一套皮肤，一键复制给你的 Agent。它会检查环境、应用主题、完成验证，并告诉你如何还原。
           </p>
           <div class="hero-actions">
             <a class="button button-primary" href="#gallery">浏览皮肤</a>
-            <a class="button button-secondary" href="#install">2 分钟安装</a>
+            <a class="button button-secondary" href="#agent">Agent 接入</a>
           </div>
           <dl class="hero-metrics" aria-label="项目特性">
             <div><dt id="theme-count">6</dt><dd>款独立背景</dd></div>
@@ -90,18 +90,41 @@
         <p class="empty-state" id="empty-state" hidden>没有匹配的主题，换个关键词试试。</p>
       </section>
 
+      <section class="agent-connect section" id="agent">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow"><span></span> AGENT READY</p>
+            <h2>把换肤能力交给 Agent</h2>
+          </div>
+          <p>临时使用可直接复制主题任务；长期使用只需安装一次标准 Agent Skill。</p>
+        </div>
+        <div class="agent-connect-panel">
+          <div class="agent-connect-copy">
+            <span class="agent-pill">支持 Codex、Claude Code、Cursor 等</span>
+            <h3>以后只要说：<br />“换成极光雪境”</h3>
+            <p>Skill 会自动读取主题目录、执行安全诊断、启动 watcher、验证结果，并保留一键还原路径。</p>
+          </div>
+          <div class="skill-command-box">
+            <small>全局安装 Paseo Skins Skill</small>
+            <code id="skill-install-command">npx skills add huangguang1999/paseo-skins --skill paseo-skins -g</code>
+            <button class="button button-primary" id="skill-install-copy" type="button">复制 Skill 接入命令</button>
+            <a href="./SKILL.md" target="_blank">先查看 Skill 内容与权限边界 ↗</a>
+          </div>
+        </div>
+      </section>
+
       <section class="install section" id="install">
         <div class="section-heading">
           <div>
             <p class="eyebrow"><span></span> QUICK START</p>
-            <h2>复制、粘贴、换肤</h2>
+            <h2>复制给 Agent，剩下交给它</h2>
           </div>
-          <p>网页只帮你复制命令；下载与注入全在本机完成。</p>
+          <p>Agent 只会读取公开 Skill、主题 JSON 与图片；所有操作仍在你的电脑完成。</p>
         </div>
         <ol class="steps">
-          <li><span>01</span><div><h3>选择皮肤</h3><p>在主题卡片上点击“复制安装命令”。</p></div></li>
-          <li><span>02</span><div><h3>正常退出 Paseo</h3><p>先完成或 handoff 正在运行的 agent，再退出桌面端。</p></div></li>
-          <li><span>03</span><div><h3>粘贴到终端</h3><p>命令会下载主题并以本机回环 CDP 启动 Paseo。</p></div></li>
+          <li><span>01</span><div><h3>选择皮肤</h3><p>在主题卡片上点击“复制给 Agent”。</p></div></li>
+          <li><span>02</span><div><h3>粘贴给 Agent</h3><p>任务内含 Skill 地址、主题清单与安全约束。</p></div></li>
+          <li><span>03</span><div><h3>自动应用与验收</h3><p>Agent 运行 doctor、watcher 和 verify；遇到运行中任务会安全停下。</p></div></li>
         </ol>
       </section>
 
@@ -135,11 +158,18 @@
         <p id="dialog-description"></p>
         <a class="dialog-credit" id="dialog-credit" target="_blank" rel="noreferrer"></a>
         <div class="tag-list" id="dialog-tags"></div>
-        <div class="command-box">
-          <code id="dialog-command"></code>
-          <button class="button button-primary" id="dialog-copy" type="button">复制安装命令</button>
+        <div class="agent-action-box">
+          <span>推荐</span>
+          <strong>交给你的 Agent 自动完成</strong>
+          <p>复制后粘贴到 Codex、Claude Code、Cursor 或其他可联网 Agent。</p>
+          <button class="button button-primary" id="dialog-agent-copy" type="button">复制给 Agent</button>
         </div>
-        <p class="dialog-note">运行前请先正常退出 Paseo。命令只下载主题 JSON 与图片，并在本机启动安全 watcher。</p>
+        <div class="command-box">
+          <small>手动终端备用</small>
+          <code id="dialog-command"></code>
+          <button class="button button-secondary" id="dialog-terminal-copy" type="button">复制终端命令</button>
+        </div>
+        <p class="dialog-note">Agent 如发现 Paseo 正在运行但没有安全 CDP，会先停下提示，不会强退应用或重启 daemon。</p>
       </div>
     </dialog>
 

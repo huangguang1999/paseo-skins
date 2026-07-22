@@ -23,9 +23,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+      - name: Assemble site and Agent Skill
+        run: |
+          mkdir -p _site
+          cp -R site/. _site/
+          cp skills/paseo-skins/SKILL.md _site/SKILL.md
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: _site
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

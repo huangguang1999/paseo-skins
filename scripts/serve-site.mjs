@@ -5,6 +5,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const siteRoot = fileURLToPath(new URL("../site/", import.meta.url));
+const skillPath = fileURLToPath(new URL("../skills/paseo-skins/SKILL.md", import.meta.url));
 const port = Number(process.env.PORT ?? 4173);
 const mediaTypes = new Map([
   [".css", "text/css; charset=utf-8"],
@@ -20,8 +21,8 @@ const server = createServer(async (request, response) => {
   try {
     const pathname = decodeURIComponent(new URL(request.url, "http://localhost").pathname);
     const relativePath = pathname === "/" ? "index.html" : pathname.replace(/^\/+/, "");
-    const filePath = path.resolve(siteRoot, relativePath);
-    if (!filePath.startsWith(siteRoot)) {
+    const filePath = relativePath === "SKILL.md" ? skillPath : path.resolve(siteRoot, relativePath);
+    if (filePath !== skillPath && !filePath.startsWith(siteRoot)) {
       response.writeHead(403).end("Forbidden");
       return;
     }

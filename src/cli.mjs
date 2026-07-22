@@ -274,7 +274,7 @@ async function doctor(options) {
   const report = {
     pass: problems.length === 0,
     product: "Paseo Skin Loader",
-    version: "0.4.1",
+    version: "0.5.0",
     platform: `${process.platform}-${process.arch}`,
     nodeVersion: process.version,
     modifiesPaseoApplication: false,

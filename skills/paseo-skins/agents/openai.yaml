@@ -1,0 +1,4 @@
+interface:
+  display_name: "Paseo Skins"
+  short_description: "为 Paseo 安装、切换并安全验证社区主题皮肤与外观"
+  default_prompt: "Use $paseo-skins to browse available themes and safely apply one to Paseo."

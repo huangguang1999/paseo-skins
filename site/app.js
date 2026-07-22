@@ -1,4 +1,8 @@
-const INSTALLER_PACKAGE = "github:huangguang1999/paseo-skins";
+import {
+  getAgentPrompt,
+  getInstallCommand,
+  SKILL_INSTALL_COMMAND,
+} from "./agent-integration.js";
 
 const state = {
   activeFilter: "全部",
@@ -11,28 +15,22 @@ const elements = {
   dialog: document.querySelector("#theme-dialog"),
   dialogClose: document.querySelector("#dialog-close"),
   dialogCommand: document.querySelector("#dialog-command"),
-  dialogCopy: document.querySelector("#dialog-copy"),
+  dialogAgentCopy: document.querySelector("#dialog-agent-copy"),
   dialogCredit: document.querySelector("#dialog-credit"),
   dialogDescription: document.querySelector("#dialog-description"),
   dialogPreview: document.querySelector("#dialog-preview"),
   dialogTags: document.querySelector("#dialog-tags"),
   dialogTitle: document.querySelector("#dialog-title"),
+  dialogTerminalCopy: document.querySelector("#dialog-terminal-copy"),
   emptyState: document.querySelector("#empty-state"),
   filters: document.querySelector("#theme-filters"),
   grid: document.querySelector("#theme-grid"),
   resultCount: document.querySelector("#result-count"),
   search: document.querySelector("#theme-search"),
+  skillInstallCopy: document.querySelector("#skill-install-copy"),
   themeCount: document.querySelector("#theme-count"),
   toast: document.querySelector("#toast"),
 };
-
-function getManifestUrl(theme) {
-  return new URL(theme.manifest, window.location.href).href;
-}
-
-function getInstallCommand(theme) {
-  return `npx --yes ${INSTALLER_PACKAGE} start --theme-url '${getManifestUrl(theme)}'`;
-}
 
 function createTag(label) {
   const tag = document.createElement("span");
@@ -65,17 +63,29 @@ function showToast(message) {
   toastTimer = window.setTimeout(() => elements.toast.classList.remove("visible"), 2200);
 }
 
-async function copyThemeCommand(theme, button) {
+async function copyValue(value, button, successMessage) {
   const originalText = button.textContent;
   try {
-    await copyText(getInstallCommand(theme));
+    await copyText(value);
     button.textContent = "已复制 ✓";
-    showToast("安装命令已复制，去终端粘贴即可");
+    showToast(successMessage);
   } catch {
     button.textContent = "复制失败";
     showToast("浏览器未允许访问剪贴板，请从详情中手动复制");
   }
   window.setTimeout(() => { button.textContent = originalText; }, 1800);
+}
+
+function copyAgentPrompt(theme, button) {
+  return copyValue(
+    getAgentPrompt(theme, window.location.href),
+    button,
+    "Agent 任务已复制，直接粘贴给它即可",
+  );
+}
+
+function copyTerminalCommand(theme, button) {
+  return copyValue(getInstallCommand(theme, window.location.href), button, "终端命令已复制");
 }
 
 function applyThemeVariables(element, theme) {
@@ -90,7 +100,7 @@ function openTheme(theme) {
   elements.dialogDescription.textContent = theme.description;
   elements.dialogCredit.href = theme.sourceUrl;
   elements.dialogCredit.textContent = `图片：${theme.author} · ${theme.license} ↗`;
-  elements.dialogCommand.textContent = getInstallCommand(theme);
+  elements.dialogCommand.textContent = getInstallCommand(theme, window.location.href);
   elements.dialogPreview.style.backgroundImage =
     `linear-gradient(180deg, color-mix(in srgb, ${theme.accent} 10%, transparent), rgba(4,6,8,.32)), url("${new URL(theme.preview, window.location.href).href}")`;
   elements.dialogPreview.style.filter =
@@ -139,12 +149,12 @@ function createThemeCard(theme, index) {
   const tags = document.createElement("div");
   tags.className = "tag-list";
   tags.append(...theme.tags.slice(0, 2).map(createTag));
-  const copyButton = document.createElement("button");
-  copyButton.type = "button";
-  copyButton.className = "copy-button";
-  copyButton.textContent = "复制安装命令";
-  copyButton.addEventListener("click", () => copyThemeCommand(theme, copyButton));
-  footer.append(tags, copyButton);
+  const agentButton = document.createElement("button");
+  agentButton.type = "button";
+  agentButton.className = "copy-button";
+  agentButton.textContent = "复制给 Agent";
+  agentButton.addEventListener("click", () => copyAgentPrompt(theme, agentButton));
+  footer.append(tags, agentButton);
   content.append(title, description, credit, footer);
   card.append(preview, content);
 
@@ -212,8 +222,14 @@ elements.dialogClose.addEventListener("click", () => elements.dialog.close());
 elements.dialog.addEventListener("click", (event) => {
   if (event.target === elements.dialog) elements.dialog.close();
 });
-elements.dialogCopy.addEventListener("click", () => {
-  if (state.dialogTheme) copyThemeCommand(state.dialogTheme, elements.dialogCopy);
+elements.dialogAgentCopy.addEventListener("click", () => {
+  if (state.dialogTheme) copyAgentPrompt(state.dialogTheme, elements.dialogAgentCopy);
+});
+elements.dialogTerminalCopy.addEventListener("click", () => {
+  if (state.dialogTheme) copyTerminalCommand(state.dialogTheme, elements.dialogTerminalCopy);
+});
+elements.skillInstallCopy.addEventListener("click", () => {
+  copyValue(SKILL_INSTALL_COMMAND, elements.skillInstallCopy, "Skill 接入命令已复制");
 });
 
 loadCatalog().catch((error) => {
