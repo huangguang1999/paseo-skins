@@ -49,7 +49,7 @@ npm start
 从画廊安装远程主题时，命令形态如下：
 
 ```bash
-npx --yes --package=github:huangguang1999/paseo-skins paseo-skin start \
+npx --yes github:huangguang1999/paseo-skins start \
   --theme-url 'https://huangguang1999.github.io/paseo-skins/themes/stage-black-gold.theme.json'
 ```
 

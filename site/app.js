@@ -30,7 +30,7 @@ function getManifestUrl(theme) {
 }
 
 function getInstallCommand(theme) {
-  return `npx --yes --package=${INSTALLER_PACKAGE} paseo-skin start --theme-url '${getManifestUrl(theme)}'`;
+  return `npx --yes ${INSTALLER_PACKAGE} start --theme-url '${getManifestUrl(theme)}'`;
 }
 
 function createTag(label) {

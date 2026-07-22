@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 
 import { access } from "node:fs/promises";
+import { realpathSync } from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 import {
   capturePaseoScreenshot,
@@ -363,7 +365,16 @@ async function main() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+function isDirectExecution() {
+  if (!process.argv[1]) return false;
+  try {
+    return realpathSync(process.argv[1]) === fileURLToPath(import.meta.url);
+  } catch {
+    return false;
+  }
+}
+
+if (isDirectExecution()) {
   main().catch((error) => {
     console.error(`[paseo-skin] ${error.message}`);
     process.exitCode = 1;
