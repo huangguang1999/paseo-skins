@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.8.0 - 2026-08-08
+
+- **S（背景）**：皮肤是运行时通过 CDP 注入渲染进程内存的样式，不落盘；Paseo 一旦经 Dock、Spotlight、自动更新或开机重启，新进程既不带调试端口也丢失注入，用户必须手动重跑 `npm start` 才能恢复皮肤。
+- **T（任务）**：让皮肤在任何方式重启 Paseo 后自动恢复，无需人工干预，同时保持不 patch、不重启 Paseo 的安全边界。
+- **A（行动）**：新增 `autostart` 命令与 `src/autostart.mjs`，安装两个仅作用于当前用户的 macOS 登录代理——`com.paseo-skins.cdp-env` 通过 `launchctl setenv` 注入 `PASEO_ELECTRON_FLAGS` 使任何启动方式都开启回环 CDP，`com.paseo-skins.guardian` keepalive 守护 `inject` watcher 并跟随重启与新窗口；路径全部动态解析（node 可执行文件、CLI、home 目录），plist 对路径做 XML 转义，非 macOS 明确报错；补充 `autostart:install/uninstall/status` 脚本、单元测试、README 与 check 覆盖。
+- **R（结果）**：用户执行一次 `npm run autostart:install` 后，皮肤在每次 Paseo 重启后自动注入回来，`autostart:status` 可查代理状态，`autostart:uninstall` 干净移除；自启机制不改动 Paseo 应用、不重启 daemon。
+
 ## 0.7.0 - 2026-07-22
 
 - **S（背景）**：同类 Codex 主题项目已经形成一图生成、可视化编辑、声明式主题包、供应链证明和社区投稿等成熟能力；本项目虽能安全注入 Paseo，但主题制作、并发保护、素材审计和发布可信度仍有明显差距。

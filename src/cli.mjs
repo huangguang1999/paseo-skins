@@ -31,6 +31,12 @@ import { createThemeFromImage } from "./theme-creator.mjs";
 import { DEFAULT_THEME_MANIFEST_URL, loadTheme } from "./theme-loader.mjs";
 import { PACKAGE_VERSION } from "./version.mjs";
 import { acquireWatcherLock, readWatcherLock } from "./watcher-lock.mjs";
+import {
+  buildThemeArguments,
+  collectAutostartStatus,
+  installAutostart,
+  uninstallAutostart,
+} from "./autostart.mjs";
 
 const DEFAULT_REMOTE_DEBUGGING_PORT = 9224;
 
@@ -48,6 +54,7 @@ Usage:
   paseo-skin list [options]
   paseo-skin inspect [options]
   paseo-skin create [options]
+  paseo-skin autostart <install|uninstall|status> [options]
 
 Commands:
   start    Launch Paseo with loopback-only CDP when needed, then watch all renderer windows
@@ -60,6 +67,7 @@ Commands:
   list     List themes from the public catalog without changing Paseo
   inspect  Validate and describe a local or remote theme without requiring Paseo
   create   Turn a local PNG, JPEG, or WebP image into an integrity-verified theme
+  autostart Install or remove a macOS login agent that restores the skin after every Paseo restart
 
 Options:
   --port <number>        CDP port (default: 9224)
@@ -89,6 +97,7 @@ export function parseArguments(argumentsList) {
     : requestedCommand;
   const options = {
     command,
+    autostartAction: null,
     catalogUrl: PUBLIC_THEME_CATALOG_URL,
     description: null,
     focusX: 0.7,
@@ -107,7 +116,18 @@ export function parseArguments(argumentsList) {
     themeUrl: null,
   };
 
-  for (let argumentIndex = 1; argumentIndex < argumentsList.length; argumentIndex += 1) {
+  // autostart 的子动作（install/uninstall/status）位于命令之后、选项之前。
+  let firstOptionIndex = 1;
+  if (command === "autostart") {
+    const action = argumentsList[1];
+    if (!["install", "uninstall", "status"].includes(action)) {
+      throw new Error("autostart requires one of: install, uninstall, status");
+    }
+    options.autostartAction = action;
+    firstOptionIndex = 2;
+  }
+
+  for (let argumentIndex = firstOptionIndex; argumentIndex < argumentsList.length; argumentIndex += 1) {
     const argument = argumentsList[argumentIndex];
     if (argument === "--port") {
       options.remoteDebuggingPort = Number(argumentsList[++argumentIndex]);
@@ -469,6 +489,53 @@ async function verify(options) {
   }
 }
 
+async function autostart(options) {
+  // 只在用户显式指定主题时透传给 inject；否则让 inject 使用自己的默认加载逻辑
+  // （与 `npm start` 一致）。默认的 themeManifest 是 URL 对象而非字符串，
+  // 直接透传会被 inject 的 path.resolve 破坏成无效路径（/file:/... ENOENT）。
+  const explicitThemeManifest =
+    typeof options.themeManifest === "string" ? options.themeManifest : null;
+  const themeArguments = buildThemeArguments({
+    themeManifest: options.themeUrl ? null : explicitThemeManifest,
+    themeUrl: options.themeUrl,
+  });
+
+  if (options.autostartAction === "install") {
+    const result = await installAutostart({
+      remoteDebuggingPort: options.remoteDebuggingPort,
+      themeArguments,
+    });
+    if (options.json) {
+      console.log(JSON.stringify({ pass: true, ...result }, null, 2));
+      return;
+    }
+    console.log("[paseo-skin] Autostart installed. The skin now restores after every Paseo restart.");
+    console.log(`[paseo-skin] CDP env agent:  ${result.cdpEnvPlist}`);
+    console.log(`[paseo-skin] Guardian agent: ${result.guardianPlist}`);
+    console.log("[paseo-skin] Quit and reopen Paseo once to confirm; new windows are themed automatically.");
+    return;
+  }
+
+  if (options.autostartAction === "uninstall") {
+    const result = await uninstallAutostart();
+    if (options.json) {
+      console.log(JSON.stringify({ pass: true, ...result }, null, 2));
+      return;
+    }
+    console.log("[paseo-skin] Autostart removed. Existing Paseo windows keep their current skin until reset or restart.");
+    return;
+  }
+
+  const report = await collectAutostartStatus();
+  if (options.json) {
+    console.log(JSON.stringify(report, null, 2));
+    return;
+  }
+  console.log(`Autostart supported: ${report.supported ? "yes" : "no (macOS only)"}`);
+  console.log(`CDP env agent (${report.cdpEnvLabel}): ${report.cdpEnvLoaded ? "loaded" : "not loaded"}`);
+  console.log(`Guardian agent (${report.guardianLabel}): ${report.guardianLoaded ? "loaded" : "not loaded"}`);
+}
+
 async function main() {
   const options = parseArguments(process.argv.slice(2));
   if (options.command === "help") {
@@ -485,6 +552,8 @@ async function main() {
     await inspectTheme(options);
   } else if (options.command === "create") {
     await createTheme(options);
+  } else if (options.command === "autostart") {
+    await autostart(options);
   } else if (options.command === "inject") {
     if (!(await isCdpAvailable(options.remoteDebuggingPort))) {
       throw new Error(`No CDP endpoint found on 127.0.0.1:${options.remoteDebuggingPort}`);

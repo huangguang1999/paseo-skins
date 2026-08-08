@@ -99,6 +99,9 @@ npx --yes github:huangguang1999/paseo-skins start \
 | `npm run create -- --image /path/to/image.webp --name "山海夜航" --output ./my-theme` | 从一张图自动取色并生成 Theme v2 |
 | `npm run pause -- --port 9224` | 移除当前主题，恢复官方渲染样式 |
 | `npm run reset -- --port 9224` | 与 `pause` 相同，用于故障恢复 |
+| `npm run autostart:install` | 安装 macOS 登录代理，让皮肤在每次 Paseo 重启后自动恢复 |
+| `npm run autostart:status` | 查看开机自启代理是否已加载 |
+| `npm run autostart:uninstall` | 移除开机自启代理 |
 | `npm run check` | 运行语法检查和全部测试 |
 | `npm run release:check` | 执行发布前测试、站点链接、素材权利和包内容审计 |
 
@@ -110,6 +113,29 @@ npm run reset -- --port 9224
 ```
 
 `reset` 不退出 Paseo，也不重启 daemon。
+
+## 开机自启（可选，macOS）
+
+默认情况下皮肤是运行时注入的：Paseo 一退出，皮肤随渲染进程内存消失；而通过 Dock、Spotlight、自动更新或开机重新打开的 Paseo 不会开启 CDP，皮肤也就无法自动注入回来。如果你希望**每次重启后皮肤自动恢复、无需手动 `npm start`**，安装开机自启代理：
+
+```bash
+npm run autostart:install
+# 指定主题：
+npm run autostart:install -- --theme-url 'https://huangguang1999.github.io/paseo-skins/themes/stage-black-gold.theme.json'
+```
+
+它会安装两个只作用于当前用户的 macOS 登录代理（launchd LaunchAgents）：
+
+- `com.paseo-skins.cdp-env`：每次登录时通过 `launchctl setenv` 注入 `PASEO_ELECTRON_FLAGS`，使任何方式启动的 Paseo 都自动开启只绑 `127.0.0.1` 的 CDP。
+- `com.paseo-skins.guardian`：keepalive 常驻一个 `inject` watcher，检测到 CDP 就绪后自动注入皮肤，并跟随 Paseo 的后续重启与新窗口。
+
+安装后退出并重新打开一次 Paseo 即可确认。随时可移除：
+
+```bash
+npm run autostart:uninstall
+```
+
+自启代理不会 patch 或重启 Paseo，也不会重启 daemon；它只在登录时注入环境变量并守护皮肤 watcher。生成的文件位于 `~/Library/LaunchAgents/com.paseo-skins.*.plist` 和 `~/.paseo-skin-loader/guardian.mjs`。
 
 ## 自定义主题
 
