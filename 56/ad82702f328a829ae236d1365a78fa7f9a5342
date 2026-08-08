@@ -1,0 +1,33 @@
+CHANGELOG.md
+  s_706a86e3a19030::t_4a0a401a723ddb 3-9
+README.md
+  s_706a86e3a19030::t_ea29e3ae9a05fb 102-104,117-139
+package.json
+  s_706a86e3a19030::t_2c2579ea7c285a 3,65-67,75
+src/autostart.mjs
+  s_706a86e3a19030::t_ba973e19100e4a 1-339
+src/cli.mjs
+  s_706a86e3a19030::t_0d148a5aa28132 34-39,57,70,100,119-130,492-538,555-556
+src/version.mjs
+  s_706a86e3a19030::t_9dd542074f915f 1
+test/autostart.test.mjs
+  s_706a86e3a19030::t_901da9d806c5b4 1-216
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "56ad82702f328a829ae236d1365a78fa7f9a5342",
+  "prompts": {},
+  "sessions": {
+    "s_706a86e3a19030": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a2a11469-9845-4c15-a018-7f0f41028add",
+        "model": "unknown"
+      },
+      "human_author": "黄广 <huangguang.1999@bytedance.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
