@@ -6,7 +6,7 @@ export const STAGE_BLACK_GOLD_GLOBAL_KEY = "__PASEO_STAGE_BLACK_GOLD_SKIN__";
 
 const STAGE_BLACK_GOLD_CONFIGURATION = {
   globalKey: STAGE_BLACK_GOLD_GLOBAL_KEY,
-  version: 12,
+  version: 15,
   styleIdentifier: STAGE_BLACK_GOLD_STYLE_ID,
   overlayIdentifier: STAGE_BLACK_GOLD_OVERLAY_ID,
   heroImageDataUrl: null,
@@ -66,6 +66,8 @@ function installStageBlackGoldSkin(configuration) {
   const sidebarInteractiveItemSelectedSelector = sidebarInteractiveItemSelectors
     .map((selector) => `${selector}[aria-selected="true"]`)
     .join(", ");
+  const interactiveElementSelector =
+    'button, a[href], [role="button"], [role="menuitem"], [role="option"], [role="tab"], [role="treeitem"], [aria-selected]';
   const existingSkin = window[configuration.globalKey];
   if (
     existingSkin?.version === configuration.version &&
@@ -173,6 +175,37 @@ function installStageBlackGoldSkin(configuration) {
     return configuration.theme.colors.muted;
   };
 
+  const resolveRelativeLuminance = (color) => {
+    const toLinearChannel = (channel) => {
+      const normalizedChannel = channel / 255;
+      return normalizedChannel <= 0.04045
+        ? normalizedChannel / 12.92
+        : ((normalizedChannel + 0.055) / 1.055) ** 2.4;
+    };
+    return (
+      0.2126 * toLinearChannel(color.red) +
+      0.7152 * toLinearChannel(color.green) +
+      0.0722 * toLinearChannel(color.blue)
+    );
+  };
+
+  const resolveContrastRatio = (left, right) => {
+    const leftLuminance = resolveRelativeLuminance(left);
+    const rightLuminance = resolveRelativeLuminance(right);
+    return (
+      (Math.max(leftLuminance, rightLuminance) + 0.05) /
+      (Math.min(leftLuminance, rightLuminance) + 0.05)
+    );
+  };
+
+  const blackForegroundColor = parseColor("#000000");
+  const whiteForegroundColor = parseColor("#ffffff");
+  const resolveContrastingForegroundColor = (backgroundColor) =>
+    resolveContrastRatio(backgroundColor, whiteForegroundColor) >=
+    resolveContrastRatio(backgroundColor, blackForegroundColor)
+      ? "#ffffff"
+      : "#000000";
+
   const applyElementTheme = (element) => {
     if (
       !(element instanceof HTMLElement) ||
@@ -184,9 +217,13 @@ function installStageBlackGoldSkin(configuration) {
     const isSidebarInteractiveItem = element.matches(sidebarInteractiveItemSelector);
     const isInteractiveElement =
       computedStyle.cursor === "pointer" ||
-      element.matches(
-        'button, a[href], [role="button"], [role="menuitem"], [role="option"], [role="tab"], [role="treeitem"], [aria-selected]',
-      );
+      element.matches(interactiveElementSelector);
+    const interactiveContainer = element.matches(interactiveElementSelector)
+      ? element
+      : element.closest(interactiveElementSelector);
+    const interactiveBackgroundColor = interactiveContainer
+      ? parseColor(getComputedStyle(interactiveContainer).backgroundColor)
+      : null;
     const rectangle = element.getBoundingClientRect();
     const isLargeApplicationSurface =
       rectangle.width >= window.innerWidth * 0.45 &&
@@ -267,11 +304,21 @@ function installStageBlackGoldSkin(configuration) {
     }
 
     const foregroundColor = parseColor(computedStyle.color);
-    if (foregroundColor && foregroundColor.alpha > 0.03 && !isStagePaletteColor(foregroundColor)) {
-      if (isAccentColor(foregroundColor)) {
-        setImportantStyle(element, "color", configuration.theme.colors.accent);
-      } else if (foregroundColor.saturation < 0.16) {
-        setImportantStyle(element, "color", resolveForegroundColor(foregroundColor.luminance));
+    if (foregroundColor && foregroundColor.alpha > 0.03) {
+      if (interactiveBackgroundColor?.alpha >= 0.7) {
+        if (resolveContrastRatio(interactiveBackgroundColor, foregroundColor) < 4.5) {
+          setImportantStyle(
+            element,
+            "color",
+            resolveContrastingForegroundColor(interactiveBackgroundColor),
+          );
+        }
+      } else if (!isStagePaletteColor(foregroundColor)) {
+        if (isAccentColor(foregroundColor)) {
+          setImportantStyle(element, "color", configuration.theme.colors.accent);
+        } else if (foregroundColor.saturation < 0.16) {
+          setImportantStyle(element, "color", resolveForegroundColor(foregroundColor.luminance));
+        }
       }
     }
 
@@ -371,10 +418,22 @@ function installStageBlackGoldSkin(configuration) {
         transition: background-color 140ms ease !important;
       }
       ${sidebarInteractiveItemHoverSelector} {
-        background-color: color-mix(in srgb, ${configuration.theme.colors.accent} 10%, transparent) !important;
+        background-color: color-mix(in srgb, ${configuration.theme.colors.accent} 14%, transparent) !important;
       }
       ${sidebarInteractiveItemSelectedSelector} {
         background-color: color-mix(in srgb, ${configuration.theme.colors.accent} 18%, transparent) !important;
+      }
+      #root [data-testid^="sidebar-workspace-kebab-"] {
+        background-color: transparent !important;
+      }
+      #root [data-testid^="sidebar-workspace-row-"] [id^="sidebar-scrim-"] stop {
+        stop-color: transparent !important;
+      }
+      #root [data-testid="sidebar-global-new-workspace"]:hover,
+      #root [data-testid="sidebar-sessions"]:hover,
+      #root [data-testid="sidebar-schedules"]:hover,
+      #root [data-testid="settings-sidebar"] button:hover {
+        background-color: color-mix(in srgb, ${configuration.theme.colors.accent} 14%, transparent) !important;
       }
       #${configuration.overlayIdentifier} {
         position: fixed;

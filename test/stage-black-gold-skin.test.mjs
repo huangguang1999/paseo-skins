@@ -56,7 +56,10 @@ class FakeElement {
   closest(selector) {
     let element = this;
     while (element) {
-      if (selector.startsWith("#") && element.id === selector.slice(1)) {
+      if (
+        (selector.startsWith("#") && element.id === selector.slice(1)) ||
+        (!selector.startsWith("#") && element.matches(selector))
+      ) {
         return element;
       }
       element = element.parentElement;
@@ -77,8 +80,13 @@ class FakeElement {
     return selector
       .split(",")
       .some((candidate) => {
-        const prefix = candidate.match(/\[data-testid\^="([^"]+)"\]/)?.[1];
-        return prefix ? testIdentifier.startsWith(prefix) : false;
+        const normalizedCandidate = candidate.trim();
+        const prefix = normalizedCandidate.match(/\[data-testid\^="([^"]+)"\]/)?.[1];
+        if (prefix) return testIdentifier.startsWith(prefix);
+        if (normalizedCandidate === this.tagName.toLowerCase()) return true;
+        if (normalizedCandidate === "[aria-selected]") return this.getAttribute("aria-selected") !== null;
+        const role = normalizedCandidate.match(/^\[role="([^"]+)"\]$/)?.[1];
+        return role ? this.getAttribute("role") === role : false;
       });
   }
 
@@ -288,6 +296,71 @@ test("sidebar item backgrounds stay reversible across hover and selected states"
   assert.equal(sidebarItem.style.getPropertyValue("background-color"), "");
   assert.match(style.textContent, /sidebar-workspace-row-[^}]+:hover/);
   assert.match(style.textContent, /sidebar-workspace-row-[^}]+\[aria-selected="true"\]/);
+});
+
+test("workspace row actions and scrims inherit the contextual row background", () => {
+  const harness = createRendererHarness();
+
+  vm.runInNewContext(buildStageBlackGoldInjectionSource({ theme: createTheme("#f6f6f6") }), harness.context);
+  const style = harness.document.getElementById(STAGE_BLACK_GOLD_STYLE_ID);
+
+  assert.match(
+    style.textContent,
+    /\[data-testid\^="sidebar-workspace-kebab-"\]\s*\{[^}]*background-color:\s*transparent\s*!important/,
+  );
+  assert.match(
+    style.textContent,
+    /\[data-testid\^="sidebar-workspace-row-"\]\s+\[id\^="sidebar-scrim-"\]\s+stop\s*\{[^}]*stop-color:\s*transparent\s*!important/,
+  );
+});
+
+test("global sidebar navigation uses a visible themed hover state", () => {
+  const harness = createRendererHarness();
+
+  vm.runInNewContext(buildStageBlackGoldInjectionSource({ theme: createTheme("#f6f6f6") }), harness.context);
+  const style = harness.document.getElementById(STAGE_BLACK_GOLD_STYLE_ID);
+
+  assert.match(style.textContent, /sidebar-global-new-workspace[^}]+:hover[^}]+#308cca 14%/);
+  assert.match(style.textContent, /sidebar-sessions[^}]+:hover[^}]+#308cca 14%/);
+  assert.match(style.textContent, /sidebar-schedules[^}]+:hover[^}]+#308cca 14%/);
+  assert.match(style.textContent, /settings-sidebar[^}]+button:hover[^}]+#308cca 14%/);
+});
+
+test("filled interactive control labels keep accessible foreground contrast", () => {
+  const harness = createRendererHarness({ flushAnimationFrames: true });
+  const fixtures = [
+    ["rgb(26, 26, 30)", "Selected segment"],
+    ["rgb(176, 65, 56)", "Destructive action"],
+  ];
+  const controls = fixtures.map(([backgroundColor, textContent], index) => {
+    const button = new FakeElement("button");
+    button.computedStyle.backgroundColor = backgroundColor;
+    button.computedStyle.color = "rgb(0, 0, 0)";
+    button.computedStyle.cursor = "pointer";
+    button.rectangle = {
+      bottom: 160 + index * 48,
+      height: 32,
+      left: 900,
+      right: 1060,
+      top: 128 + index * 48,
+      width: 160,
+      x: 900,
+      y: 128 + index * 48,
+    };
+    const label = new FakeElement("div");
+    label.computedStyle.color = "rgb(255, 255, 255)";
+    label.textContent = textContent;
+    button.append(label);
+    harness.document.documentElement.append(button);
+    return { button, label };
+  });
+
+  vm.runInNewContext(buildStageBlackGoldInjectionSource({ theme: createTheme("#f6f6f6") }), harness.context);
+
+  for (const { button, label } of controls) {
+    assert.equal(button.style.getPropertyValue("color"), "#ffffff");
+    assert.equal(label.style.getPropertyValue("color"), "");
+  }
 });
 
 test("neutral backgrounds on interactive items never become persistent inline styles", () => {
