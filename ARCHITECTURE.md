@@ -24,6 +24,7 @@ local/remote manifest ──► theme-loader ──► validated theme + verifie
 - `src/remote-theme.mjs` adds HTTPS, redirect, origin, size, and cache constraints before delegating to the loader.
 - `src/cli-options.mjs` and `src/cli-help.mjs` are pure command-interface modules. `src/cli.mjs` orchestrates I/O and lifecycle operations.
 - `src/cdp-client.mjs` owns target discovery, loopback WebSocket validation, screenshot capture, and watcher registration.
+- `src/renderer-style-audit.mjs` owns the supported-page plan, renderer contrast and hover checks, structured reporting, and restoration of the original route. The CLI adapter is `scripts/audit-renderer-styles.mjs`.
 - `src/stage-black-gold-skin.mjs` is serialized into the renderer. It therefore remains self-contained and must provide a complete `destroy` path.
 - `site/` never connects to local CDP. It operates on the public catalog and browser-local files only.
 
@@ -34,15 +35,17 @@ local/remote manifest ──► theme-loader ──► validated theme + verifie
 3. The injected overlay stays `pointer-events: none`; `#root` remains visible and interactive.
 4. Every modified inline style, observer, animation frame, document hook, style node, and overlay node is restored by `destroy`.
 5. Interactive hover and selected backgrounds remain state-driven CSS. A computed hover color must never be frozen into an inline `!important` value.
-6. `verify` checks the active theme by default. It enforces an exact theme identity only when the caller explicitly supplies `--theme` or `--theme-url`.
-7. Public visual assets require a unique provenance entry. Personal dogfood themes and `tmp/` evidence are never release inputs.
+6. Text inside an opaque interactive control keeps a WCAG contrast ratio of at least 4.5 against the control's effective background, including nested label nodes.
+7. Renderer inspection includes pseudo-elements, SVG gradients, and non-hit-testable auxiliary layers; pointer hit testing alone is not visual proof.
+8. `verify` checks the active theme by default. It enforces an exact theme identity only when the caller explicitly supplies `--theme` or `--theme-url`.
+9. Public visual assets require a unique provenance entry. Personal dogfood themes and `tmp/` evidence are never release inputs.
 
 ## Change verification matrix
 
 | Change area | Required checks |
 |---|---|
 | Theme schema or loader | loader, remote-theme, catalog, creator, Studio tests; `npm run release:check` |
-| Renderer injection | self-contained VM tests, destroy/restore tests, `verify`, real Paseo screenshot and hover transition check |
+| Renderer injection | self-contained VM tests, destroy/restore tests, `npm run audit:renderer -- --port 9224`, `verify`, real Paseo screenshot and hover transition check; follow [`docs/RENDERER_STYLE_SAFETY.md`](docs/RENDERER_STYLE_SAFETY.md) |
 | CLI command contract | parser unit tests, subprocess help/error tests, `doctor`/`status`/`verify` smoke checks |
 | Website interaction | static build/tests plus desktop and 390 px real-browser interaction and screenshot review |
 | Public image or manifest | integrity load, catalog uniqueness, provenance check, site link check |

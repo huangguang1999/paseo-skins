@@ -255,6 +255,66 @@ class CdpConnection {
   }
 }
 
+export async function openPaseoRendererSession(
+  remoteDebuggingPort,
+  { includeDevelopmentTargets = false } = {},
+) {
+  const targets = (await listCdpTargets(remoteDebuggingPort)).filter((target) =>
+    isPaseoApplicationTarget(target, { includeDevelopmentTargets }),
+  );
+  if (targets.length !== 1) {
+    throw new Error(
+      `Renderer session requires exactly one Paseo target; found ${targets.length}`,
+    );
+  }
+
+  const target = targets[0];
+  const connection = new CdpConnection(
+    validateCdpWebSocketUrl(target, remoteDebuggingPort),
+  );
+  try {
+    await connection.connect();
+    await connection.send("Runtime.enable");
+    await connection.send("Page.bringToFront");
+  } catch (error) {
+    connection.close();
+    throw error;
+  }
+
+  return {
+    targetUrl: target.url,
+    async evaluate(expression) {
+      const evaluation = await connection.send("Runtime.evaluate", {
+        expression,
+        awaitPromise: true,
+        returnByValue: true,
+      });
+      if (evaluation?.exceptionDetails) {
+        throw new Error(
+          `Paseo evaluation failed: ${evaluation.exceptionDetails.exception?.description ?? evaluation.exceptionDetails.text ?? "unknown exception"}`,
+        );
+      }
+      return evaluation?.result?.value;
+    },
+    movePointer(x, y) {
+      if (!Number.isFinite(x) || !Number.isFinite(y)) {
+        throw new Error("Renderer pointer coordinates must be finite numbers");
+      }
+      return connection.send("Input.dispatchMouseEvent", {
+        button: "none",
+        buttons: 0,
+        pointerType: "mouse",
+        type: "mouseMoved",
+        x,
+        y,
+      });
+    },
+    close() {
+      connection.close();
+    },
+  };
+}
+
 export class PaseoSkinWatcher {
   constructor({
     remoteDebuggingPort,

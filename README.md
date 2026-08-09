@@ -113,6 +113,7 @@ npx --yes github:huangguang1999/paseo-skins start \
 | `npm run doctor -- --port 9224` | 只读检查环境、主题资源和可选实时连接 |
 | `npm run verify -- --port 9224` | 验证根节点、主题生命周期和布局安全 |
 | `npm run verify -- --port 9224 --screenshot /tmp/paseo-skin.jpg` | 验证并保存当前 renderer 截图；4K 窗口推荐 JPEG |
+| `npm run audit:renderer -- --port 9224` | 开发/发布前巡检 21 类页面、5 类 hover、文字对比度和状态恢复 |
 | `npm run list -- --json` | 列出公开目录中的所有 Paseo 主题 |
 | `npm run inspect -- --theme /path/to/theme.json` | 不连接 Paseo，校验并说明本地或远程主题 |
 | `npm run create -- --image /path/to/image.webp --name "山海夜航" --output ./my-theme` | 从一张图自动取色并生成 Theme v2 |
@@ -209,6 +210,7 @@ reset  ──► destroy observer + overlay + style + 动态内联样式
 - `src/cli.mjs`：命令编排、诊断、验收和安全启动流程。
 - `src/electron-launcher.mjs`：合并 localhost-only Electron flags。
 - `src/cdp-client.mjs`：target 过滤、CDP 校验、watcher 生命周期和截图。
+- `src/renderer-style-audit.mjs`：Renderer 页面覆盖、文字对比度、hover、辅助层和状态恢复巡检。
 - `src/theme-loader.mjs`：主题清单与图片安全校验。
 - `src/theme-creator.mjs`：本地图片取色、Theme v2 生成和事务式写入。
 - `src/catalog-client.mjs`：公开目录读取与同源 URL 约束。
