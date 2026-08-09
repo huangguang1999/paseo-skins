@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="在隔离的 Paseo 模拟器中预览主题的首页、任务页、宽窄窗口和侧栏状态。" />
+    <title>在线模拟器 — Paseo Skins</title>
+    <meta name="robots" content="noindex,follow" />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../styles.css" />
+    <script type="module" src="../preview.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../"><span class="brand-glyph">P</span><span>Paseo <i>Skins</i></span></a>
+      <nav aria-label="主导航"><a href="../gallery/">主题库</a><a href="../studio/">Studio</a><a href="../docs/">文档</a><a href="../download/">CLI</a></nav>
+      <a class="header-action" href="../gallery/">返回主题库 <span>↗</span></a>
+    </header>
+    <main class="content-shell">
+      <div class="preview-layout">
+        <section aria-labelledby="preview-title"><h1 id="preview-title" hidden>主题模拟器</h1><div id="preview-simulator" class="simulator-mount"></div></section>
+        <aside class="preview-sidebar panel">
+          <p class="eyebrow">LIVE THEME PREVIEW</p>
+          <h1 id="theme-name">正在加载…</h1>
+          <p id="theme-english-name" class="english-name"></p>
+          <p id="theme-description" class="description"></p>
+          <dl><div><dt>作者</dt><dd id="theme-author">—</dd></div><div><dt>许可</dt><dd id="theme-license">—</dd></div><div><dt>格式</dt><dd>Theme v2</dd></div><div><dt>注入范围</dt><dd>本机 Paseo renderer</dd></div></dl>
+          <button id="apply-theme" type="button" class="button primary-button">复制一键换肤命令</button>
+          <a id="open-studio" class="button secondary-button" href="../studio/">在 Studio 中调整</a>
+          <a id="download-manifest" class="button secondary-button" href="#" download>下载 theme.json</a>
+        </aside>
+      </div>
+      <section class="code-tabs" aria-labelledby="theme-code-title">
+        <h2 id="theme-code-title" hidden>主题代码</h2>
+        <div class="tab-list" role="tablist"><button id="manifest-tab" role="tab" type="button" aria-selected="true" aria-controls="manifest-panel">theme.json</button><button id="css-tab" role="tab" type="button" aria-selected="false" aria-controls="css-panel">Safe CSS 变量</button></div>
+        <pre id="manifest-panel" class="code-panel" role="tabpanel" aria-labelledby="manifest-tab"></pre>
+        <pre id="css-panel" class="code-panel" role="tabpanel" aria-labelledby="css-tab" hidden></pre>
+      </section>
+    </main>
+    <footer class="site-footer"><a class="brand" href="../"><span class="brand-glyph">P</span><span>Paseo <i>Skins</i></span></a><p>预览运行在网页中的隔离模拟器，不连接本机应用。</p><nav><a href="../gallery/">主题库</a><a href="../docs/">安全说明</a></nav></footer>
+  </body>
+</html>

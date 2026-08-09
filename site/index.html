@@ -3,37 +3,29 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="Paseo Skins 是开源 Paseo 主题与皮肤画廊，提供 Agent Skill 一键换肤、安全 macOS CDP 加载器、主题预览和随时还原能力。"
-    />
+    <meta name="description" content="Paseo Skins 是开源 Paseo 主题画廊、在线模拟器与安全 CLI。浏览、预览、制作主题，并用一条命令应用。" />
     <meta name="author" content="Huang Guang" />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
     <meta name="application-name" content="Paseo Skins" />
-    <meta name="theme-color" content="#080a0d" />
-    <title>Paseo Skins — 开源 Paseo 主题、皮肤与 Agent 一键换肤</title>
+    <meta name="theme-color" content="#f2efe8" />
+    <title>Paseo Skins — 让工作空间更像你</title>
     <link rel="canonical" href="https://huangguang1999.github.io/paseo-skins/" />
     <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="./sitemap.xml" type="application/xml" />
     <link rel="alternate" href="./catalog.json" type="application/json" title="Paseo theme catalog" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Paseo Skins" />
-    <meta property="og:locale" content="zh_CN" />
-    <meta property="og:locale:alternate" content="en_US" />
-    <meta property="og:title" content="Paseo Skins — 开源 Paseo 主题与 Agent 一键换肤" />
-    <meta property="og:description" content="浏览独立 Paseo 主题皮肤，通过标准 Agent Skill 一键接入，使用安全的本机 CDP 注入并随时还原。" />
+    <meta property="og:title" content="Paseo Skins — 让工作空间更像你" />
+    <meta property="og:description" content="开源 Paseo 主题、在线模拟器、主题 Studio 与安全 CLI。" />
     <meta property="og:url" content="https://huangguang1999.github.io/paseo-skins/" />
     <meta property="og:image" content="https://huangguang1999.github.io/paseo-skins/social-preview.png" />
     <meta property="og:image:secure_url" content="https://huangguang1999.github.io/paseo-skins/social-preview.png" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1280" />
     <meta property="og:image:height" content="640" />
-    <meta property="og:image:alt" content="Paseo Skins 开源主题画廊与 Agent Skill" />
+    <meta property="og:image:alt" content="Paseo Skins 主题库与在线模拟器" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Paseo Skins — Open-source Paseo Themes" />
-    <meta name="twitter:description" content="Paseo themes, skins, Agent Skill, and a safe macOS CDP theme loader." />
     <meta name="twitter:image" content="https://huangguang1999.github.io/paseo-skins/social-preview.png" />
-    <meta name="twitter:image:alt" content="Paseo Skins open-source theme gallery and Agent Skill" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -42,250 +34,102 @@
             "@type": "WebSite",
             "@id": "https://huangguang1999.github.io/paseo-skins/#website",
             "name": "Paseo Skins",
-            "alternateName": "Paseo 皮肤画廊",
             "url": "https://huangguang1999.github.io/paseo-skins/",
-            "description": "Open-source Paseo themes, skins, and Agent Skill gallery.",
+            "description": "Open-source Paseo themes, online simulator, theme studio, and safe CLI.",
             "inLanguage": ["zh-CN", "en"]
           },
           {
             "@type": "SoftwareApplication",
-            "@id": "https://huangguang1999.github.io/paseo-skins/#software",
             "name": "Paseo Skins",
-            "description": "Open-source Paseo themes, Agent Skill, and safe macOS CDP theme loader.",
-            "url": "https://huangguang1999.github.io/paseo-skins/",
-            "codeRepository": "https://github.com/huangguang1999/paseo-skins",
-            "downloadUrl": "https://github.com/huangguang1999/paseo-skins",
-            "license": "https://github.com/huangguang1999/paseo-skins/blob/main/LICENSE",
             "softwareVersion": "__SOFTWARE_VERSION__",
             "operatingSystem": "macOS",
-            "applicationCategory": "DesktopEnhancementApplication",
+            "applicationCategory": "DeveloperApplication",
             "isAccessibleForFree": true,
-            "offers": {
-              "@type": "Offer",
-              "price": "0",
-              "priceCurrency": "USD"
-            },
-            "author": {
-              "@type": "Person",
-              "name": "Huang Guang",
-              "url": "https://github.com/huangguang1999"
-            }
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+            "codeRepository": "https://github.com/huangguang1999/paseo-skins"
           }
         ]
       }
     </script>
     <link rel="stylesheet" href="./styles.css" />
     <script type="module" src="./app.js"></script>
-    <script type="module" src="./theme-builder.js"></script>
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="#top" aria-label="Paseo Skins 首页">
-        <span class="brand-mark" aria-hidden="true">P</span>
-        <span>Paseo <i>Skins</i></span>
-      </a>
+      <a class="brand" href="./" aria-label="Paseo Skins 首页"><span class="brand-glyph">P</span><span>Paseo <i>Skins</i></span></a>
       <nav aria-label="主导航">
-        <a href="#gallery">皮肤</a>
-        <a href="#builder">制作主题</a>
-        <a href="#install">安装</a>
-        <a href="#safety">安全</a>
-        <a class="nav-github" href="https://github.com/huangguang1999/paseo-skins">GitHub ↗</a>
+        <a href="./gallery/">主题库</a>
+        <a href="./studio/">Studio</a>
+        <a href="./docs/">文档</a>
+        <a href="./download/">CLI</a>
       </nav>
+      <a class="header-action" href="https://github.com/huangguang1999/paseo-skins">GitHub <span aria-hidden="true">↗</span></a>
     </header>
 
-    <main id="top">
-      <section class="hero">
+    <main>
+      <section class="hero section-shell">
         <div class="hero-copy">
-          <p class="eyebrow"><span></span> 非官方社区画廊 · CDP 安全注入</p>
-          <h1>让 Paseo，<br /><em>长成你喜欢的样子。</em></h1>
-          <p class="hero-description">
-            选一套皮肤，一键复制给你的 Agent。它会检查环境、应用主题、完成验证，并告诉你如何还原。
-          </p>
+          <p class="eyebrow">OPEN-SOURCE THEMES FOR PASEO</p>
+          <h1>让工作空间<br />更像<span>你</span>。</h1>
+          <p class="hero-lead">浏览、预览并制作 Paseo 主题。所有换肤都在本机完成，不修改 Paseo 安装包，随时可以还原。</p>
           <div class="hero-actions">
-            <a class="button button-primary" href="#gallery">浏览皮肤</a>
-            <a class="button button-secondary" href="#agent">Agent 接入</a>
+            <a class="button primary-button" href="./gallery/">探索主题</a>
+            <a class="button secondary-button" href="./studio/">制作我的主题</a>
           </div>
-          <dl class="hero-metrics" aria-label="项目特性">
-            <div><dt id="theme-count">6</dt><dd>款独立背景</dd></div>
-            <div><dt>1</dt><dd>行安装命令</dd></div>
-            <div><dt>0</dt><dd>处 App 修改</dd></div>
+          <dl class="hero-stats">
+            <div><dt id="theme-count">6</dt><dd>款公开主题</dd></div>
+            <div><dt>1</dt><dd>条命令应用</dd></div>
+            <div><dt>0</dt><dd>个官方文件被修改</dd></div>
           </dl>
         </div>
-
-        <div class="hero-stage" aria-label="Paseo 皮肤效果示意">
-          <div class="mock-window">
-            <div class="mock-titlebar">
-              <span></span><span></span><span></span>
-              <b>PASEO</b>
-            </div>
-            <div class="mock-body">
-              <aside>
-                <strong>新任务</strong>
-                <span>已安排</span>
-                <span>工作区</span>
-                <span>设置</span>
-              </aside>
-              <div class="mock-content">
-                <p>今晚想完成什么？</p>
-                <div class="mock-input">交给 Paseo 去做 <span>↗</span></div>
-              </div>
-            </div>
-          </div>
-          <span class="hero-caption">原生界面 · 连续背景 · 低干扰工作区</span>
-        </div>
+        <div class="hero-note" aria-hidden="true"><span>Theme your flow</span><i>not your files</i></div>
       </section>
 
-      <section class="gallery section" id="gallery">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow"><span></span> THEME GALLERY</p>
-            <h2>一张图，一种工作状态</h2>
-          </div>
-          <p>每套主题都有独立背景图、焦点、安全区和配色，不是同一张图换滤镜。</p>
+      <section class="simulator-section section-shell" aria-labelledby="simulator-title">
+        <div class="section-heading split-heading">
+          <div><p class="eyebrow">TRY IT LIVE</p><h2 id="simulator-title">先看效果，<i>再决定。</i></h2></div>
+          <p>切换主题、外观、页面和窗口尺寸。按住“看原版”即可比较未换肤的 Paseo。</p>
         </div>
-
-        <div class="catalog-toolbar">
-          <label class="search-field">
-            <span aria-hidden="true">⌕</span>
-            <input id="theme-search" type="search" placeholder="搜索名称、氛围或颜色" autocomplete="off" />
-          </label>
-          <div class="filters" id="theme-filters" aria-label="主题筛选"></div>
-          <span class="result-count" id="result-count"></span>
-        </div>
-
-        <div class="theme-grid" id="theme-grid" aria-live="polite"></div>
-        <p class="empty-state" id="empty-state" hidden>没有匹配的主题，换个关键词试试。</p>
-        <nav class="theme-index-links" aria-label="全部 Paseo 主题详情">
-          <span>主题详情</span>
-          <!-- THEME_INDEX -->
-        </nav>
+        <div id="home-simulator" class="simulator-mount" aria-live="polite"></div>
       </section>
 
-      <section class="theme-builder section" id="builder">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow"><span></span> ONE IMAGE → ONE THEME</p>
-            <h2>上传一张图，自动生成主题</h2>
-          </div>
-          <p>图片只在浏览器本地处理，不会上传。自动提取配色、生成 SHA-256 完整性记录，并导出标准 Paseo Theme v2 清单。</p>
+      <section class="featured section-shell" aria-labelledby="featured-title">
+        <div class="section-heading split-heading">
+          <div><p class="eyebrow">CURATED THEMES</p><h2 id="featured-title">从一个新的<br /><i>工作氛围</i>开始。</h2></div>
+          <a class="text-link" href="./gallery/">查看全部主题 <span>→</span></a>
         </div>
-        <div class="builder-panel">
-          <div class="builder-form">
-            <label class="builder-upload" for="builder-file">
-              <strong>选择背景图片</strong>
-              <span>PNG、JPEG 或 WebP · 最大 16 MB</span>
-              <input id="builder-file" type="file" accept="image/png,image/jpeg,image/webp" />
-            </label>
-            <div class="builder-fields">
-              <label>主题名称<input id="builder-name" type="text" maxlength="80" placeholder="例如：山海夜航" /></label>
-              <label>主题 ID<input id="builder-id" type="text" maxlength="64" pattern="[a-z0-9][a-z0-9-]*" placeholder="例如：mountain-night" /></label>
-              <label class="builder-field-wide">主题描述<input id="builder-description" type="text" maxlength="200" placeholder="一句话描述主题氛围" /></label>
-            </div>
-            <div class="builder-ranges">
-              <label>水平焦点 <output id="builder-focus-x-value">70%</output><input id="builder-focus-x" type="range" min="0" max="1" step="0.01" value="0.7" /></label>
-              <label>垂直焦点 <output id="builder-focus-y-value">50%</output><input id="builder-focus-y" type="range" min="0" max="1" step="0.01" value="0.5" /></label>
-            </div>
-            <div class="builder-palette" id="builder-palette" aria-label="自动生成的主题配色"></div>
-            <input id="builder-accent" type="color" value="#d5b36b" disabled hidden />
-            <label class="builder-rights"><input id="builder-rights" type="checkbox" /><span>我确认拥有该图片的使用权；公开投稿时会提供作者、来源和许可证。</span></label>
-            <button class="button button-primary" id="builder-download" type="button" disabled>下载 Theme v2 清单</button>
-            <p class="builder-status" id="builder-status">选择图片后会在本机自动取色，不会发起网络请求。</p>
-            <p class="builder-help">下载后把清单与原图放在同一目录，即可让 Agent 执行 <code>paseo-skin inspect</code> 和 <code>start</code>。<a href="./schema/paseo-theme-v2.schema.json">查看 JSON Schema ↗</a></p>
-          </div>
-          <div class="builder-preview" id="builder-preview">
-            <div class="builder-preview-sidebar"><span>P</span><i></i><i></i><i></i></div>
-            <div class="builder-preview-content">
-              <small>LOCAL THEME PREVIEW</small>
-              <strong id="builder-preview-name">你的 Paseo 主题</strong>
-              <div class="builder-preview-composer">今晚想完成什么？<b>↗</b></div>
-            </div>
-          </div>
-        </div>
+        <div class="theme-index" aria-label="可索引主题列表"><!-- THEME_INDEX --></div>
+        <div id="featured-grid" class="featured-grid"><p class="loading-copy">正在加载主题…</p></div>
       </section>
 
-      <section class="agent-connect section" id="agent">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow"><span></span> AGENT READY</p>
-            <h2>把换肤能力交给 Agent</h2>
-          </div>
-          <p>临时使用可直接复制主题任务；长期使用只需安装一次标准 Agent Skill。</p>
+      <section class="steps section-shell" aria-labelledby="steps-title">
+        <div class="section-heading centered-heading">
+          <p class="eyebrow">HOW IT WORKS</p>
+          <h2 id="steps-title">三步换一个<i>工作心情</i></h2>
         </div>
-        <div class="agent-connect-panel">
-          <div class="agent-connect-copy">
-            <span class="agent-pill">支持 Codex、Claude Code、Cursor 等</span>
-            <h3>以后只要说：<br />“换成极光雪境”</h3>
-            <p>Skill 会自动读取主题目录、执行安全诊断、启动 watcher、验证结果，并保留一键还原路径。</p>
-          </div>
-          <div class="skill-command-box">
-            <small>全局安装 Paseo Skins Skill</small>
-            <code id="skill-install-command">npx skills add huangguang1999/paseo-skins --skill paseo-skins -g</code>
-            <button class="button button-primary" id="skill-install-copy" type="button">复制 Skill 接入命令</button>
-            <a href="./SKILL.md" target="_blank">先查看 Skill 内容与权限边界 ↗</a>
-          </div>
-        </div>
-      </section>
-
-      <section class="install section" id="install">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow"><span></span> QUICK START</p>
-            <h2>复制给 Agent，剩下交给它</h2>
-          </div>
-          <p>Agent 只会读取公开 Skill、主题 JSON 与图片；所有操作仍在你的电脑完成。</p>
-        </div>
-        <ol class="steps">
-          <li><span>01</span><div><h3>选择皮肤</h3><p>在主题卡片上点击“复制给 Agent”。</p></div></li>
-          <li><span>02</span><div><h3>粘贴给 Agent</h3><p>任务内含 Skill 地址、主题清单与安全约束。</p></div></li>
-          <li><span>03</span><div><h3>自动应用与验收</h3><p>Agent 运行 doctor、watcher 和 verify；遇到运行中任务会安全停下。</p></div></li>
+        <ol class="step-grid">
+          <li><span>01</span><h3>挑选或制作</h3><p>从公开主题中选择，也可以在 Studio 中用自己的图片生成 Theme v2。</p></li>
+          <li><span>02</span><h3>在模拟器预览</h3><p>验证首页、任务页、宽窄窗口、侧栏和浅深色，不必先碰真实应用。</p></li>
+          <li><span>03</span><h3>用 CLI 应用</h3><p>复制一条命令，CLI 完成完整性检查并安全连接本机 Paseo。</p></li>
         </ol>
       </section>
 
-      <section class="safety section" id="safety">
-        <div class="safety-panel">
-          <div>
-            <p class="eyebrow"><span></span> SAFETY BY DEFAULT</p>
-            <h2>换外观，不动 Paseo 本体</h2>
-          </div>
-          <ul>
-            <li><b>不改安装包</b><span>不 patch Paseo、app.asar 或代码签名。</span></li>
-            <li><b>只认声明式主题</b><span>远程主题只能包含 JSON 与 PNG/JPEG，不执行脚本。</span></li>
-            <li><b>仅限本机连接</b><span>CDP 固定绑定 127.0.0.1，不暴露给局域网。</span></li>
-            <li><b>随时还原</b><span>停止 watcher 后运行 reset，恢复原生样式。</span></li>
-          </ul>
-        </div>
+      <section class="safety-banner section-shell">
+        <div><p class="eyebrow">LOCAL BY DESIGN</p><h2>主题改变外观，<br /><i>不改变你的工作。</i></h2></div>
+        <ul><li>不 patch Paseo.app</li><li>CDP 只绑定 127.0.0.1</li><li>远程主题不执行脚本</li><li><code>reset</code> 随时恢复原版</li></ul>
+      </section>
+
+      <section class="closing-cta section-shell">
+        <p class="eyebrow">MAKE PASEO YOURS</p>
+        <h2>今天的工作空间，<br />想是什么颜色？</h2>
+        <div><a class="button primary-button" href="./gallery/">浏览主题库</a><a class="button secondary-button" href="./docs/">阅读文档</a></div>
       </section>
     </main>
 
-    <footer>
-      <a class="brand" href="#top"><span class="brand-mark">P</span><span>Paseo <i>Skins</i></span></a>
-      <p>非官方社区项目，与 Paseo 无隶属或赞助关系。主题素材均需权利清晰。</p>
+    <footer class="site-footer">
+      <a class="brand" href="./"><span class="brand-glyph">P</span><span>Paseo <i>Skins</i></span></a>
+      <p>一个非官方、开源的 Paseo 主题项目。</p>
+      <nav aria-label="页脚导航"><a href="./gallery/">主题库</a><a href="./studio/">Studio</a><a href="./docs/">文档</a><a href="https://github.com/huangguang1999/paseo-skins">GitHub</a></nav>
     </footer>
-
-    <dialog id="theme-dialog" aria-labelledby="dialog-title">
-      <button class="dialog-close" id="dialog-close" type="button" aria-label="关闭">×</button>
-      <div class="dialog-preview" id="dialog-preview"></div>
-      <div class="dialog-content">
-        <p class="eyebrow"><span></span> INSTALLABLE THEME</p>
-        <h2 id="dialog-title"></h2>
-        <p id="dialog-description"></p>
-        <a class="dialog-credit" id="dialog-credit" target="_blank" rel="noreferrer"></a>
-        <div class="tag-list" id="dialog-tags"></div>
-        <div class="agent-action-box">
-          <span>推荐</span>
-          <strong>交给你的 Agent 自动完成</strong>
-          <p>复制后粘贴到 Codex、Claude Code、Cursor 或其他可联网 Agent。</p>
-          <button class="button button-primary" id="dialog-agent-copy" type="button">复制给 Agent</button>
-        </div>
-        <div class="command-box">
-          <small>手动终端备用</small>
-          <code id="dialog-command"></code>
-          <button class="button button-secondary" id="dialog-terminal-copy" type="button">复制终端命令</button>
-        </div>
-        <p class="dialog-note">Agent 如发现 Paseo 正在运行但没有安全 CDP，会先停下提示，不会强退应用或重启 daemon。</p>
-      </div>
-    </dialog>
-
-    <div class="toast" id="toast" role="status" aria-live="polite"></div>
   </body>
 </html>

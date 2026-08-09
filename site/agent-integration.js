@@ -3,6 +3,10 @@ export const SKILL_INSTALL_COMMAND =
 
 const INSTALLER_PACKAGE = "github:huangguang1999/paseo-skins";
 
+export function getApplyCommand(theme) {
+  return `npx --yes ${INSTALLER_PACKAGE} apply ${theme.id}`;
+}
+
 export function getManifestUrl(theme, pageUrl) {
   return new URL(theme.manifest, pageUrl).href;
 }

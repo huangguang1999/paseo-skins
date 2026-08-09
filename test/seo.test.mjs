@@ -23,8 +23,11 @@ test("homepage exposes canonical, social, and software metadata", async () => {
   assert.match(html, /<link rel="alternate" href="\.\/catalog\.json" type="application\/json"/);
   assert.doesNotMatch(html, /__SOFTWARE_VERSION__/);
   assert.equal((html.match(/href="\.\/themes\/[a-z0-9-]+\/"/g) ?? []).length, catalog.themes.length);
-  assert.match(html, /id="builder"/);
-  assert.match(html, /theme-builder\.js/);
+  assert.match(html, /id="home-simulator"/);
+  assert.match(html, /src="\.\/app\.js"/);
+  for (const page of ["gallery", "studio", "docs", "download"]) {
+    assert.match(html, new RegExp(`href="\\./${page}/"`));
+  }
 
   const [structuredData] = extractJsonLd(html);
   const software = structuredData["@graph"].find((entry) => entry["@type"] === "SoftwareApplication");
@@ -33,12 +36,15 @@ test("homepage exposes canonical, social, and software metadata", async () => {
   assert.equal(software.offers.price, "0");
 });
 
-test("sitemap and robots expose every canonical theme page", async () => {
+test("sitemap and robots expose all canonical product and theme pages", async () => {
   const sitemap = await readFile(path.join(outputRoot, "sitemap.xml"), "utf8");
   const robots = await readFile(path.join(outputRoot, "robots.txt"), "utf8");
   assert.match(robots, /Allow: \//);
   assert.match(robots, /Sitemap: https:\/\/huangguang1999\.github\.io\/paseo-skins\/sitemap\.xml/);
-  assert.equal((sitemap.match(/<url>/g) ?? []).length, catalog.themes.length + 1);
+  assert.equal((sitemap.match(/<url>/g) ?? []).length, catalog.themes.length + 5);
+  for (const page of ["gallery", "studio", "docs", "download"]) {
+    assert.match(sitemap, new RegExp(`https://huangguang1999\\.github\\.io/paseo-skins/${page}/`));
+  }
   for (const theme of catalog.themes) {
     assert.match(sitemap, new RegExp(`https://huangguang1999\\.github\\.io/paseo-skins/themes/${theme.id}/`));
   }
@@ -47,7 +53,7 @@ test("sitemap and robots expose every canonical theme page", async () => {
 test("every catalog theme has an indexable bilingual detail page", async () => {
   for (const theme of catalog.themes) {
     const html = await readFile(path.join(outputRoot, "themes", theme.id, "index.html"), "utf8");
-    assert.match(html, new RegExp(`<h1>${theme.name}</h1>`));
+    assert.match(html, new RegExp(`<h1>${theme.name}<br`));
     assert.match(html, new RegExp(theme.englishName));
     assert.match(html, new RegExp(`rel="canonical" href="https://huangguang1999\\.github\\.io/paseo-skins/themes/${theme.id}/"`));
     assert.match(html, new RegExp(`themes/${theme.manifest.split("/").at(-1)}`));
@@ -58,6 +64,50 @@ test("every catalog theme has an indexable bilingual detail page", async () => {
     assert.equal(structuredData["@type"], "CreativeWork");
     assert.equal(structuredData.name, `${theme.name} (${theme.englishName})`);
   }
+});
+
+test("gallery, simulator, studio, docs, and CLI pages ship their interactive entry points", async () => {
+  const expectations = [
+    ["gallery/index.html", /src="\.\.\/gallery\.js"/, /id="gallery-search"/],
+    ["preview/index.html", /src="\.\.\/preview\.js"/, /id="preview-simulator"/],
+    ["studio/index.html", /src="\.\.\/theme-builder\.js"/, /id="studio-simulator"/],
+    ["docs/index.html", /Theme v2/, /Safe CSS/],
+    ["download/index.html", /apply stage-black-gold/, /id="copy-quick-start"/],
+  ];
+  for (const [relativePath, ...patterns] of expectations) {
+    const html = await readFile(path.join(outputRoot, relativePath), "utf8");
+    for (const pattern of patterns) assert.match(html, pattern);
+  }
+});
+
+test("gallery group flows and Studio controls are accessible without native prompts", async () => {
+  const [galleryHtml, galleryScript, studioHtml, builderScript, styles] = await Promise.all([
+    readFile(path.join(outputRoot, "gallery/index.html"), "utf8"),
+    readFile(path.join(outputRoot, "gallery.js"), "utf8"),
+    readFile(path.join(outputRoot, "studio/index.html"), "utf8"),
+    readFile(path.join(outputRoot, "theme-builder.js"), "utf8"),
+    readFile(path.join(outputRoot, "styles.css"), "utf8"),
+  ]);
+
+  assert.match(galleryHtml, /id="group-dialog"/);
+  assert.match(galleryHtml, /id="group-name"/);
+  assert.doesNotMatch(galleryScript, /window\.prompt/);
+  assert.match(studioHtml, /id="builder-upload-zone"[^>]+role="button"[^>]+tabindex="0"/);
+  assert.match(studioHtml, /id="builder-focus-x"[^>]+aria-label="横向焦点"/);
+  assert.match(studioHtml, /id="css-status"[^>]+role="status"/);
+  assert.match(studioHtml, /id="export-status"[^>]+role="status"/);
+  assert.match(builderScript, /copyManifest\.disabled/);
+  assert.match(styles, /\.button:disabled/);
+});
+
+test("simulator keeps fixed controls visible while only theme choices scroll", async () => {
+  const [simulator, styles] = await Promise.all([
+    readFile(path.join(outputRoot, "simulator.js"), "utf8"),
+    readFile(path.join(outputRoot, "styles.css"), "utf8"),
+  ]);
+  assert.doesNotMatch(simulator, /toolbar\.scrollLeft/);
+  assert.match(simulator, /themeSlot\.scrollLeft/);
+  assert.match(styles, /\.simulator-theme-options\s*\{[^}]*overflow-x:\s*auto/s);
 });
 
 test("repository metadata targets high-intent GitHub discovery terms", async () => {

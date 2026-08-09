@@ -4,9 +4,9 @@ Paseo Skins 通过运行时 DOM 与 CDP target 能力判断兼容性，不只比
 
 | Paseo | Platform | Last checked | Evidence |
 |---|---|---|---|
-| 0.1.108 | macOS arm64 | 2026-07-22 | Installed app identity `sh.paseo.desktop`; loader tests, target filtering, Theme v2 validation and renderer verification contract |
+| 0.3.0 | macOS arm64 | 2026-08-09 | Live `status` and `verify`, skin version 12, workspace/schedules/sessions/new SPA routes, workspace menu and hover-in/hover-out screenshots, 74 automated tests |
 
-0.7.0 发布审计时 Paseo 正在运行且未开放 `127.0.0.1:9224`。`doctor` 通过，但为避免中断现有 Agent，本轮没有重启应用或重新执行 live injection；表中证据因此明确是安装身份与自动化 contract 级验证，不冒充实时 renderer 验收。
+0.9.0 发布审计使用本机正在运行的 Paseo 0.3.0 与回环 CDP `127.0.0.1:9224`。真实 renderer 验证确认 `#root` 可见、overlay 不接收指针、无横向溢出、浅色主题使用 `color-scheme: light`；workspace、计划、历史、新建页分别同步到 `workspace`、`utility`、`utility`、`home`。非选中 workspace 行的背景在 hover 前后均为透明，hover 中为主题主色 10%，三种状态都没有残留内联背景。
 
 ## Runtime contract
 

@@ -75,7 +75,7 @@ paseo-skin inspect \
 - `id`：小写字母、数字和连字符，最长 64 字符。
 - `version`：三段语义版本号。
 - `image`：清单同目录文件名，不能包含子目录、`..` 或软链接。
-- `appearance`：当前只支持 `dark`。
+- `appearance`：使用 `dark` 或 `light`，同时控制系统表单控件、滚动条和文字渲染采用的明暗方案。Studio 的“自动”只用于编辑预览，导出时会解析为这两个稳定值之一。
 - `art.focusX` / `focusY`：图片焦点，范围 `0`–`1`。
 - `homeOpacity` / `workspaceOpacity` / `utilityOpacity`：不同路由的背景强度。
 - `colors`：只接受六位 hex、`rgb()` 或 `rgba()`，不能借清单注入任意 CSS。

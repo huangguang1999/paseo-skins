@@ -3,11 +3,13 @@ import test from "node:test";
 
 import {
   getAgentPrompt,
+  getApplyCommand,
   getInstallCommand,
   SKILL_INSTALL_COMMAND,
 } from "../site/agent-integration.js";
 
 const theme = {
+  id: "aurora-ridge",
   name: "极光雪境",
   manifest: "./themes/aurora-ridge.theme.json",
 };
@@ -25,6 +27,10 @@ test("agent prompt contains the selected theme, skill, safety boundary, and veri
 });
 
 test("manual and persistent connection commands target the public project", () => {
+  assert.equal(
+    getApplyCommand(theme),
+    "npx --yes github:huangguang1999/paseo-skins apply aurora-ridge",
+  );
   assert.equal(
     getInstallCommand(theme, pageUrl),
     "npx --yes github:huangguang1999/paseo-skins start --theme-url " +

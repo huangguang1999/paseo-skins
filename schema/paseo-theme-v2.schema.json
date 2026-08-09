@@ -39,7 +39,7 @@
       "maxLength": 160,
       "pattern": "^[^/\\\\]+\\.(png|jpe?g|webp)$"
     },
-    "appearance": { "const": "dark" },
+    "appearance": { "enum": ["dark", "light"] },
     "art": {
       "type": "object",
       "additionalProperties": false,

@@ -1,12 +1,12 @@
 # GitHub 同类项目基准研究
 
-调研快照：2026-07-22。指标来自 GitHub GraphQL 与各仓库当前默认分支；Star、Issue 和 Release 数会继续变化，因此这里只用于解释工程决策，不作为质量排名。
+矩阵初始快照：2026-07-22。2026-08-09 又针对用户指定的 Codex-Dream-Skin 当前默认分支进行了复查；Star、Issue 和 Release 数会继续变化，因此这里只用于解释工程决策，不作为质量排名。
 
 ## 样本矩阵
 
 | 项目 | Star 快照 | 值得借鉴的已验证能力 | 本项目决策 |
 |---|---:|---|---|
-| [Fei-Away/Codex-Dream-Skin](https://github.com/Fei-Away/Codex-Dream-Skin) | 11,745 | macOS/Windows、图片换肤、菜单栏/托盘切换、恢复与真实预览 | 保留零 patch、原生 UI、路由降噪和恢复边界；Paseo 平台范围不凭空扩成 Windows |
+| [Fei-Away/Codex-Dream-Skin](https://github.com/Fei-Away/Codex-Dream-Skin) | 约 13.4k（2026-08-09） | macOS/Windows、共享 runtime、平台安装器、清单校验、恢复与真实预览 | 保留零 patch、原生 UI、路由降噪和恢复边界；Paseo 平台范围不凭空扩成 Windows |
 | [b-nnett/codex-plusplus](https://github.com/b-nnett/codex-plusplus) | 3,560 | Manifest、安装/更新/恢复生命周期、安全与贡献文档 | 借鉴版本同步、发布前检查和明确文件边界，不采用修改官方应用文件的 tweak 路线 |
 | [HeiGeAi/heige-codex-skin-studio](https://github.com/HeiGeAi/heige-codex-skin-studio) | 310 | 一图一主题、自动取色、主题中心、用户控制持久化、事务/锁、素材来源门禁、58 个测试文件 | 落地 Theme v2、自动取色、watcher 进程锁、素材 provenance 和社区投稿门禁；持久化必须继续保持用户显式控制 |
 | [CodeDrobe/skills](https://github.com/CodeDrobe/skills) | 222 | Skill 只负责编排，运行时集中在 Core；真实 DOM 探测、包检查、probe/apply/verify/restore 闭环 | Skill 不复制注入器；新增 list/create/inspect，并继续要求 doctor → apply → verify → reset |
@@ -16,6 +16,17 @@
 | [Wangnov/awesome-codex-skins](https://github.com/Wangnov/awesome-codex-skins) | 29 | `.codexskin` 规范、自动目录、真实截图质量门、投稿流程 | 先把无执行代码的 Theme v2 目录标准做稳；画廊主题必须有独立清单、图片、完整性和来源记录 |
 | [xuhuanstudio/codex-styler](https://github.com/xuhuanstudio/codex-styler) | 14 | JSON Schema、data-only 包、视觉编辑器、87 个测试文件、CodeQL、Lighthouse、校验和、SBOM 和构建证明 | 落地公开 JSON Schema、CodeQL、Release checksum/attestation、站点链接检查；保持零运行时依赖，不为桌面编辑器引入 Tauri/Rust |
 | [CodeDrobe/desktop](https://github.com/CodeDrobe/desktop) | 26 | 独立主题管理器、deep link、导入包、类型检查和桌面安装包 | 当前网站 + Agent 已覆盖发现与安装；只有出现必须离线管理的真实需求后才增加独立桌面 App |
+
+## Codex-Dream-Skin 当前架构复查
+
+复查版本为默认分支提交 `6f789be4570b1d5c9e7e60545f22173195968720`（`release v1.5.12`，2026-08-08）。它的工程质量主要来自共享 runtime 与平台入口分离、主题/包清单失败关闭、安装—切换—恢复生命周期、平台测试矩阵，以及根目录 `AGENTS.md` 对任务连续性和验证边界的约束。
+
+本轮据此做了四项与 Paseo 范围匹配的调整：
+
+1. 将 CLI 的纯参数解析和帮助输出从系统 I/O 编排中拆出，使无参数和子命令帮助完全无副作用。
+2. 扩展 Theme v2 的 `dark` / `light` 稳定契约，并让 Schema、加载器、Studio、公开清单和 renderer `color-scheme` 使用同一真值。
+3. 新增 `ARCHITECTURE.md` 与根目录 `AGENTS.md`，明确组件所有权、不变量和按改动类型划分的验证门禁。
+4. 保持注入函数自包含，因为它必须被序列化到 renderer；不为了文件行数机械拆分，也不复制参考项目的 Safe CSS 压缩包、Windows installer 或应用文件修改路线。
 
 ## 得出的产品原则
 

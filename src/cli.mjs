@@ -2,7 +2,6 @@
 
 import { access } from "node:fs/promises";
 import { realpathSync } from "node:fs";
-import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
@@ -15,9 +14,8 @@ import {
   PaseoSkinWatcher,
   waitForCdp,
 } from "./cdp-client.mjs";
-import { loadThemeCatalog, PUBLIC_THEME_CATALOG_URL } from "./catalog-client.mjs";
+import { loadThemeCatalog } from "./catalog-client.mjs";
 import {
-  DEFAULT_PASEO_EXECUTABLE,
   isPaseoApplicationRunning,
   launchPaseoWithCdp,
 } from "./electron-launcher.mjs";
@@ -28,8 +26,10 @@ import {
 } from "./stage-black-gold-skin.mjs";
 import { loadRemoteTheme } from "./remote-theme.mjs";
 import { createThemeFromImage } from "./theme-creator.mjs";
-import { DEFAULT_THEME_MANIFEST_URL, loadTheme } from "./theme-loader.mjs";
+import { loadTheme } from "./theme-loader.mjs";
 import { PACKAGE_VERSION } from "./version.mjs";
+import { buildCliHelp } from "./cli-help.mjs";
+import { parseArguments } from "./cli-options.mjs";
 import { acquireWatcherLock, readWatcherLock } from "./watcher-lock.mjs";
 import {
   buildThemeArguments,
@@ -38,161 +38,17 @@ import {
   uninstallAutostart,
 } from "./autostart.mjs";
 
-const DEFAULT_REMOTE_DEBUGGING_PORT = 9224;
-
-function printUsage() {
-  console.log(`Paseo Skin Loader
-
-Usage:
-  paseo-skin start [options]
-  paseo-skin inject [options]
-  paseo-skin pause [options]
-  paseo-skin reset [options]
-  paseo-skin status [options]
-  paseo-skin doctor [options]
-  paseo-skin verify [options]
-  paseo-skin list [options]
-  paseo-skin inspect [options]
-  paseo-skin create [options]
-  paseo-skin autostart <install|uninstall|status> [options]
-
-Commands:
-  start    Launch Paseo with loopback-only CDP when needed, then watch all renderer windows
-  inject   Attach the watcher to an already CDP-enabled Paseo instance
-  pause    Remove the live skin after the watcher has stopped; alias of reset
-  reset    Restore native renderer styles without modifying or restarting Paseo
-  status   Report Paseo, CDP, target, and skin state
-  doctor   Validate runtime, app path, theme assets, and the optional live connection
-  verify   Assert renderer safety and skin state; optionally save a screenshot
-  list     List themes from the public catalog without changing Paseo
-  inspect  Validate and describe a local or remote theme without requiring Paseo
-  create   Turn a local PNG, JPEG, or WebP image into an integrity-verified theme
-  autostart Install or remove a macOS login agent that restores the skin after every Paseo restart
-
-Options:
-  --port <number>        CDP port (default: 9224)
-  --app <path>           Paseo executable path
-  --theme <manifest>     Theme manifest path
-  --theme-url <url>      HTTPS theme manifest URL
-  --screenshot <path>    PNG output path for verify
-  --catalog-url <url>    Catalog URL for list
-  --image <path>         Source image for create
-  --name <text>          Theme name for create
-  --id <slug>            Lowercase theme id for create
-  --description <text>   Theme description for create
-  --output <directory>   Output directory for create
-  --focus-x <0..1>       Horizontal artwork focus for create (default: 0.7)
-  --focus-y <0..1>       Vertical artwork focus for create (default: 0.5)
-  --force                Replace the generated theme files if they already exist
-  --json                 Print machine-readable JSON where supported
-  --include-development-targets
-                         Include Paseo localhost development renderers
-`);
-}
-
-export function parseArguments(argumentsList) {
-  const requestedCommand = argumentsList[0] ?? "start";
-  const command = requestedCommand === "--help" || requestedCommand === "-h"
-    ? "help"
-    : requestedCommand;
-  const options = {
-    command,
-    autostartAction: null,
-    catalogUrl: PUBLIC_THEME_CATALOG_URL,
-    description: null,
-    focusX: 0.7,
-    focusY: 0.5,
-    force: false,
-    includeDevelopmentTargets: false,
-    imagePath: null,
-    json: false,
-    outputDirectory: null,
-    paseoExecutable: DEFAULT_PASEO_EXECUTABLE,
-    remoteDebuggingPort: DEFAULT_REMOTE_DEBUGGING_PORT,
-    screenshotPath: null,
-    themeManifest: DEFAULT_THEME_MANIFEST_URL,
-    themeId: null,
-    themeName: null,
-    themeUrl: null,
-  };
-
-  // autostart 的子动作（install/uninstall/status）位于命令之后、选项之前。
-  let firstOptionIndex = 1;
-  if (command === "autostart") {
-    const action = argumentsList[1];
-    if (!["install", "uninstall", "status"].includes(action)) {
-      throw new Error("autostart requires one of: install, uninstall, status");
-    }
-    options.autostartAction = action;
-    firstOptionIndex = 2;
-  }
-
-  for (let argumentIndex = firstOptionIndex; argumentIndex < argumentsList.length; argumentIndex += 1) {
-    const argument = argumentsList[argumentIndex];
-    if (argument === "--port") {
-      options.remoteDebuggingPort = Number(argumentsList[++argumentIndex]);
-    } else if (argument === "--app") {
-      options.paseoExecutable = argumentsList[++argumentIndex];
-    } else if (argument === "--theme") {
-      options.themeManifest = path.resolve(argumentsList[++argumentIndex]);
-    } else if (argument === "--theme-url") {
-      options.themeUrl = argumentsList[++argumentIndex];
-    } else if (argument === "--screenshot") {
-      options.screenshotPath = path.resolve(argumentsList[++argumentIndex]);
-    } else if (argument === "--catalog-url") {
-      options.catalogUrl = argumentsList[++argumentIndex];
-    } else if (argument === "--image") {
-      options.imagePath = path.resolve(argumentsList[++argumentIndex]);
-    } else if (argument === "--name") {
-      options.themeName = argumentsList[++argumentIndex];
-    } else if (argument === "--id") {
-      options.themeId = argumentsList[++argumentIndex];
-    } else if (argument === "--description") {
-      options.description = argumentsList[++argumentIndex];
-    } else if (argument === "--output") {
-      options.outputDirectory = path.resolve(argumentsList[++argumentIndex]);
-    } else if (argument === "--focus-x") {
-      options.focusX = Number(argumentsList[++argumentIndex]);
-    } else if (argument === "--focus-y") {
-      options.focusY = Number(argumentsList[++argumentIndex]);
-    } else if (argument === "--force") {
-      options.force = true;
-    } else if (argument === "--json") {
-      options.json = true;
-    } else if (argument === "--include-development-targets") {
-      options.includeDevelopmentTargets = true;
-    } else if (argument === "--help" || argument === "-h") {
-      options.command = "help";
-    } else {
-      throw new Error(`Unknown argument: ${argument}`);
-    }
-  }
-
-  if (
-    !Number.isInteger(options.remoteDebuggingPort) ||
-    options.remoteDebuggingPort < 1_024 ||
-    options.remoteDebuggingPort > 65_535
-  ) {
-    throw new Error(`Invalid CDP port: ${options.remoteDebuggingPort}`);
-  }
-  if (typeof options.paseoExecutable !== "string" || options.paseoExecutable.length === 0) {
-    throw new Error("Paseo executable path is required");
-  }
-  if (options.command === "create") {
-    if (!options.imagePath || !options.themeName || !options.outputDirectory) {
-      throw new Error("create requires --image, --name, and --output");
-    }
-    if (!Number.isFinite(options.focusX) || options.focusX < 0 || options.focusX > 1) {
-      throw new Error("focus-x must be between 0 and 1");
-    }
-    if (!Number.isFinite(options.focusY) || options.focusY < 0 || options.focusY > 1) {
-      throw new Error("focus-y must be between 0 and 1");
-    }
-  }
-  return options;
-}
+export { parseArguments };
 
 async function resolveTheme(options) {
+  if (options.command === "apply") {
+    const catalog = await loadThemeCatalog(options.catalogUrl);
+    const catalogTheme = catalog.themes.find((theme) => theme.id === options.publicThemeId);
+    if (!catalogTheme) {
+      throw new Error(`Unknown public theme: ${options.publicThemeId}. Run 'paseo-skin list' to see available themes.`);
+    }
+    return loadRemoteTheme(catalogTheme.manifestUrl);
+  }
   return options.themeUrl ? loadRemoteTheme(options.themeUrl) : loadTheme(options.themeManifest);
 }
 
@@ -207,8 +63,8 @@ async function getPaseoTargets(options) {
   );
 }
 
-async function runWatcher(options) {
-  const loadedTheme = await resolveTheme(options);
+async function runWatcher(options, preloadedTheme = null) {
+  const loadedTheme = preloadedTheme ?? await resolveTheme(options);
   const watcherLock = await acquireWatcherLock({
     remoteDebuggingPort: options.remoteDebuggingPort,
     themeId: loadedTheme.theme.id,
@@ -242,6 +98,8 @@ async function runWatcher(options) {
 }
 
 async function start(options) {
+  // 在连接或启动 Paseo 前先完成主题解析与完整性校验，避免无效主题触发应用状态变化。
+  const loadedTheme = await resolveTheme(options);
   if (!(await isCdpAvailable(options.remoteDebuggingPort))) {
     if (await isPaseoApplicationRunning({ paseoExecutable: options.paseoExecutable })) {
       throw new Error(
@@ -256,7 +114,7 @@ async function start(options) {
     console.log(`[paseo-skin] Launched Paseo process ${processIdentifier}`);
     await waitForCdp(options.remoteDebuggingPort);
   }
-  await runWatcher(options);
+  await runWatcher(options, loadedTheme);
 }
 
 async function collectStatus(options) {
@@ -461,18 +319,23 @@ async function verify(options) {
   if (!(await isCdpAvailable(options.remoteDebuggingPort))) {
     throw new Error(`No CDP endpoint found on 127.0.0.1:${options.remoteDebuggingPort}`);
   }
-  const loadedTheme = await resolveTheme(options);
+  const loadedTheme = options.themeWasExplicit ? await resolveTheme(options) : null;
+  const expectedThemeId = loadedTheme?.theme.id ?? null;
   const evaluations = await evaluatePaseoTargets(
     options.remoteDebuggingPort,
-    buildStageBlackGoldVerificationSource({ expectedThemeId: loadedTheme.theme.id }),
+    buildStageBlackGoldVerificationSource({ expectedThemeId }),
     { includeDevelopmentTargets: options.includeDevelopmentTargets },
   );
   if (evaluations.length === 0) {
     throw new Error("No Paseo renderer targets were found");
   }
+  const activeThemeIds = [...new Set(
+    evaluations.map((evaluation) => evaluation.value?.themeId).filter(Boolean),
+  )];
   const report = {
     pass: evaluations.every((evaluation) => evaluation.value?.pass === true),
-    themeId: loadedTheme.theme.id,
+    expectedThemeId,
+    themeId: expectedThemeId ?? (activeThemeIds.length === 1 ? activeThemeIds[0] : null),
     renderers: evaluations,
     screenshot: null,
   };
@@ -539,7 +402,7 @@ async function autostart(options) {
 async function main() {
   const options = parseArguments(process.argv.slice(2));
   if (options.command === "help") {
-    printUsage();
+    console.log(buildCliHelp(options.helpCommand));
   } else if (options.command === "status") {
     await status(options);
   } else if (options.command === "doctor") {
@@ -563,8 +426,10 @@ async function main() {
     await reset(options);
   } else if (options.command === "start") {
     await start(options);
+  } else if (options.command === "apply") {
+    await start(options);
   } else {
-    printUsage();
+    console.log(buildCliHelp());
     throw new Error(`Unknown command: ${options.command}`);
   }
 }

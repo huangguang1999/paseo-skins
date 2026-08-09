@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="在浏览器本地用一张图片制作、调整、预览并导出 Paseo Theme v2。图片不会上传。" />
+    <title>主题 Studio — Paseo Skins</title>
+    <link rel="canonical" href="https://huangguang1999.github.io/paseo-skins/studio/" />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../styles.css" />
+    <script type="module" src="../theme-builder.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../"><span class="brand-glyph">P</span><span>Paseo <i>Skins</i></span></a>
+      <nav aria-label="主导航"><a href="../gallery/">主题库</a><a href="./" aria-current="page">Studio</a><a href="../docs/">文档</a><a href="../download/">CLI</a></nav>
+      <a class="header-action" href="../gallery/">选择其他主题 <span>↗</span></a>
+    </header>
+    <main class="studio-shell">
+      <div class="studio-heading">
+        <div><p class="eyebrow">LOCAL THEME STUDIO</p><h1>把一张图片，变成你的 <i>Paseo。</i></h1></div>
+        <div class="studio-history"><button id="builder-undo" type="button" disabled>↶ 撤销</button><button id="builder-redo" type="button" disabled>↷ 重做</button><button id="builder-reset" type="button">重置</button></div>
+      </div>
+      <div class="studio-layout">
+        <section class="studio-preview" aria-label="主题模拟器"><div id="studio-simulator"></div></section>
+        <section class="studio-panel panel" aria-labelledby="studio-controls-title">
+          <h2 id="studio-controls-title" hidden>主题编辑工具</h2>
+          <div class="studio-tabs" role="tablist">
+            <button type="button" role="tab" aria-selected="true" aria-controls="design-pane">设计</button>
+            <button type="button" role="tab" aria-selected="false" aria-controls="css-pane">Safe CSS</button>
+            <button type="button" role="tab" aria-selected="false" aria-controls="manifest-pane">theme.json</button>
+            <button type="button" role="tab" aria-selected="false" aria-controls="export-pane">导出</button>
+          </div>
+          <div id="design-pane" class="studio-pane" role="tabpanel">
+            <form class="studio-form" onsubmit="return false">
+              <label id="builder-upload-zone" class="upload-zone" for="builder-file" role="button" tabindex="0" aria-describedby="builder-status"><span><b>导入一张背景图片</b>拖放或选择 PNG、JPEG、WebP，最大 16 MB<br />图片只在当前浏览器处理，不会上传。</span><input id="builder-file" type="file" accept="image/png,image/jpeg,image/webp" hidden /></label>
+              <label class="control-label">主题名称<input id="builder-name" type="text" maxlength="80" placeholder="例如：山海夜航" /></label>
+              <label class="control-label">主题 ID<input id="builder-id" type="text" maxlength="64" pattern="[a-z0-9][a-z0-9-]{0,63}" placeholder="mountain-night" /></label>
+              <label class="control-label">描述<textarea id="builder-description" maxlength="200" placeholder="描述这款主题的氛围和用途"></textarea></label>
+              <label class="control-label">预览外观<select id="builder-appearance" class="form-control"><option value="dark">深色</option><option value="light">浅色</option><option value="auto">自动</option></select></label>
+              <label class="control-label">主色<input id="builder-accent" type="color" value="#d5b36b" /></label>
+              <label class="control-label range-row"><span>横向焦点</span><output id="builder-focus-x-value">70%</output><input id="builder-focus-x" type="range" min="0" max="1" step="0.01" value="0.7" aria-label="横向焦点" /></label>
+              <label class="control-label range-row"><span>纵向焦点</span><output id="builder-focus-y-value">50%</output><input id="builder-focus-y" type="range" min="0" max="1" step="0.01" value="0.5" aria-label="纵向焦点" /></label>
+              <div><p class="control-label">自动配色</p><div id="builder-palette" class="palette"></div></div>
+              <label class="rights-check"><input id="builder-rights" type="checkbox" /><span>我确认对上传图片拥有使用和再分发权。只有导出新主题时需要勾选。</span></label>
+              <p id="builder-status" class="builder-status" aria-live="polite">可以先编辑现有主题，也可以导入自己的图片。</p>
+            </form>
+          </div>
+          <div id="css-pane" class="studio-pane" role="tabpanel" hidden>
+            <p>Safe CSS 只用于视觉微调。Studio 会拒绝远程资源、脚本表达式、隐藏界面和固定覆盖层。</p>
+            <label class="control-label">CSS<textarea id="builder-css" rows="16" spellcheck="false" placeholder=".paseo-skin-root {&#10;  --paseo-accent: #d5b36b;&#10;}"></textarea></label>
+            <p id="css-status" class="builder-status" role="status" aria-live="polite">尚未验证。</p>
+            <button id="validate-css" type="button" class="button secondary-button">验证 Safe CSS</button>
+          </div>
+          <div id="manifest-pane" class="studio-pane" role="tabpanel" hidden><pre id="builder-manifest" class="manifest-preview">正在生成…</pre></div>
+          <div id="export-pane" class="studio-pane" role="tabpanel" hidden>
+            <div class="export-card"><h3>导出 Theme v2</h3><p>下载完整性可验证的 theme.json。新主题需与原图放在同一目录。</p><p id="export-status" class="builder-status" role="status" aria-live="polite"></p><div class="studio-actions"><button id="builder-download" class="button primary-button" type="button" disabled>下载 theme.json</button><button id="builder-copy-manifest" class="button secondary-button" type="button" disabled>复制 JSON</button><button id="builder-download-css" class="button secondary-button" type="button">下载 Safe CSS</button></div></div>
+            <div class="export-card"><h3>用 CLI 本地创建</h3><p>CLI 会读取原图、自动取色并在输出目录生成主题包。</p><div class="command-box"><code id="builder-cli-command"></code><button id="builder-copy-cli" type="button">复制</button></div></div>
+            <div class="export-card"><h3>发布前检查</h3><p>运行 <code>inspect</code> 检查清单和图片完整性，再用 <code>verify</code> 验证真实 Paseo 布局。</p></div>
+          </div>
+        </section>
+      </div>
+    </main>
+    <footer class="site-footer"><a class="brand" href="../"><span class="brand-glyph">P</span><span>Paseo <i>Skins</i></span></a><p>全部图片处理在浏览器本地完成。</p><nav><a href="../docs/">主题规范</a><a href="../download/">CLI</a><a href="https://github.com/huangguang1999/paseo-skins">GitHub</a></nav></footer>
+  </body>
+</html>

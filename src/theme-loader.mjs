@@ -305,6 +305,9 @@ export function validateThemeManifest(rawTheme) {
   if (typeof rawTheme.version !== "string" || !/^\d+\.\d+\.\d+$/.test(rawTheme.version)) {
     throw new Error("Theme version must use semantic versioning, for example 1.0.0");
   }
+  if (!["dark", "light"].includes(rawTheme.appearance)) {
+    throw new Error("Theme appearance must be dark or light");
+  }
 
   const image = assertPlainText(rawTheme.image, "image", 160);
   if (path.basename(image) !== image) {
@@ -386,9 +389,6 @@ export async function loadTheme(themeManifest = DEFAULT_THEME_MANIFEST_URL) {
     throw new Error(`Theme manifest is not valid UTF-8 JSON: ${manifestPath}`);
   }
   const theme = validateThemeManifest(rawTheme);
-  if (theme.appearance !== "dark") {
-    throw new Error("Theme appearance currently supports dark only");
-  }
   const imagePath = path.join(path.dirname(manifestPath), theme.image);
   const imageBytes = await readStableRegularFile(
     imagePath,

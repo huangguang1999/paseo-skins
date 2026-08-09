@@ -6,13 +6,15 @@
 [![MIT License](https://img.shields.io/badge/license-MIT-d5b36b.svg)](LICENSE)
 [![Agent Skill](https://img.shields.io/badge/Agent%20Skill-paseo--skins-79c9a1.svg)](skills/paseo-skins/SKILL.md)
 
-**Open-source Paseo themes and skins, a local theme builder, a standard Agent Skill, and a safe macOS CDP theme loader.** Browse independent backgrounds, turn one image into a verified theme, hand it to Codex, Claude Code, Cursor, or another compatible agent, and restore the native Paseo UI at any time.
+**Open-source Paseo themes and skins, a browser-based theme builder Studio, a live simulator, a standard Agent Skill, and a safe macOS CDP theme loader.** Browse independent backgrounds, preview complete UI states, turn one image into a verified theme, apply it with one CLI command, and restore the native Paseo UI at any time.
 
 一个面向 Paseo 的非官方开源主题皮肤画廊、Agent Skill 与本地加载器。网页负责主题预览、搜索和一键复制 Agent 任务；Skill 负责安全工作流，CLI 负责下载声明式主题，并通过 `127.0.0.1` 上的 Chrome DevTools Protocol（CDP）只向 `paseo://app/` 渲染窗口注入样式。
 
-**[在线浏览 Paseo 主题](https://huangguang1999.github.io/paseo-skins/)** · **[用一张图制作主题](https://huangguang1999.github.io/paseo-skins/#builder)** · **[一键接入 Agent](https://huangguang1999.github.io/paseo-skins/#agent)** · **[查看主题格式](docs/THEME_FORMAT.md)**
+**[在线浏览 Paseo 主题](https://huangguang1999.github.io/paseo-skins/gallery/)** · **[打开主题 Studio](https://huangguang1999.github.io/paseo-skins/studio/)** · **[使用快捷 CLI](https://huangguang1999.github.io/paseo-skins/download/)** · **[查看主题文档](https://huangguang1999.github.io/paseo-skins/docs/)**
 
-默认主题是原创「暗夜江湖·黑金」。公开画廊另提供极光、星云、雨夜城市、暖色书房与荒漠落日等独立背景；每套主题分别配置焦点、安全区和颜色。首页完整展示主视觉，进入 workspace 后自动降低背景强度，避免影响代码与对话阅读。
+运行时边界、组件职责和按改动类型划分的验证门禁见 [Architecture](ARCHITECTURE.md)。
+
+默认主题是原创「暗夜江湖·黑金」。公开画廊另提供极光、星云、雨夜城市、暖色书房、荒漠落日、水墨、月夜、猫咪暖室、奶油极简、海盐玻璃与霓虹终端等 12 套主题；每套主题分别配置焦点、安全区和颜色。首页完整展示主视觉，进入 workspace 后自动降低背景强度，避免影响代码与对话阅读。
 
 ![暗夜江湖黑金预览](docs/images/stage-black-gold-preview.png)
 
@@ -39,6 +41,12 @@
 | 东京雨幕 | Tokyo Rain | 城市、雨夜、霓虹 |
 | 暖灯书页 | Warm Library | 书房、暖色、安静 |
 | 赤沙落日 | Desert Sunset | 荒漠、落日、橙色 |
+| 水墨晨岚 | Ink Mountain Dawn | 水墨、山景、浅色 |
+| 月松静夜 | Moon Pine Night | 月夜、松林、深色 |
+| 暖室猫眠 | Cozy Cat Studio | 猫咪、居家、暖色 |
+| 奶油纸境 | Cream Paper Garden | 极简、奶油、浅色 |
+| 海盐玻璃 | Ocean Glass Tide | 海洋、玻璃、浅色 |
+| 霓虹终端 | Neon Terminal Grid | 科技、霓虹、深色 |
 
 本地预览站点：
 
@@ -46,9 +54,19 @@
 npm run site
 ```
 
-打开 `http://127.0.0.1:4173` 即可浏览主题、搜索筛选、查看详情、从一张本地图片生成 Theme v2 清单并复制给 Agent；手动终端命令保留在详情页作为备用。站点是纯静态 HTML/CSS/JS，可直接发布到 GitHub Pages；主题目录位于 `site/catalog.json`。
+打开 `http://127.0.0.1:4173` 即可浏览和收藏主题、在隔离模拟器中切换首页/任务页/宽窄窗口、从一张本地图片生成 Theme v2，并复制一键换肤命令。站点是纯静态 HTML/CSS/JS，可直接发布到 GitHub Pages；主题目录位于 `site/catalog.json`。
 
-## Agent 一键接入
+## 一条命令换肤
+
+主题库和模拟器会为每款公开主题生成稳定的快捷命令：
+
+```bash
+npx --yes github:huangguang1999/paseo-skins apply aurora-ridge
+```
+
+`apply` 从同源公开 catalog 解析主题 ID，下载并验证 Theme v2 清单与图片，然后复用与 `start` 相同的安全 watcher 流程。网页不会直接连接或控制本机 Paseo。
+
+## Agent Skill 接入
 
 网页主题卡默认复制一份完整 Agent 任务，包含标准 Skill URL、主题清单和安全约束。用户也可以全局安装 Skill：
 
@@ -89,6 +107,7 @@ npx --yes github:huangguang1999/paseo-skins start \
 | 命令 | 作用 |
 |---|---|
 | `npm start` | 必要时启动 Paseo，并持续注入当前及新窗口 |
+| `npx --yes github:huangguang1999/paseo-skins apply <theme-id>` | 从公开目录解析主题 ID，校验后持续应用 |
 | `npm run inject -- --port 9224` | 连接已经启用 CDP 的 Paseo |
 | `npm run status -- --port 9224` | 查看应用、CDP、renderer 和主题状态 |
 | `npm run doctor -- --port 9224` | 只读检查环境、主题资源和可选实时连接 |
@@ -139,7 +158,7 @@ npm run autostart:uninstall
 
 ## 自定义主题
 
-最省事的方式是打开[在线主题生成器](https://huangguang1999.github.io/paseo-skins/#builder)：图片只在浏览器本地处理，不会上传。也可以直接用 CLI：
+最省事的方式是打开[在线主题 Studio](https://huangguang1999.github.io/paseo-skins/studio/)：图片只在浏览器本地处理，不会上传，并可直接在模拟器中调整焦点、外观和颜色。也可以直接用 CLI：
 
 ```bash
 npm run create -- \
@@ -186,7 +205,8 @@ reset  ──► destroy observer + overlay + style + 动态内联样式
 
 主要文件：
 
-- `src/cli.mjs`：命令、诊断、验收和安全启动流程。
+- `src/cli-options.mjs` / `src/cli-help.mjs`：纯参数解析、无副作用帮助和 CLI 交互契约。
+- `src/cli.mjs`：命令编排、诊断、验收和安全启动流程。
 - `src/electron-launcher.mjs`：合并 localhost-only Electron flags。
 - `src/cdp-client.mjs`：target 过滤、CDP 校验、watcher 生命周期和截图。
 - `src/theme-loader.mjs`：主题清单与图片安全校验。
@@ -197,6 +217,7 @@ reset  ──► destroy observer + overlay + style + 动态内联样式
 - `src/stage-black-gold-skin.mjs`：路由感知的视觉层和完整 destroy 生命周期。
 - `site/`：静态皮肤商店、主题目录与公开原创资源。
 - `assets/`：本地内置主题清单、原创图片和已注明来源的本地壁纸。
+- `ARCHITECTURE.md`：系统边界、不可破坏约束和变更验证矩阵。
 
 ## 安全边界
 

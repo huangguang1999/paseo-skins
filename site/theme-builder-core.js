@@ -8,7 +8,24 @@ export async function sha256Hex(bytes) {
   return [...digest].map((value) => value.toString(16).padStart(2, "0")).join("");
 }
 
+export function quoteShellArgument(value) {
+  return `'${String(value).replaceAll("'", `'"'"'`)}'`;
+}
+
+export function resolveThemeAppearance(appearance, background) {
+  if (appearance === "dark" || appearance === "light") return appearance;
+  const match = String(background).match(/^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i);
+  if (!match) return "dark";
+  const channels = match.slice(1).map((value) => Number.parseInt(value, 16) / 255);
+  const luminance = channels.reduce(
+    (sum, value, index) => sum + value * [0.2126, 0.7152, 0.0722][index],
+    0,
+  );
+  return luminance > 0.62 ? "light" : "dark";
+}
+
 export function buildBrowserThemeManifest({
+  appearance = "dark",
   colors,
   description,
   digest,
@@ -28,7 +45,7 @@ export function buildBrowserThemeManifest({
     name,
     description,
     image: file.name,
-    appearance: "dark",
+    appearance: resolveThemeAppearance(appearance, colors.background),
     art: {
       focusX,
       focusY,

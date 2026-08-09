@@ -78,6 +78,16 @@ test("Theme v2 rejects schema drift in nested objects", async () => {
   assert.throws(() => validateThemeManifest(manifest), /colors\.panelAlt/);
 });
 
+test("Theme v2 accepts light appearance and rejects non-runtime appearance values", async () => {
+  const manifest = JSON.parse(
+    await readFile(new URL("../assets/stage-black-gold.theme.json", import.meta.url), "utf8"),
+  );
+  manifest.appearance = "light";
+  assert.equal(validateThemeManifest(manifest).appearance, "light");
+  manifest.appearance = "auto";
+  assert.throws(() => validateThemeManifest(manifest), /appearance must be dark or light/);
+});
+
 test("loadTheme rejects a misleading image extension", async (context) => {
   const directory = await mkdtemp(path.join(os.tmpdir(), "paseo-theme-extension-"));
   context.after(() => rm(directory, { recursive: true, force: true }));

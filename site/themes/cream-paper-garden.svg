@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="cream" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#faf7ef"/>
+      <stop offset="1" stop-color="#e7ded0"/>
+    </linearGradient>
+    <linearGradient id="arch" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#d8c5ab"/>
+      <stop offset="1" stop-color="#b99c79"/>
+    </linearGradient>
+    <radialGradient id="peach">
+      <stop offset="0" stop-color="#f6c8a8"/>
+      <stop offset="1" stop-color="#e39a72"/>
+    </radialGradient>
+    <filter id="paperGrain">
+      <feTurbulence baseFrequency="0.45" numOctaves="4" seed="7"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer><feFuncA type="table" tableValues="0 0.04"/></feComponentTransfer>
+    </filter>
+    <filter id="shadow"><feDropShadow dx="0" dy="24" stdDeviation="28" flood-color="#796a59" flood-opacity="0.18"/></filter>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#cream)"/>
+  <circle cx="1538" cy="286" r="204" fill="url(#peach)" opacity="0.92"/>
+  <path d="M1060 970V436c0-178 126-286 286-286s286 108 286 286v534z" fill="#eee5d8" filter="url(#shadow)"/>
+  <path d="M1162 970V472c0-112 80-196 184-196s184 84 184 196v498z" fill="url(#arch)"/>
+  <rect x="1224" y="574" width="244" height="396" rx="122" fill="#f8f3ea" opacity="0.62"/>
+  <g fill="none" stroke="#524c43" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M1652 948c-12-238-58-402-138-518"/>
+    <path d="M1594 730c98-32 166-91 205-178"/>
+    <path d="M1588 696c-64-52-104-116-116-194"/>
+    <path d="M1630 830c72-21 132-62 180-124"/>
+  </g>
+  <g fill="#7d8d69">
+    <ellipse cx="1788" cy="564" rx="92" ry="31" transform="rotate(-38 1788 564)"/>
+    <ellipse cx="1488" cy="508" rx="82" ry="28" transform="rotate(48 1488 508)"/>
+    <ellipse cx="1778" cy="716" rx="76" ry="26" transform="rotate(-26 1778 716)"/>
+    <ellipse cx="1544" cy="650" rx="72" ry="25" transform="rotate(35 1544 650)"/>
+  </g>
+  <g fill="#c1775b"><circle cx="1740" cy="492" r="18"/><circle cx="1512" cy="578" r="14"/><circle cx="1814" cy="672" r="15"/></g>
+  <path d="M760 918c180-96 368-116 564-60" fill="none" stroke="#c6b49e" stroke-width="3"/>
+  <path d="M860 960c164-70 314-76 454-26" fill="none" stroke="#6f7d69" stroke-width="4" opacity="0.7"/>
+  <rect width="1920" height="1080" filter="url(#paperGrain)" opacity="0.6"/>
+</svg>

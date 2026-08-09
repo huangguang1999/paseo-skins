@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Paseo Skins CLI：列出、预览、制作、检查、应用和还原 Paseo 主题。" />
+    <title>CLI — Paseo Skins</title>
+    <link rel="canonical" href="https://huangguang1999.github.io/paseo-skins/download/" />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../styles.css" />
+    <script type="module">
+      import { copyWithFeedback } from "../common.js";
+      const command = "npx --yes github:huangguang1999/paseo-skins apply stage-black-gold";
+      document.querySelector("#copy-quick-start").addEventListener("click", () => copyWithFeedback(command, "快速开始命令已复制"));
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../"><span class="brand-glyph">P</span><span>Paseo <i>Skins</i></span></a>
+      <nav aria-label="主导航"><a href="../gallery/">主题库</a><a href="../studio/">Studio</a><a href="../docs/">文档</a><a href="./" aria-current="page">CLI</a></nav>
+      <a class="header-action" href="https://github.com/huangguang1999/paseo-skins">GitHub <span>↗</span></a>
+    </header>
+    <main>
+      <section class="page-hero"><p class="eyebrow">COMMAND-LINE TOOL</p><h1>不装客户端，<br />一条命令<i>换肤。</i></h1><p>面向程序员的开源 CLI。它负责主题完整性、Paseo 连接、持久 watcher 和一键还原；网页只负责预览与制作。</p></section>
+      <section class="content-shell">
+        <div class="cli-grid">
+          <article class="cli-primary"><p class="eyebrow">QUICK START</p><h2>应用默认黑金主题</h2><p>需要 macOS、Paseo.app 与 Node.js 22+。命令会在必要时安全启动带本机 CDP 的 Paseo。</p><pre class="cli-command"><code>npx --yes github:huangguang1999/paseo-skins apply stage-black-gold</code></pre><button id="copy-quick-start" type="button" class="button">复制命令</button></article>
+          <article class="cli-secondary panel"><p class="eyebrow">CORE COMMANDS</p><h3>完整工作流</h3><div class="command-list"><div><code>paseo-skin list</code><p>列出公开目录中的主题。</p></div><div><code>paseo-skin apply &lt;theme-id&gt;</code><p>从 catalog 解析并应用主题。</p></div><div><code>paseo-skin inspect --theme …</code><p>离线检查清单与图片。</p></div><div><code>paseo-skin create --image …</code><p>从图片制作主题包。</p></div><div><code>paseo-skin verify --screenshot …</code><p>验证真实 renderer 并保存截图。</p></div><div><code>paseo-skin reset</code><p>恢复原版 Paseo 样式。</p></div></div></article>
+        </div>
+        <div class="platform-note"><b>为什么不是客户端？</b><p>本项目不需要另一个常驻 GUI。GitHub Pages 提供无权限的预览和 Studio；CLI 是可审查、可脚本化的本机执行层。两者都不会上传你的主题图片。</p></div>
+        <div class="platform-note"><b>长期开机自动恢复</b><p>只有用户明确需要时才运行 <code>paseo-skin autostart install</code>。它安装当前用户的 macOS LaunchAgents，不修改 Paseo 安装包；可用 <code>autostart uninstall</code> 完整移除。</p></div>
+      </section>
+    </main>
+    <footer class="site-footer"><a class="brand" href="../"><span class="brand-glyph">P</span><span>Paseo <i>Skins</i></span></a><p>Node.js 原生实现，无运行时第三方依赖。</p><nav><a href="../docs/">完整文档</a><a href="../gallery/">选择主题</a></nav></footer>
+  </body>
+</html>

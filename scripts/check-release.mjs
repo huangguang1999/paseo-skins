@@ -45,7 +45,10 @@ const [pack] = JSON.parse(stdout);
 const packageFiles = new Set(pack.files.map((entry) => entry.path));
 for (const requiredFile of [
   "src/cli.mjs",
+  "src/cli-options.mjs",
+  "src/cli-help.mjs",
   "assets/stage-black-gold.theme.json",
+  "ARCHITECTURE.md",
   "ASSET_PROVENANCE.md",
   "CHANGELOG.md",
   "CODE_OF_CONDUCT.md",

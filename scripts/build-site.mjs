@@ -42,7 +42,7 @@ function renderThemePage(theme) {
   const previewUrl = new URL(`themes/${previewAsset}`, baseUrl).href;
   const manifestUrl = new URL(theme.manifest, baseUrl).href;
   const description = `${theme.description} 免费开源的 Paseo 桌面主题，支持 Agent Skill 一键接入与安全 CDP 注入。`;
-  const installCommand = `npx --yes github:huangguang1999/paseo-skins start --theme-url '${manifestUrl}'`;
+  const installCommand = `npx --yes github:huangguang1999/paseo-skins apply ${theme.id}`;
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
@@ -95,35 +95,42 @@ function renderThemePage(theme) {
     <meta name="twitter:image:alt" content="${escapeHtml(theme.name)} Paseo theme preview" />
     <meta name="theme-color" content="${escapeHtml(theme.accent)}" />
     <script type="application/ld+json">${jsonLd(structuredData)}</script>
-    <link rel="stylesheet" href="../../theme-detail.css" />
+    <link rel="stylesheet" href="../../styles.css" />
+    <script type="module">
+      import { copyWithFeedback } from "../../common.js";
+      document.querySelector("#copy-theme-command").addEventListener("click", () =>
+        copyWithFeedback(${JSON.stringify(installCommand)}, "换肤命令已复制"));
+    </script>
   </head>
-  <body style="--theme-accent: ${escapeHtml(theme.accent)}">
+  <body>
+    <header class="site-header">
+      <a class="brand" href="../../"><span class="brand-glyph">P</span><span>Paseo <i>Skins</i></span></a>
+      <nav aria-label="主导航"><a href="../../gallery/">主题库</a><a href="../../studio/">Studio</a><a href="../../docs/">文档</a><a href="../../download/">CLI</a></nav>
+      <a class="header-action" href="../../gallery/">返回主题库 <span>↗</span></a>
+    </header>
     <main>
-      <nav aria-label="面包屑"><a href="../../">Paseo Skins</a><span>/</span><span>${escapeHtml(theme.name)}</span></nav>
-      <article>
-        <div class="theme-art">
-          <img src="../${escapeHtml(previewAsset)}" alt="${escapeHtml(theme.name)} Paseo 主题皮肤预览" />
-        </div>
-        <div class="theme-copy">
-          <p class="eyebrow">INSTALLABLE PASEO THEME</p>
-          <h1>${escapeHtml(theme.name)}</h1>
-          <p class="english-name">${escapeHtml(theme.englishName)}</p>
-          <p class="description">${escapeHtml(theme.description)}</p>
-          <p class="english-description" lang="en">${escapeHtml(theme.englishDescription)}</p>
-          <ul class="tags">${theme.tags.map((tag) => `<li>${escapeHtml(tag)}</li>`).join("")}</ul>
-          <section aria-labelledby="agent-install">
-            <h2 id="agent-install">让 Agent 一键应用</h2>
-            <p>把本页地址交给已安装 <code>paseo-skins</code> Skill 的 Codex、Claude Code、Cursor 或其他兼容 Agent。</p>
-            <pre><code>${escapeHtml(installCommand)}</code></pre>
-          </section>
-          <div class="actions">
-            <a class="primary" href="${manifestUrl}">查看主题清单</a>
-            <a href="${escapeHtml(theme.sourceUrl)}" rel="noreferrer">图片来源：${escapeHtml(theme.author)}</a>
-          </div>
-          <p class="license">${escapeHtml(theme.license)} · 非官方社区项目 · 不修改 Paseo 安装包</p>
-        </div>
+      <section class="page-hero theme-detail-hero" style="--detail-accent:${escapeHtml(theme.accent)}">
+        <p class="eyebrow">INSTALLABLE PASEO THEME</p>
+        <h1>${escapeHtml(theme.name)}<br /><i>${escapeHtml(theme.englishName)}</i></h1>
+        <p>${escapeHtml(theme.description)} <span lang="en">${escapeHtml(theme.englishDescription)}</span></p>
+      </section>
+      <article class="content-shell theme-detail-layout">
+        <div class="theme-detail-art"><img src="../${escapeHtml(previewAsset)}" alt="${escapeHtml(theme.name)} Paseo 主题皮肤预览" /></div>
+        <aside class="theme-detail-copy panel">
+          <p class="eyebrow">THEME DETAILS</p>
+          <h2>${escapeHtml(theme.name)}</h2>
+          <div class="theme-tags">${theme.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>
+          <dl><div><dt>作者</dt><dd>${escapeHtml(theme.author)}</dd></div><div><dt>许可</dt><dd>${escapeHtml(theme.license)}</dd></div><div><dt>格式</dt><dd>Theme v2</dd></div></dl>
+          <div class="command-box"><code>${escapeHtml(installCommand)}</code><button id="copy-theme-command" type="button">复制</button></div>
+          <a class="button primary-button" href="../../preview/?themeId=${encodeURIComponent(theme.id)}">在模拟器预览</a>
+          <a class="button secondary-button" href="../../studio/?theme=${encodeURIComponent(theme.id)}">在 Studio 调整</a>
+          <a class="button secondary-button" href="${manifestUrl}" download>下载 theme.json</a>
+          <a class="theme-source-link" href="${escapeHtml(theme.sourceUrl)}" rel="noreferrer">图片来源：${escapeHtml(theme.author)} ↗</a>
+          <p class="license">非官方社区项目 · 不修改 Paseo 安装包</p>
+        </aside>
       </article>
     </main>
+    <footer class="site-footer"><a class="brand" href="../../"><span class="brand-glyph">P</span><span>Paseo <i>Skins</i></span></a><p>所有公开素材均记录来源与许可。</p><nav><a href="../../gallery/">主题库</a><a href="../../docs/">文档</a></nav></footer>
   </body>
 </html>
 `;
@@ -174,7 +181,11 @@ for (const theme of catalog.themes) {
   }));
 }
 
-const sitemapUrls = [baseUrl, ...catalog.themes.map((theme) => new URL(`themes/${theme.id}/`, baseUrl).href)];
+const sitemapUrls = [
+  baseUrl,
+  ...["gallery/", "studio/", "docs/", "download/"].map((pathname) => new URL(pathname, baseUrl).href),
+  ...catalog.themes.map((theme) => new URL(`themes/${theme.id}/`, baseUrl).href),
+];
 await writeFile(
   path.join(outputRoot, "sitemap.xml"),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapUrls.map((url) => `  <url><loc>${url}</loc></url>`).join("\n")}\n</urlset>\n`,

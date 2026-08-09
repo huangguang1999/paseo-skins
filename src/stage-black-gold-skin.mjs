@@ -1,14 +1,17 @@
+import { createHash } from "node:crypto";
+
 export const STAGE_BLACK_GOLD_STYLE_ID = "paseo-stage-black-gold-style";
 export const STAGE_BLACK_GOLD_OVERLAY_ID = "paseo-stage-black-gold-overlay";
 export const STAGE_BLACK_GOLD_GLOBAL_KEY = "__PASEO_STAGE_BLACK_GOLD_SKIN__";
 
 const STAGE_BLACK_GOLD_CONFIGURATION = {
   globalKey: STAGE_BLACK_GOLD_GLOBAL_KEY,
-  version: 8,
+  version: 12,
   styleIdentifier: STAGE_BLACK_GOLD_STYLE_ID,
   overlayIdentifier: STAGE_BLACK_GOLD_OVERLAY_ID,
   heroImageDataUrl: null,
   theme: {
+    appearance: "dark",
     id: "stage-black-gold",
     name: "舞台黑金·暗夜江湖",
     art: {
@@ -51,10 +54,23 @@ const STAGE_BLACK_GOLD_CONFIGURATION = {
 };
 
 function installStageBlackGoldSkin(configuration) {
+  const sidebarInteractiveItemSelectors = [
+    '#root [data-testid^="sidebar-workspace-row-"]',
+    '#root [data-testid^="sidebar-project-row-"]',
+    '#root [data-testid^="sidebar-project-new-workspace-row-"]',
+  ];
+  const sidebarInteractiveItemSelector = sidebarInteractiveItemSelectors.join(", ");
+  const sidebarInteractiveItemHoverSelector = sidebarInteractiveItemSelectors
+    .map((selector) => `${selector}:hover`)
+    .join(", ");
+  const sidebarInteractiveItemSelectedSelector = sidebarInteractiveItemSelectors
+    .map((selector) => `${selector}[aria-selected="true"]`)
+    .join(", ");
   const existingSkin = window[configuration.globalKey];
   if (
     existingSkin?.version === configuration.version &&
     existingSkin?.themeId === configuration.theme.id &&
+    existingSkin?.configurationSignature === configuration.configurationSignature &&
     existingSkin?.refresh
   ) {
     existingSkin.refresh();
@@ -66,6 +82,8 @@ function installStageBlackGoldSkin(configuration) {
   const pendingElements = new Set();
   let animationFrameIdentifier = null;
   let observer = null;
+  let routeIntervalIdentifier = null;
+  let routePathname = window.location.pathname;
   const originalRouteAttribute = document.documentElement?.getAttribute("data-paseo-skin-route");
 
   const isSameColor = (color, candidate) =>
@@ -163,6 +181,12 @@ function installStageBlackGoldSkin(configuration) {
       return;
     }
     const computedStyle = getComputedStyle(element);
+    const isSidebarInteractiveItem = element.matches(sidebarInteractiveItemSelector);
+    const isInteractiveElement =
+      computedStyle.cursor === "pointer" ||
+      element.matches(
+        'button, a[href], [role="button"], [role="menuitem"], [role="option"], [role="tab"], [role="treeitem"], [aria-selected]',
+      );
     const rectangle = element.getBoundingClientRect();
     const isLargeApplicationSurface =
       rectangle.width >= window.innerWidth * 0.45 &&
@@ -187,7 +211,14 @@ function installStageBlackGoldSkin(configuration) {
 
     const backgroundColor = parseColor(computedStyle.backgroundColor);
     if (backgroundColor && backgroundColor.alpha > 0.03) {
-      if (isLargeApplicationSurface) {
+      if (
+        isSidebarInteractiveItem ||
+        (isInteractiveElement && backgroundColor.saturation < 0.22)
+      ) {
+        // Interactive rows and controls use transient hover/selected backgrounds.
+        // Converting a neutral computed state into an inline !important value would
+        // freeze that state after the pointer leaves or selection changes.
+      } else if (isLargeApplicationSurface) {
         setImportantStyle(
           element,
           "background-color",
@@ -313,7 +344,7 @@ function installStageBlackGoldSkin(configuration) {
     style.textContent = `
       html, body, #root {
         background: ${configuration.theme.colors.background} !important;
-        color-scheme: dark !important;
+        color-scheme: ${configuration.theme.appearance === "light" ? "light" : "dark"} !important;
       }
       body {
         position: relative !important;
@@ -334,6 +365,16 @@ function installStageBlackGoldSkin(configuration) {
       }
       #root * {
         scrollbar-color: ${configuration.theme.colors.glow} transparent;
+      }
+      ${sidebarInteractiveItemSelector} {
+        background-color: transparent !important;
+        transition: background-color 140ms ease !important;
+      }
+      ${sidebarInteractiveItemHoverSelector} {
+        background-color: color-mix(in srgb, ${configuration.theme.colors.accent} 10%, transparent) !important;
+      }
+      ${sidebarInteractiveItemSelectedSelector} {
+        background-color: color-mix(in srgb, ${configuration.theme.colors.accent} 18%, transparent) !important;
       }
       #${configuration.overlayIdentifier} {
         position: fixed;
@@ -403,6 +444,7 @@ function installStageBlackGoldSkin(configuration) {
 
   const syncRoute = () => {
     const pathName = window.location.pathname;
+    routePathname = pathName;
     const route = pathName === "/new" || pathName === "/" || pathName.endsWith("/new")
       ? "home"
       : pathName.includes("/workspace/")
@@ -442,6 +484,9 @@ function installStageBlackGoldSkin(configuration) {
 
   const destroy = () => {
     observer?.disconnect();
+    if (routeIntervalIdentifier !== null) {
+      clearInterval(routeIntervalIdentifier);
+    }
     if (animationFrameIdentifier !== null) {
       cancelAnimationFrame(animationFrameIdentifier);
     }
@@ -468,6 +513,9 @@ function installStageBlackGoldSkin(configuration) {
 
   const initialize = () => {
     refresh();
+    routeIntervalIdentifier = setInterval(() => {
+      if (window.location.pathname !== routePathname) syncRoute();
+    }, 250);
     observer = new MutationObserver((mutations) => {
       for (const mutation of mutations) {
         if (mutation.type === "childList") {
@@ -491,6 +539,7 @@ function installStageBlackGoldSkin(configuration) {
   };
 
   window[configuration.globalKey] = {
+    configurationSignature: configuration.configurationSignature,
     destroy,
     refresh,
     themeId: configuration.theme.id,
@@ -510,6 +559,9 @@ export function buildStageBlackGoldInjectionSource({ heroImageDataUrl = null, th
     heroImageDataUrl,
     theme: theme ?? STAGE_BLACK_GOLD_CONFIGURATION.theme,
   };
+  configuration.configurationSignature = createHash("sha256")
+    .update(JSON.stringify(configuration))
+    .digest("hex");
   return `(${installStageBlackGoldSkin.toString()})(${JSON.stringify(
     configuration,
   )});`;
