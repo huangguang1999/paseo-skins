@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { deflateRawSync } from "node:zlib";
 
-import { createStoredZip, createThemePackage } from "../scripts/theme-package.mjs";
+import { createStoredZip, createThemePackage, readZipEntries } from "../scripts/theme-package.mjs";
 
 test("theme packages are deterministic ZIP archives with all required files", () => {
   const options = {
@@ -33,4 +34,30 @@ test("stored ZIP creation rejects empty packages and traversal entry names", () 
     () => createStoredZip([{ name: "/absolute.txt", contents: "unsafe" }]),
     /Unsafe ZIP entry name/,
   );
+  assert.throws(
+    () => createStoredZip([
+      { name: "same.txt", contents: "first" },
+      { name: "same.txt", contents: "second" },
+    ]),
+    /Duplicate ZIP entry/,
+  );
+});
+
+test("ZIP reader verifies stored and deflated files", () => {
+  const contents = Buffer.from("deflated contents");
+  const stored = createStoredZip([{ name: "theme.json", contents }]);
+  assert.equal(readZipEntries(stored).get("theme.json").toString(), "deflated contents");
+
+  const filename = Buffer.from("theme.json");
+  const compressed = deflateRawSync(contents);
+  const header = Buffer.from(stored.subarray(0, 30 + filename.length));
+  header.writeUInt16LE(8, 8);
+  header.writeUInt32LE(compressed.length, 18);
+  header.writeUInt32LE(contents.length, 22);
+  const deflated = Buffer.concat([header, compressed]);
+  assert.equal(readZipEntries(deflated).get("theme.json").toString(), "deflated contents");
+
+  const damaged = Buffer.from(stored);
+  damaged[30 + filename.length] ^= 0xff;
+  assert.throws(() => readZipEntries(damaged), /integrity mismatch/);
 });

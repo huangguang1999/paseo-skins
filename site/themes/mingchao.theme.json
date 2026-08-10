@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "mingchao",
+  "version": "0.1.0",
+  "name": "mingchao_yongzhuang",
+  "description": "由 DreamSkin 社区主题「mingchao_yongzhuang」适配，保留原背景图。",
+  "image": "mingchao.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#c9e1f3",
+    "panel": "#dbebff",
+    "panelAlt": "#dbe8fd",
+    "accent": "#666bf9",
+    "glow": "#f4a4b8",
+    "text": "#1c1b1d",
+    "muted": "#474347",
+    "line": "#9eafd6"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "94f2f3d097235b50c6a170da5f09411bda16836bfb3ac934c16bd6e54c5d4ea7",
+    "bytes": 791977,
+    "width": 1376,
+    "height": 768
+  }
+}

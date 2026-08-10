@@ -47,7 +47,7 @@ test("createThemeFromImage writes and validates a v2 theme", async (context) => 
   context.after(() => rm(outputDirectory, { force: true, recursive: true }));
   const created = await createThemeFromImage({
     identifier: "generated-aurora",
-    imagePath: new URL("../site/themes/aurora-ridge.jpg", import.meta.url),
+    imagePath: new URL("../site/themes/morning-mist.jpg", import.meta.url),
     name: "生成极光",
     outputDirectory,
     paletteSampler: async () => ({
@@ -68,7 +68,7 @@ test("createThemeFromImage writes and validates a v2 theme", async (context) => 
   await assert.rejects(
     () => createThemeFromImage({
       identifier: "generated-aurora",
-      imagePath: new URL("../site/themes/aurora-ridge.jpg", import.meta.url),
+      imagePath: new URL("../site/themes/morning-mist.jpg", import.meta.url),
       name: "生成极光",
       outputDirectory,
       paletteSampler: async () => created.colors,

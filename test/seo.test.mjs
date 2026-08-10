@@ -72,7 +72,7 @@ test("gallery, simulator, studio, docs, and CLI pages ship their interactive ent
     ["preview/index.html", /src="\.\.\/preview\.js"/, /id="preview-simulator"/],
     ["studio/index.html", /src="\.\.\/theme-builder\.js"/, /id="studio-simulator"/],
     ["docs/index.html", /Theme v2/, /Safe CSS/],
-    ["download/index.html", /apply stage-black-gold/, /id="copy-quick-start"/],
+    ["download/index.html", /apply morning-mist/, /id="copy-quick-start"/],
   ];
   for (const [relativePath, ...patterns] of expectations) {
     const html = await readFile(path.join(outputRoot, relativePath), "utf8");
@@ -89,7 +89,8 @@ test("popular gallery is login-free and Studio controls are accessible without n
     readFile(path.join(outputRoot, "styles.css"), "utf8"),
   ]);
 
-  assert.match(galleryHtml, /找到适合你的<br \/>工作区/);
+  assert.match(galleryHtml, /<h1 id="community-title">社区主题/);
+  assert.doesNotMatch(galleryHtml, /community-hero/);
   assert.match(galleryHtml, /30 款/);
   assert.match(galleryHtml, /id="community-sort-tabs"/);
   assert.match(galleryHtml, /id="community-page-jump"/);
@@ -100,7 +101,9 @@ test("popular gallery is login-free and Studio controls are accessible without n
   assert.doesNotMatch(galleryScript, /Codex/);
   assert.match(galleryScript, /const PAGE_SIZE = 6/);
   assert.match(galleryScript, /Paseo/);
-  assert.match(galleryScript, /referenceDownloads/);
+  assert.match(galleryScript, /sourceDownloads/);
+  assert.doesNotMatch(galleryScript, /inspirationThemeName|热门题材参考|原创重绘/);
+  assert.match(galleryHtml, /保留原图/);
   assert.match(galleryScript, /下载主题包/);
   assert.match(galleryScript, /packageUrl/);
   assert.match(studioHtml, /id="builder-upload-zone"[^>]+role="button"[^>]+tabindex="0"/);
@@ -109,6 +112,7 @@ test("popular gallery is login-free and Studio controls are accessible without n
   assert.match(studioHtml, /id="export-status"[^>]+role="status"/);
   assert.match(builderScript, /copyManifest\.disabled/);
   assert.match(styles, /\.button:disabled/);
+  assert.match(styles, /\.community-card-title\s*>\s*div\s*\{[^}]*min-width:\s*0/s);
 });
 
 test("simulator keeps fixed controls visible while only theme choices scroll", async () => {

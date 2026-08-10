@@ -5,7 +5,9 @@ Paseo Skins is a data-only theme platform around a small, reversible CDP runtime
 ## Component boundaries
 
 ```text
-site/catalog.json + Theme v2 assets
+verified upstream package ──► dreamskin-adapter ──► original image + Theme v2
+                                                        │
+site/catalog.json + Theme v2 assets ◄───────────────────┘
                 │
                 ├── site/                 static discovery, preview, Studio
                 └── src/catalog-client    same-origin catalog resolution
@@ -21,6 +23,8 @@ local/remote manifest ──► theme-loader ──► validated theme + verifie
 ```
 
 - `src/theme-loader.mjs` is the single trust boundary for local Theme v1/v2 data and image integrity.
+- `scripts/dreamskin-adapter.mjs` is the import boundary for public DreamSkin packages. It verifies the source package and declared files, preserves the selected image bytes, maps only declarative theme values, and drops upstream CSS or executable content.
+- `scripts/theme-package.mjs` owns bounded ZIP reading and deterministic Paseo ZIP creation. Adapted packages contain exactly one Theme v2 manifest, one original image, and one attribution README.
 - `src/remote-theme.mjs` adds HTTPS, redirect, origin, size, and cache constraints before delegating to the loader.
 - `src/cli-options.mjs` and `src/cli-help.mjs` are pure command-interface modules. `src/cli.mjs` orchestrates I/O and lifecycle operations.
 - `src/cdp-client.mjs` owns target discovery, loopback WebSocket validation, screenshot capture, and watcher registration.
@@ -39,6 +43,7 @@ local/remote manifest ──► theme-loader ──► validated theme + verifie
 7. Renderer inspection includes pseudo-elements, SVG gradients, and non-hit-testable auxiliary layers; pointer hit testing alone is not visual proof.
 8. `verify` checks the active theme by default. It enforces an exact theme identity only when the caller explicitly supplies `--theme` or `--theme-url`.
 9. Public visual assets require a unique provenance entry. Personal dogfood themes and `tmp/` evidence are never release inputs.
+10. Upstream package adaptations retain the original author, license, download URL, package SHA-256, and image SHA-256. The repository MIT license never replaces source-package terms.
 
 ## Change verification matrix
 
@@ -49,6 +54,7 @@ local/remote manifest ──► theme-loader ──► validated theme + verifie
 | CLI command contract | parser unit tests, subprocess help/error tests, `doctor`/`status`/`verify` smoke checks |
 | Website interaction | static build/tests plus desktop and 390 px real-browser interaction and screenshot review |
 | Public image or manifest | integrity load, catalog uniqueness, provenance check, site link check |
+| DreamSkin import or package format | adapter and ZIP safety tests, byte-identical image hash check, package attribution check, `npm run release:check` |
 | Autostart | plist/unit tests and live `autostart:status`; never reinstall or restart Paseo without explicit authorization |
 
 ## Intentional non-goals

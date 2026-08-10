@@ -321,7 +321,7 @@ elements.download.addEventListener("click", () => {
   elements.status.textContent = `已下载 ${manifest.id}.theme.json${state.file ? "；请与原图放在同一目录。" : "。"}`;
 });
 
-const themeIdentifier = new URLSearchParams(location.search).get("theme") ?? "stage-black-gold";
+const themeIdentifier = new URLSearchParams(location.search).get("theme") ?? "morning-mist";
 const loaded = await loadTheme(themeIdentifier, { fallbackToFirst: true });
 if (loaded.fallbackUsed) {
   const url = new URL(window.location.href);

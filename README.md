@@ -14,7 +14,7 @@
 
 运行时边界、组件职责和按改动类型划分的验证门禁见 [Architecture](ARCHITECTURE.md)。
 
-默认主题是原创「暗夜江湖·黑金」。公开画廊提供水墨、室内雨夜、全息舞台、神话云海、星鲸、森林、深海、仙境、科幻与极简等 30 套主题，其中 25 套为项目原创；每套主题分别配置焦点、安全区、颜色、版本、完整性哈希与素材来源。首页完整展示主视觉，进入 workspace 后自动降低背景强度，避免影响代码与对话阅读。
+默认内置主题是项目原创「暗夜江湖·黑金」。公开画廊另外收录 DreamSkin 下载热度榜前 30 个公开主题包的 Paseo 适配版本：背景图保持字节不变，原作者、许可证、原包哈希和原图哈希完整保留；适配器只转换声明式主题参数，不复制或执行上游 CSS、脚本。首页完整展示主视觉，进入 workspace 后自动降低背景强度，避免影响代码与对话阅读。
 
 ![暗夜江湖黑金预览](docs/images/stage-black-gold-preview.png)
 
@@ -26,7 +26,7 @@
 - `pause` / `reset` 可恢复根节点、样式、overlay 和动态内联样式。
 - Theme v2 提供公开 JSON Schema；加载前校验图片类型、SHA-256、字节数、尺寸和像素数。
 - 一张本地 PNG、JPEG 或 WebP 即可自动取色并生成完整性可验证的主题，浏览器端不会上传图片。
-- 每套公开主题都提供 ZIP 直下，解压后即可用同目录清单和图片离线校验、应用。
+- 每套公开主题都提供 Paseo ZIP 直下，包内只有 Theme v2 清单、未经修改的原背景图和来源说明，解压后即可离线校验、应用。
 - 支持通过 `--theme-url` 安装远程主题；只接受 HTTPS 同目录 JSON 与图片，不执行远程脚本。
 - `doctor` 提供只读环境诊断，`verify` 检查根节点可见性、overlay 安全和横向溢出。
 - 主题素材逐项记录作者、来源和许可证；Release 同时生成校验和与 GitHub artifact attestation。
@@ -34,22 +34,9 @@
 
 ## 皮肤画廊
 
-画廊按公开热门榜的题材分布提供 30 套可安装主题。下表是原有 12 个方向，新增的 18 套原创主题包括雨幕客厅、全息舞台、奇想保险库、云海行者、蔷薇晨窗、流萤河谷、星海鲸歌、水光舞厅、寂静轨道、赤崖朝光、灵感宇宙、森光小径、深海鱼城、云上仙途、青瓷雨庭、三日凌空、紫罗兰书信与缎带夜曲。
+画廊按 DreamSkin `popular` 接口返回的下载热度顺序收录前 30 套主题，包括晨雾山水、休闲室内居家、mikuu full background、悟空、firefly、月下松岚等。每张卡片展示原作者、原许可证、原站下载量、Paseo 预览和直接下载按钮；完整清单以 [`site/catalog.json`](site/catalog.json) 为机器真值。
 
-| Paseo 主题 | English name | 风格 |
-|---|---|---|
-| 暗夜江湖·黑金 | Midnight Wuxia Gold | 武侠、黑金、深色 |
-| 极光雪境 | Aurora Ridge | 自然、极光、冷色 |
-| 深空泡影 | Deep Space Nebula | 太空、蓝紫、科幻 |
-| 东京雨幕 | Tokyo Rain | 城市、雨夜、霓虹 |
-| 暖灯书页 | Warm Library | 书房、暖色、安静 |
-| 赤沙落日 | Desert Sunset | 荒漠、落日、橙色 |
-| 水墨晨岚 | Ink Mountain Dawn | 水墨、山景、浅色 |
-| 月松静夜 | Moon Pine Night | 月夜、松林、深色 |
-| 暖室猫眠 | Cozy Cat Studio | 猫咪、居家、暖色 |
-| 奶油纸境 | Cream Paper Garden | 极简、奶油、浅色 |
-| 海盐玻璃 | Ocean Glass Tide | 海洋、玻璃、浅色 |
-| 霓虹终端 | Neon Terminal Grid | 科技、霓虹、深色 |
+适配流程会先核验原包 SHA-256 和包内文件哈希，再原样复制背景图并生成 Paseo Theme v2 清单。DreamSkin 包中的 `theme.css`、脚本或其他可执行内容不会进入网站和适配 ZIP。图片仍按原主题包标注的条款使用，不属于本项目 MIT 许可内容。
 
 本地预览站点：
 
@@ -64,7 +51,7 @@ npm run site
 主题库和模拟器会为每款公开主题生成稳定的快捷命令：
 
 ```bash
-npx --yes github:huangguang1999/paseo-skins apply aurora-ridge
+npx --yes github:huangguang1999/paseo-skins apply morning-mist
 ```
 
 `apply` 从同源公开 catalog 解析主题 ID，下载并验证 Theme v2 清单与图片，然后复用与 `start` 相同的安全 watcher 流程。网页不会直接连接或控制本机 Paseo。
@@ -77,7 +64,7 @@ npx --yes github:huangguang1999/paseo-skins apply aurora-ridge
 npx skills add huangguang1999/paseo-skins --skill paseo-skins -g
 ```
 
-安装后可直接对支持 Agent Skills 的 Codex、Claude Code、Cursor 等工具说“使用 `$paseo-skins` 换成极光雪境”。Skill 源码位于 `skills/paseo-skins/`，网站同时将它发布为 `https://huangguang1999.github.io/paseo-skins/SKILL.md`，供尚未安装 Skill 的 Agent 临时读取。
+安装后可直接对支持 Agent Skills 的 Codex、Claude Code、Cursor 等工具说“使用 `$paseo-skins` 换成晨雾山水”。Skill 源码位于 `skills/paseo-skins/`，网站同时将它发布为 `https://huangguang1999.github.io/paseo-skins/SKILL.md`，供尚未安装 Skill 的 Agent 临时读取。
 
 ## 环境要求
 
@@ -102,7 +89,7 @@ npm start
 
 ```bash
 npx --yes github:huangguang1999/paseo-skins start \
-  --theme-url 'https://huangguang1999.github.io/paseo-skins/themes/stage-black-gold.theme.json'
+  --theme-url 'https://huangguang1999.github.io/paseo-skins/themes/morning-mist.theme.json'
 ```
 
 ## 常用命令
@@ -144,7 +131,7 @@ npm run reset -- --port 9224
 ```bash
 npm run autostart:install
 # 指定主题：
-npm run autostart:install -- --theme-url 'https://huangguang1999.github.io/paseo-skins/themes/stage-black-gold.theme.json'
+npm run autostart:install -- --theme-url 'https://huangguang1999.github.io/paseo-skins/themes/morning-mist.theme.json'
 ```
 
 它会安装两个只作用于当前用户的 macOS 登录代理（launchd LaunchAgents）：
@@ -220,7 +207,7 @@ reset  ──► destroy observer + overlay + style + 动态内联样式
 - `src/watcher-lock.mjs`：单端口 watcher 所有权和陈旧锁恢复。
 - `src/remote-theme.mjs`：HTTPS 下载、重定向约束、体积限制和本地缓存。
 - `src/stage-black-gold-skin.mjs`：路由感知的视觉层和完整 destroy 生命周期。
-- `site/`：静态皮肤商店、主题目录与公开原创资源。
+- `site/`：静态皮肤商店、主题目录、来源记录与公开适配资源。
 - `assets/`：本地内置主题清单、原创图片和已注明来源的本地壁纸。
 - `ARCHITECTURE.md`：系统边界、不可破坏约束和变更验证矩阵。
 
@@ -232,6 +219,6 @@ CDP 对 renderer 拥有完整控制能力。绑定 `127.0.0.1` 可以避免局�
 
 ## 参考与许可证
 
-项目的安全与生命周期设计参考了多个公开 Codex 主题、主题编辑器与 Agent Skill 项目，但没有复制 Paseo、Codex 或第三方主题代码。量化对比、采用项和拒绝项见 [GitHub 同类项目基准](docs/BENCHMARK.md)；素材来源与权利说明见 [ASSET_PROVENANCE.md](ASSET_PROVENANCE.md) 和 [NOTICE.md](NOTICE.md)，Paseo 兼容范围见 [COMPATIBILITY.md](COMPATIBILITY.md)。
+项目的安全与生命周期设计参考了多个公开 Codex 主题、主题编辑器与 Agent Skill 项目，但没有复制 Paseo、Codex 或第三方主题代码。DreamSkin 适配只保留原主题包中的背景图和声明式参数，具体来源与原条款逐项记录。量化对比、采用项和拒绝项见 [GitHub 同类项目基准](docs/BENCHMARK.md)；素材来源与权利说明见 [ASSET_PROVENANCE.md](ASSET_PROVENANCE.md) 和 [NOTICE.md](NOTICE.md)，Paseo 兼容范围见 [COMPATIBILITY.md](COMPATIBILITY.md)。
 
 代码采用 [MIT License](LICENSE)。品牌与素材声明见 [NOTICE.md](NOTICE.md)。

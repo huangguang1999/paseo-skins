@@ -137,7 +137,7 @@ function renderThemePage(theme) {
           <a class="button secondary-button" href="../../preview/?themeId=${encodeURIComponent(theme.id)}">在模拟器预览</a>
           <a class="button secondary-button" href="../../studio/?theme=${encodeURIComponent(theme.id)}">在 Studio 调整</a>
           <a class="button secondary-button" href="${manifestUrl}" download>下载 theme.json</a>
-          <a class="theme-source-link" href="${escapeHtml(theme.sourceUrl)}" rel="noreferrer">图片来源：${escapeHtml(theme.author)} ↗</a>
+          <a class="theme-source-link" href="${escapeHtml(theme.sourceUrl)}" rel="noreferrer">DreamSkin 原主题包：${escapeHtml(theme.author)} ↗</a>
           <p class="license">非官方社区项目 · 不修改 Paseo 安装包</p>
         </aside>
       </article>
@@ -188,6 +188,12 @@ for (const theme of catalog.themes) {
     imageBytes,
     manifestFilename: path.basename(manifestPath),
     manifestBytes,
+    sourceAuthor: theme.author,
+    sourceLicense: theme.sourceLicense,
+    sourceImageSha256: theme.sourceImageSha256,
+    sourcePackageSha256: theme.sourcePackageSha256,
+    sourceUrl: theme.sourceUrl,
+    sourceVersionId: theme.sourceVersionId,
   });
   const archivePath = path.join(outputRoot, getThemePackagePath(theme));
   await writeFile(archivePath, archive);

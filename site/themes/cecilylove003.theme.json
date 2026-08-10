@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "cecilylove003",
+  "version": "0.1.0",
+  "name": "好看户外治愈",
+  "description": "在晴空与草地之间，专注创造。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "cecilylove003.jpg",
+  "appearance": "light",
+  "art": {
+    "focusX": 0,
+    "focusY": 0.42,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.72,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "rgba(205, 231, 242, 0)",
+    "panel": "rgba(245, 250, 252, 0.25)",
+    "panelAlt": "rgba(248, 252, 253, 0.72)",
+    "accent": "#176b99",
+    "glow": "#0f587d",
+    "text": "#17323f",
+    "muted": "rgba(36, 69, 84, 0.74)",
+    "line": "rgba(31, 82, 107, 0.22)"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "e0c9d6cc983906b998426f59a69fd3a70f92878828a37e779e0df3396fd38cd0",
+    "bytes": 921198,
+    "width": 2848,
+    "height": 1600
+  }
+}

@@ -8,7 +8,7 @@ const initialState = {
   sidebar: parameters.get("sidebar") ?? "expanded",
   viewport: parameters.get("viewport") ?? "wide",
 };
-const themeIdentifier = parameters.get("themeId") ?? parameters.get("theme") ?? "stage-black-gold";
+const themeIdentifier = parameters.get("themeId") ?? parameters.get("theme") ?? "morning-mist";
 const loadedTheme = await loadTheme(themeIdentifier, { fallbackToFirst: true });
 const { manifest, summary } = loadedTheme;
 if (loadedTheme.fallbackUsed) {

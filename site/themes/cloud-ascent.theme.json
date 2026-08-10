@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "cloud-ascent",
+  "version": "0.1.1",
+  "name": "云上仙途",
+  "description": "云海灵脉中的东方修行之旅。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "cloud-ascent.png",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#f1f7f3",
+    "panel": "#e2eee7",
+    "panelAlt": "#e2eee7",
+    "accent": "#69b99a",
+    "glow": "#d9b86c",
+    "text": "#24332e",
+    "muted": "#657b73",
+    "line": "#69b99a"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "1b59f16ead4dac2cf51484afba7669446017a992198fe0ad596308c6687c648e",
+    "bytes": 3176121,
+    "width": 2048,
+    "height": 1152
+  }
+}

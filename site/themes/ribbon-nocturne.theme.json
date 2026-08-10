@@ -2,33 +2,33 @@
   "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
   "schemaVersion": 2,
   "id": "ribbon-nocturne",
-  "version": "1.0.0",
-  "name": "缎带夜曲",
-  "description": "红蓝缎带穿过黑色舞台与月轮，克制的高光构成最后一首夜曲。",
-  "image": "ribbon-nocturne.png",
+  "version": "0.1.0",
+  "name": "缎带夜曲 · Ribbon Nocturne",
+  "description": "海浪卷过长发，丝带系住了夜色。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "ribbon-nocturne.jpg",
   "appearance": "dark",
   "art": {
-    "focusX": 0.76,
-    "focusY": 0.52,
+    "focusX": 0.13,
+    "focusY": 0.5,
     "homeOpacity": 0.96,
     "workspaceOpacity": 0.2,
     "utilityOpacity": 0.32
   },
   "colors": {
-    "background": "#090a10",
-    "panel": "rgba(10, 15, 23, 0.86)",
-    "panelAlt": "rgba(27, 34, 51, 0.72)",
-    "accent": "#d04c68",
-    "glow": "#82a8e2",
-    "text": "#f3f6f7",
-    "muted": "#a9b3b8",
-    "line": "rgba(255, 255, 255, 0.16)"
+    "background": "#3E3737",
+    "panel": "#4B4444",
+    "panelAlt": "#3E3D3C",
+    "accent": "#BE937B",
+    "glow": "#CEAE9C",
+    "text": "#F0F0EF",
+    "muted": "#939393",
+    "line": "#B1AAAA"
   },
   "integrity": {
     "algorithm": "sha256",
-    "sha256": "209db58cd2ae167a1c8133d560466e57d00fa9d21409ee6c8b3501d2de90f202",
-    "bytes": 1516722,
-    "width": 1920,
-    "height": 1080
+    "sha256": "855211bc11574287a21b30f8654a3bd594b995df6724c91d17654bd46c8451ed",
+    "bytes": 963503,
+    "width": 5000,
+    "height": 2812
   }
 }

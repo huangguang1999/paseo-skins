@@ -106,11 +106,11 @@ test("loadTheme rejects a misleading image extension", async (context) => {
 
 test("loadTheme validates a gallery color preset", async () => {
   const loadedTheme = await loadTheme(
-    new URL("../site/themes/aurora-ridge.theme.json", import.meta.url),
+    new URL("../site/themes/morning-mist.theme.json", import.meta.url),
   );
 
-  assert.equal(loadedTheme.theme.id, "aurora-ridge");
-  assert.equal(loadedTheme.theme.colors.accent, "#79c9a1");
+  assert.equal(loadedTheme.theme.id, "morning-mist");
+  assert.equal(loadedTheme.theme.colors.accent, "#66776f");
   assert.equal(loadedTheme.image.mediaType, "image/jpeg");
   assert.equal(loadedTheme.image.width, 2400);
   assert.equal(loadedTheme.image.height, 1350);

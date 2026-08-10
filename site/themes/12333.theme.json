@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "12333",
+  "version": "0.1.0",
+  "name": "三体-智子",
+  "description": "A solemn cathedral-world horizon for focused work. DreamSkin 原主题包适配，保留原背景图。",
+  "image": "12333.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#131313",
+    "panel": "#1d1d1d",
+    "panelAlt": "#2a2a2a",
+    "accent": "#909090",
+    "glow": "#acacac",
+    "text": "#f0f0f0",
+    "muted": "#939393",
+    "line": "#3f3f3f"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "02326bcf1e9b333af92a6f8ce72e72a7ed3ec5feb9412b9b53c8ac2c554473c9",
+    "bytes": 1671449,
+    "width": 1767,
+    "height": 1048
+  }
+}

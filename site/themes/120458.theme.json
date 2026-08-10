@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "120458",
+  "version": "0.1.0",
+  "name": "海岸",
+  "description": "由 DreamSkin 社区主题「海岸」适配，保留原背景图。",
+  "image": "120458.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#0B1520",
+    "panel": "#13202C",
+    "panelAlt": "#282b2c",
+    "accent": "#D39A3D",
+    "glow": "#74C7F5",
+    "text": "#eff0f1",
+    "muted": "#929394",
+    "line": "#3e3f40"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "2785e5d0a0f271d8ee26381fef9da86bc7d048d4c57396c064fbb8b9310046f8",
+    "bytes": 2743153,
+    "width": 1672,
+    "height": 941
+  }
+}

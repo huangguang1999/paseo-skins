@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "juzizhoutou",
+  "version": "0.1.0",
+  "name": "橘子洲头-毛主席",
+  "description": "由 DreamSkin 社区主题「橘子洲头-毛主席」适配，保留原背景图。",
+  "image": "juzizhoutou.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#131313",
+    "panel": "#1d1d1d",
+    "panelAlt": "#2a2a2a",
+    "accent": "#ebb273",
+    "glow": "#f0c596",
+    "text": "#f0f0f0",
+    "muted": "#939393",
+    "line": "#3f3f3f"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "bcee10c79b9bd9a64953a8003e954d0baaa0cceea19029c12b0655b693903481",
+    "bytes": 2312435,
+    "width": 1672,
+    "height": 941
+  }
+}

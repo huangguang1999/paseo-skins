@@ -11,8 +11,8 @@ Options:
 
 Examples:
   paseo-skin list
-  paseo-skin apply stage-black-gold
-  paseo-skin apply aurora-ridge --port 9225`,
+  paseo-skin apply morning-mist
+  paseo-skin apply firefly --port 9225`,
   autostart: `Manage the opt-in macOS login agents that restore the skin after Paseo restarts.
 
 Usage:

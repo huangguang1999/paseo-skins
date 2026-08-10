@@ -6,7 +6,7 @@
 2. CDP 必须保持回环地址绑定，并继续校验 target 与 WebSocket URL。
 3. 所有注入都必须有幂等 `destroy`，清理 observer、event、timer、style、DOM 和改过的内联样式。
 4. 不隐藏、替换或删除 `#root`；视觉层必须 `pointer-events: none`。
-5. 新主题图片必须说明来源与使用权，不接受直接搬运影视、游戏或其他主题站素材。
+5. 新主题图片必须说明来源与使用权，不接受没有可复核原包、作者、许可证和哈希的网络素材。DreamSkin 公共主题只能通过受限适配器导入，并保留原包条款，不得手工改图或重新许可。
 6. 改 UI 后在独立临时窗口验收首页与 workspace，避免影响正在使用的主窗口。
 7. 画廊主题必须使用 Theme v2，同时提交可校验的 `.theme.json`、同目录图片和 `site/catalog.json` 元数据。
 8. Theme v2 的 `integrity` 必须由 `npm run create` 生成或由 `inspect` 验证，不要手写 SHA-256、尺寸和字节数。
@@ -15,6 +15,7 @@
 11. Renderer 的 hover、selected、focus 等瞬态背景必须由 CSS 状态管理，不得固化为内联计算色。
 12. 深色或彩色填充控件需要按实际交互祖先背景检查文字节点，对比度不得低于 4.5。
 13. Renderer 改动必须同时验证目标页冷注入和 SPA 导航进入，并按 [Renderer 样式安全手册](docs/RENDERER_STYLE_SAFETY.md) 检查 SVG、伪元素及 `pointer-events: none` 辅助层。
+14. 第三方主题适配包只允许包含 Theme v2 清单、原背景图和来源说明；上游 CSS、JavaScript、字体或其他可执行内容不得进入发布物。
 
 本地检查：
 
@@ -37,5 +38,15 @@ npm run create -- \
   --id theme-id \
   --output ./generated-theme
 ```
+
+更新 DreamSkin 适配主题时，把热门榜 API 返回的前 30 条元数据和对应原始 ZIP 保存在仓库外，再运行：
+
+```bash
+npm run import:dreamskin-themes -- \
+  --metadata /absolute/path/to/metadata.json \
+  --packages /absolute/path/to/source-packages
+```
+
+导入器要求元数据按下载量降序排列，并逐包核对包体大小、原包 SHA-256、内部文件哈希与图片元数据。它只发布原背景图和新生成的 Theme v2 清单，不发布上游 `theme.css` 或脚本。原始 ZIP 不得提交到仓库；导入后必须运行 `npm run release:check` 并完成桌面端、390 px 和真实下载验收。
 
 公开投稿可以直接使用 GitHub 的 **Theme submission** Issue 模板；代码 Pull Request 请说明改动目标、风险、验证证据和恢复方式。不要顺手重构无关代码。

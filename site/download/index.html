@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../styles.css" />
     <script type="module">
       import { copyWithFeedback } from "../common.js";
-      const command = "npx --yes github:huangguang1999/paseo-skins apply stage-black-gold";
+      const command = "npx --yes github:huangguang1999/paseo-skins apply morning-mist";
       document.querySelector("#copy-quick-start").addEventListener("click", () => copyWithFeedback(command, "快速开始命令已复制"));
     </script>
   </head>
@@ -24,7 +24,7 @@
       <section class="page-hero"><p class="eyebrow">COMMAND-LINE TOOL</p><h1>不装客户端，<br />一条命令<i>换肤。</i></h1><p>面向程序员的开源 CLI。它负责主题完整性、Paseo 连接、持久 watcher 和一键还原；网页只负责预览与制作。</p></section>
       <section class="content-shell">
         <div class="cli-grid">
-          <article class="cli-primary"><p class="eyebrow">QUICK START</p><h2>应用默认黑金主题</h2><p>需要 macOS、Paseo.app 与 Node.js 22+。命令会在必要时安全启动带本机 CDP 的 Paseo。</p><pre class="cli-command"><code>npx --yes github:huangguang1999/paseo-skins apply stage-black-gold</code></pre><button id="copy-quick-start" type="button" class="button">复制命令</button></article>
+          <article class="cli-primary"><p class="eyebrow">QUICK START</p><h2>应用热门晨雾山水</h2><p>需要 macOS、Paseo.app 与 Node.js 22+。命令会校验公开目录、Theme v2 清单和原图 SHA-256，再安全启动带本机 CDP 的 Paseo。</p><pre class="cli-command"><code>npx --yes github:huangguang1999/paseo-skins apply morning-mist</code></pre><button id="copy-quick-start" type="button" class="button">复制命令</button></article>
           <article class="cli-secondary panel"><p class="eyebrow">CORE COMMANDS</p><h3>完整工作流</h3><div class="command-list"><div><code>paseo-skin list</code><p>列出公开目录中的主题。</p></div><div><code>paseo-skin apply &lt;theme-id&gt;</code><p>从 catalog 解析并应用主题。</p></div><div><code>paseo-skin inspect --theme …</code><p>离线检查清单与图片。</p></div><div><code>paseo-skin create --image …</code><p>从图片制作主题包。</p></div><div><code>paseo-skin verify --screenshot …</code><p>验证真实 renderer 并保存截图。</p></div><div><code>paseo-skin reset</code><p>恢复原版 Paseo 样式。</p></div></div></article>
         </div>
         <div class="platform-note"><b>为什么不是客户端？</b><p>本项目不需要另一个常驻 GUI。GitHub Pages 提供无权限的预览和 Studio；CLI 是可审查、可脚本化的本机执行层。两者都不会上传你的主题图片。</p></div>

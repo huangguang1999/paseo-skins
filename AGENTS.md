@@ -9,7 +9,7 @@ Read [ARCHITECTURE.md](ARCHITECTURE.md), [CONTRIBUTING.md](CONTRIBUTING.md), and
 - Keep CDP loopback-only and preserve exact target/WebSocket validation.
 - Do not hide or replace `#root`; injected visual layers must stay non-interactive.
 - Do not commit `tmp/`, `_site/`, local screenshots, or personal themes under `assets/`.
-- Do not copy third-party theme assets or source code. Every public visual file requires `ASSET_PROVENANCE.md` evidence.
+- Do not copy third-party theme source code. Public package images may only enter through a verified data-only adapter that preserves the source terms and hashes; every public visual file requires `ASSET_PROVENANCE.md` evidence.
 
 ## Implementation guidance
 

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "cecilylove002",
+  "version": "0.1.0",
+  "name": "休闲室内居家",
+  "description": "由 DreamSkin 社区主题「休闲室内居家」适配，保留原背景图。",
+  "image": "cecilylove002.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#131313",
+    "panel": "rgba(30, 30, 30, 0.333)",
+    "panelAlt": "#2a2a2a",
+    "accent": "#4b75a6",
+    "glow": "#7898bc",
+    "text": "#f0f0f0",
+    "muted": "#939393",
+    "line": "#3f3f3f"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "81ecf0ebe490d899ff53d69ae7d32c2e4481f7febacf78e86f7ad91e5e275a28",
+    "bytes": 884646,
+    "width": 3840,
+    "height": 2160
+  }
+}

@@ -22,7 +22,7 @@
         <article class="docs-content">
           <h2 id="quick-start">快速开始</h2>
           <p>在主题库中选择一款主题，进入模拟器检查首页、任务页、侧栏与窄窗口，然后复制一键换肤命令：</p>
-          <pre><code>npx --yes github:huangguang1999/paseo-skins apply aurora-ridge</code></pre>
+          <pre><code>npx --yes github:huangguang1999/paseo-skins apply morning-mist</code></pre>
           <p>第一次运行时，CLI 会读取公开 catalog、校验同源主题清单、下载图片并核对 SHA-256。若 Paseo 没有开启本机 CDP，它会给出安全提示，不会强制重启正在工作的 Agent。</p>
           <div class="docs-callout"><b>没有桌面客户端。</b><p>本项目刻意只提供静态网站与开源 CLI。网页负责浏览和制作，CLI 负责本机换肤，两者职责清晰。</p></div>
 
@@ -31,13 +31,13 @@
           <pre><code>{
   "$schema": "…/paseo-theme-v2.schema.json",
   "schemaVersion": 2,
-  "id": "aurora-ridge",
+  "id": "morning-mist",
   "version": "1.0.0",
-  "name": "极光雪境",
-  "image": "aurora-ridge.jpg",
-  "appearance": "dark",
-  "art": { "focusX": 0.67, "focusY": 0.42 },
-  "colors": { "accent": "#79c9a1", "background": "#06100d" },
+  "name": "晨雾山水",
+  "image": "morning-mist.jpg",
+  "appearance": "light",
+  "art": { "focusX": 0.78, "focusY": 0.5 },
+  "colors": { "accent": "#66776f", "background": "#f2eee5" },
   "integrity": { "algorithm": "sha256", "sha256": "…" }
 }</code></pre>
           <h3>art</h3><p><code>focusX</code> 和 <code>focusY</code> 决定背景主体位置；home、workspace、utility 三个 opacity 分别控制不同路由的图片强度。</p>
@@ -53,7 +53,7 @@
 }</code></pre>
 
           <h2 id="package">主题包</h2>
-          <p>最小主题包由 JSON 清单和同目录图片组成。公开主题库会把这两个文件与使用说明打成 ZIP 供直接下载；CLI 的 <code>create</code> 也能生成本地主题包，<code>inspect</code> 可以离线验证，<code>verify</code> 用真实 renderer 检查主题生命周期和布局安全。</p>
+          <p>最小主题包由 JSON 清单和同目录图片组成。公开主题库会把 Paseo Theme v2 清单、未经修改的 DreamSkin 原背景图和来源说明打成 ZIP 供直接下载。来源说明保留原作者、许可证、下载地址、原包 SHA-256 与原图 SHA-256；上游 CSS 和脚本不会进入适配包。CLI 的 <code>inspect</code> 可以离线验证，<code>verify</code> 用真实 renderer 检查主题生命周期和布局安全。</p>
           <pre><code>my-theme/
 ├── my-theme.theme.json
 ├── background.webp

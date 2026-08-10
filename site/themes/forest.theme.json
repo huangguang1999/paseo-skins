@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "forest",
+  "version": "0.1.0",
+  "name": "安静氛围 森林",
+  "description": "由 DreamSkin 社区主题「安静氛围 森林」适配，保留原背景图。",
+  "image": "forest.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#131412",
+    "panel": "#1d1e1c",
+    "panelAlt": "#292c29",
+    "accent": "#ca9055",
+    "glow": "#d7ac80",
+    "text": "#eff0ef",
+    "muted": "#939492",
+    "line": "#3f403e"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "4b007ec1929c1ecd084806a813316764b855418b7a985f5646b090c2d9227e9d",
+    "bytes": 4816429,
+    "width": 4096,
+    "height": 3070
+  }
+}

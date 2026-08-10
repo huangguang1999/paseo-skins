@@ -35,33 +35,33 @@ paseo-skin inspect \
 {
   "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
   "schemaVersion": 2,
-  "id": "aurora-ridge",
+  "id": "morning-mist",
   "version": "1.0.0",
-  "name": "极光雪境",
-  "description": "墨绿极光掠过雪岭，安静、冷冽，适合深夜专注。",
-  "image": "aurora-ridge.jpg",
-  "appearance": "dark",
+  "name": "晨雾山水",
+  "description": "雾起千山，静心成事。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "morning-mist.jpg",
+  "appearance": "light",
   "art": {
-    "focusX": 0.67,
-    "focusY": 0.42,
-    "homeOpacity": 0.94,
-    "workspaceOpacity": 0.22,
-    "utilityOpacity": 0.34
+    "focusX": 0.78,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
   },
   "colors": {
-    "background": "#06100d",
-    "panel": "rgba(5, 17, 15, 0.92)",
-    "panelAlt": "rgba(8, 27, 23, 0.76)",
-    "accent": "#79c9a1",
-    "glow": "#4f9f7b",
-    "text": "#eff8f3",
-    "muted": "#9db8aa",
-    "line": "rgba(121, 201, 161, 0.24)"
+    "background": "#f2eee5",
+    "panel": "#fbf9f3",
+    "panelAlt": "#e8e2d6",
+    "accent": "#66776f",
+    "glow": "#4f6259",
+    "text": "#272b28",
+    "muted": "#747971",
+    "line": "rgba(102, 119, 111, 0.28)"
   },
   "integrity": {
     "algorithm": "sha256",
-    "sha256": "068f0b8744758abebb5665630ae5f726f7a612f76302aebf83f27dfdb619e205",
-    "bytes": 391592,
+    "sha256": "d490297c1e663c1160f4d41bf6f50b25148a67f280031c0b65f6c116f1a3dd84",
+    "bytes": 670152,
     "width": 2400,
     "height": 1350
   }

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "111",
+  "version": "0.1.0",
+  "name": "大肥鱼（8.1）",
+  "description": "由 DreamSkin 社区主题「大肥鱼（8.1）」适配，保留原背景图。",
+  "image": "111.png",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.67,
+    "focusY": 0.78,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#ffffff",
+    "panel": "#84b4e1",
+    "panelAlt": "#7da2d9",
+    "accent": "#405377",
+    "glow": "#2a4d92",
+    "text": "#000000",
+    "muted": "#65676c",
+    "line": "#d2d3d5"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "3cce075eb3c1a5fc307fae51d84570fe9ab3e900985424fd3c51ecb04025b903",
+    "bytes": 1802008,
+    "width": 1353,
+    "height": 1163
+  }
+}

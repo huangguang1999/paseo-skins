@@ -102,9 +102,9 @@ function renderCard(theme) {
         <div><dt>版本</dt><dd>v${escapeHtml(theme.version)}</dd></div>
         <div><dt>许可</dt><dd>${escapeHtml(theme.license)}</dd></div>
         <div><dt>大小</dt><dd>${formatBytes(theme.packageBytes ?? theme.imageBytes)}</dd></div>
-        <div><dt>灵感热度</dt><dd>↓ ${theme.referenceDownloads.toLocaleString("zh-CN")}</dd></div>
+        <div><dt>原站下载</dt><dd>↓ ${theme.sourceDownloads.toLocaleString("zh-CN")}</dd></div>
       </dl>
-      <p class="community-inspiration" title="${escapeHtml(theme.inspirationThemeName)}">热门题材参考：${escapeHtml(theme.inspirationThemeName)}</p>
+      <p class="community-inspiration" title="${escapeHtml(theme.sourceProvenance)}">来源：DreamSkin · ${escapeHtml(theme.author)} · ${escapeHtml(theme.sourceLicense)}</p>
       <div class="community-card-actions">
         <a href="../preview/?themeId=${encodeURIComponent(theme.id)}">完整预览</a>
         <a href="../studio/?theme=${encodeURIComponent(theme.id)}">工作室</a>

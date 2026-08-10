@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "wukong",
+  "version": "0.1.0",
+  "name": "悟空（WUKONG）",
+  "description": "由 DreamSkin 社区主题「悟空（WUKONG）」适配，保留原背景图。",
+  "image": "wukong.webp",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#131313",
+    "panel": "#1d1e1d",
+    "panelAlt": "#2a2a2a",
+    "accent": "#f6c696",
+    "glow": "#f8d4b0",
+    "text": "#f0f0f0",
+    "muted": "#939393",
+    "line": "#3f3f3f"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "da6d39f8811e65af038c862e4314716ee4608e225a82e69ae9456f17eebfa97c",
+    "bytes": 428680,
+    "width": 2560,
+    "height": 1440
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "firefly",
+  "version": "0.2.0",
+  "name": "firefly",
+  "description": "由 DreamSkin 社区主题「firefly」适配，保留原背景图。",
+  "image": "firefly.jpg",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.08,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "rgba(230, 239, 240, 0.04)",
+    "panel": "rgba(189, 204, 209, 0.26)",
+    "panelAlt": "rgba(224, 237, 240, 0.68)",
+    "accent": "#f59e0b",
+    "glow": "#fff0c7",
+    "text": "#263b42",
+    "muted": "#4f6971",
+    "line": "rgba(78, 121, 131, 0.38)"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "04f87ff6f364788a1ee92784d550ca5c58203855d8a96e77bc83ed65d5d4a3fe",
+    "bytes": 1206479,
+    "width": 3840,
+    "height": 2160
+  }
+}

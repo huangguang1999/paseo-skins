@@ -189,17 +189,10 @@ img { display: block; max-width: 100%; }
 /* Gallery */
 .community-gallery-page { background: #f7f6f2; }
 .community-header { border-bottom-color: rgba(24,24,23,.1); }
-.community-hero { width: var(--shell); min-height: 570px; margin: 0 auto; padding: 92px 0 76px; display: grid; grid-template-columns: minmax(0,1fr) 320px; gap: 72px; align-items: end; border-bottom: 1px solid rgba(24,24,23,.12); }
-.community-hero h1 { max-width: 1040px; margin: 0; font-size: clamp(78px,9.2vw,146px); font-weight: 500; line-height: .84; letter-spacing: -.075em; }
-.community-hero-note { align-self: center; padding: 28px 0 4px 28px; border-left: 1px solid var(--line); }
-.community-hero-note > span { display: block; margin-bottom: 28px; color: var(--gold); font-size: 30px; }
-.community-hero-note p { margin: 0 0 30px; color: var(--muted); font-size: 14px; line-height: 1.9; }
-.community-hero-note a { display: flex; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid var(--ink); font-size: 12px; font-weight: 700; }
-.community-hero-note b { color: var(--gold); }
-.community-library { padding-top: 100px; }
-.community-heading { display: grid; grid-template-columns: 1fr 390px; gap: 60px; align-items: end; margin-bottom: 58px; }
-.community-heading h2 { margin: 0; font-size: clamp(48px,5.3vw,78px); font-weight: 500; line-height: 1; letter-spacing: -.06em; }
-.community-heading h2 span { display: inline-flex; vertical-align: top; margin: 7px 0 0 10px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 99px; color: var(--muted); font: 9px var(--mono); letter-spacing: .04em; }
+.community-library { padding-top: 74px; }
+.community-heading { display: grid; grid-template-columns: 1fr 440px; gap: 60px; align-items: end; margin-bottom: 36px; }
+.community-heading h1 { margin: 0; font-size: clamp(32px,3vw,44px); font-weight: 600; line-height: 1; letter-spacing: -.045em; }
+.community-heading h1 span { display: inline-flex; vertical-align: top; margin: 1px 0 0 10px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 99px; color: var(--muted); font: 9px var(--mono); letter-spacing: .04em; }
 .community-heading > p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.8; }
 .community-controls { min-height: 66px; display: flex; align-items: center; justify-content: space-between; gap: 22px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .community-sort-tabs { display: flex; align-self: stretch; }
@@ -235,6 +228,7 @@ img { display: block; max-width: 100%; }
 .community-mini-app section label b { display: grid; place-items: center; width: 13px; height: 13px; border-radius: 3px; color: var(--card-panel); background: var(--card-accent); font-size: 6px; }
 .community-card-copy { padding: 17px 4px 4px; }
 .community-card-title { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.community-card-title > div { min-width: 0; }
 .community-card-title h3 { margin: 0; overflow: hidden; font-size: 17px; font-weight: 600; letter-spacing: -.035em; text-overflow: ellipsis; white-space: nowrap; }
 .community-card-title p { margin: 4px 0 0; color: var(--muted); font-size: 9px; }
 .community-download-button { flex: 0 0 auto; min-width: 86px; min-height: 34px; padding: 0 11px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--ink); border-radius: 3px; color: #fff; background: var(--ink); font-size: 9px; font-weight: 700; transition: background .18s, border-color .18s; }
@@ -421,10 +415,7 @@ img { display: block; max-width: 100%; }
   .page-hero { padding: 62px 0 48px; }
   .page-hero h1 { font-size: clamp(55px,18vw,82px); }
   .page-hero > p:last-child { margin-left: 0; }
-  .community-hero { min-height: 530px; padding: 70px 0 54px; grid-template-columns: 1fr; gap: 42px; align-items: start; }
-  .community-hero h1 { font-size: clamp(66px,20vw,92px); }
-  .community-hero-note { max-width: 320px; align-self: end; margin-left: auto; }
-  .community-library { padding-top: 72px; }
+  .community-library { padding-top: 52px; }
   .community-heading { display: block; margin-bottom: 40px; }
   .community-heading > p { margin-top: 24px; }
   .community-controls { align-items: stretch; flex-direction: column; border-bottom: 0; }
