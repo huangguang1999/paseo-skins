@@ -3,8 +3,10 @@ import {
   escapeHtml,
   getApplyCommand,
   loadCatalog,
+  showToast,
 } from "./common.js";
 import { renderPaseoPreviewFrame } from "./paseo-preview-frame.js";
+import { downloadThemePackage } from "./theme-package-browser.js";
 
 const PAGE_SIZE = 6;
 const SORTS = new Set(["newest", "popular", "creator"]);
@@ -13,6 +15,7 @@ const state = {
   catalog: [],
   manifests: new Map(),
   page: Math.max(1, Number.parseInt(searchParameters.get("page") ?? "1", 10) || 1),
+  renderRevision: 0,
   sort: SORTS.has(searchParameters.get("sort")) ? searchParameters.get("sort") : "popular",
 };
 
@@ -22,6 +25,8 @@ const elements = {
   applyTitle: document.querySelector("#apply-title"),
   closeDialog: document.querySelector("#close-apply-dialog"),
   copyCommand: document.querySelector("#copy-command"),
+  count: document.querySelector("#community-count"),
+  footerCount: document.querySelector("#community-footer-count"),
   grid: document.querySelector("#community-grid"),
   jumpForm: document.querySelector("#community-page-jump"),
   pageInput: document.querySelector("#community-page-input"),
@@ -38,7 +43,12 @@ function formatBytes(bytes) {
 function sortedThemes() {
   const themes = [...state.catalog];
   if (state.sort === "popular") themes.sort((first, second) => first.popularRank - second.popularRank);
-  if (state.sort === "newest") themes.sort((first, second) => second.popularRank - first.popularRank);
+  if (state.sort === "newest") {
+    themes.sort((first, second) =>
+      Date.parse(second.sourceReviewedAt ?? second.sourceSubmittedAt ?? 0) -
+      Date.parse(first.sourceReviewedAt ?? first.sourceSubmittedAt ?? 0),
+    );
+  }
   if (state.sort === "creator") {
     themes.sort((first, second) => first.author.localeCompare(second.author, "zh-CN") || first.name.localeCompare(second.name, "zh-CN"));
   }
@@ -87,7 +97,7 @@ function renderCard(theme) {
     <div class="community-card-copy">
       <div class="community-card-title">
         <div><h3>${escapeHtml(theme.name)}</h3><p>by ${escapeHtml(theme.author)}</p></div>
-        <a class="community-download-button" href="${escapeHtml(theme.packageUrl)}" download aria-label="下载${escapeHtml(theme.name)}主题包">下载主题包</a>
+        <button class="community-download-button" type="button" data-action="download" aria-label="下载${escapeHtml(theme.name)}主题包">下载主题包</button>
       </div>
       <dl>
         <div><dt>版本</dt><dd>v${escapeHtml(theme.version)}</dd></div>
@@ -106,34 +116,62 @@ function renderCard(theme) {
 }
 
 function renderPagination(pageCount) {
-  const buttons = [];
-  for (let page = 1; page <= pageCount; page += 1) {
-    buttons.push(`<button type="button" data-page="${page}" ${page === state.page ? 'aria-current="page"' : ""}>${page}</button>`);
+  const visiblePages = new Set([1, pageCount]);
+  for (let page = state.page - 2; page <= state.page + 2; page += 1) {
+    if (page >= 1 && page <= pageCount) visiblePages.add(page);
   }
-  elements.pagination.innerHTML = buttons.join("");
+  const items = [];
+  let previousPage = 0;
+  for (const page of [...visiblePages].sort((first, second) => first - second)) {
+    if (page - previousPage > 1) {
+      items.push('<span class="community-pagination-gap" aria-hidden="true">…</span>');
+    }
+    items.push(`<button type="button" data-page="${page}" ${page === state.page ? 'aria-current="page"' : ""}>${page}</button>`);
+    previousPage = page;
+  }
+  elements.pagination.innerHTML = items.join("");
   elements.pageInput.max = String(pageCount);
   elements.pageInput.value = String(state.page);
 }
 
-function render() {
+async function loadVisibleManifests(themes) {
+  await Promise.all(themes.map(async (theme) => {
+    if (state.manifests.has(theme.id)) return;
+    try {
+      const response = await fetch(theme.manifestUrl);
+      if (response.ok) state.manifests.set(theme.id, await response.json());
+    } catch {
+      // The card still has a catalog-level preview when an optional manifest request fails.
+    }
+  }));
+}
+
+async function render() {
+  const revision = ++state.renderRevision;
   const themes = sortedThemes();
   const pageCount = Math.max(1, Math.ceil(themes.length / PAGE_SIZE));
   state.page = Math.min(Math.max(1, state.page), pageCount);
-  elements.grid.innerHTML = themes
-    .slice((state.page - 1) * PAGE_SIZE, state.page * PAGE_SIZE)
-    .map(renderCard)
-    .join("");
-  elements.status.textContent = `共 ${themes.length} 款可安装主题 · 第 ${state.page} / ${pageCount} 页`;
+  const visibleThemes = themes.slice((state.page - 1) * PAGE_SIZE, state.page * PAGE_SIZE);
+  elements.count.textContent = `${themes.length} 款`;
+  elements.footerCount.textContent = `${themes.length} 款`;
+  elements.grid.setAttribute("aria-busy", "true");
+  elements.grid.innerHTML = visibleThemes.map(renderCard).join("");
+  elements.status.textContent = `正在加载第 ${state.page} / ${pageCount} 页…`;
   elements.sortTabs.querySelectorAll("[data-sort]").forEach((button) => {
     button.setAttribute("aria-selected", String(button.dataset.sort === state.sort));
   });
   renderPagination(pageCount);
   updateLocation();
+  await loadVisibleManifests(visibleThemes);
+  if (revision !== state.renderRevision) return;
+  elements.grid.innerHTML = visibleThemes.map(renderCard).join("");
+  elements.grid.setAttribute("aria-busy", "false");
+  elements.status.textContent = `共 ${themes.length} 款可安装主题 · 第 ${state.page} / ${pageCount} 页`;
 }
 
 function goToPage(page, { scroll = true } = {}) {
   state.page = page;
-  render();
+  void render();
   if (scroll) document.querySelector("#community-themes").scrollIntoView({ behavior: "smooth" });
 }
 
@@ -151,7 +189,24 @@ elements.jumpForm.addEventListener("submit", (event) => {
   event.preventDefault();
   goToPage(Number(elements.pageInput.value));
 });
-elements.grid.addEventListener("click", (event) => {
+elements.grid.addEventListener("click", async (event) => {
+  const download = event.target.closest("[data-action='download']");
+  if (download) {
+    const theme = state.catalog.find((item) => item.id === download.closest("[data-theme-id]")?.dataset.themeId);
+    if (!theme || download.disabled) return;
+    download.disabled = true;
+    download.textContent = "校验并打包…";
+    try {
+      await downloadThemePackage(theme);
+      showToast("Paseo 主题包已下载");
+    } catch (error) {
+      showToast(error.message);
+    } finally {
+      download.disabled = false;
+      download.textContent = "下载主题包";
+    }
+    return;
+  }
   const action = event.target.closest("[data-action='apply']");
   if (!action) return;
   const theme = state.catalog.find((item) => item.id === action.closest("[data-theme-id]")?.dataset.themeId);
@@ -166,11 +221,7 @@ elements.applyDialog.addEventListener("click", (event) => {
 try {
   const catalog = await loadCatalog();
   state.catalog = catalog.themes;
-  await Promise.all(state.catalog.map(async (theme) => {
-    const response = await fetch(theme.manifestUrl);
-    if (response.ok) state.manifests.set(theme.id, await response.json());
-  }));
-  render();
+  await render();
 } catch (error) {
   elements.grid.innerHTML = `<p class="empty-state">主题目录加载失败：${escapeHtml(error.message)}</p>`;
   elements.status.textContent = "加载失败";

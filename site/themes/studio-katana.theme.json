@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "studio-katana",
+  "version": "1.0.0",
+  "name": "Katana 刀",
+  "description": "由 DreamSkin 社区主题「Katana 刀」适配，保留原背景图。",
+  "image": "studio-katana.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#111318",
+    "panel": "#181b22",
+    "panelAlt": "#20242d",
+    "accent": "#7adbc8",
+    "glow": "#d9fff7",
+    "text": "#f1f3f5",
+    "muted": "#a4abb5",
+    "line": "#343946"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "7eb1bf2ed5138369f9431361491659f9f928d7fcb49d9d61904dd3fdc8fac03a",
+    "bytes": 460443,
+    "width": 2560,
+    "height": 1440
+  }
+}

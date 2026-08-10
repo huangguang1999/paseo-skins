@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "zhuzhu",
+  "version": "0.1.0",
+  "name": "zhuzhu",
+  "description": "由 DreamSkin 社区主题「zhuzhu」适配，保留原背景图。",
+  "image": "zhuzhu.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#141313",
+    "panel": "#1e1d1d",
+    "panelAlt": "#2b2a29",
+    "accent": "#a0653d",
+    "glow": "#b88c6e",
+    "text": "#f0f0ef",
+    "muted": "#949393",
+    "line": "#403f3f"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "bd3393b75320d58de52a07f454c869129eaa9413796c55c916cb13db0cb594fb",
+    "bytes": 68430,
+    "width": 1706,
+    "height": 1279
+  }
+}

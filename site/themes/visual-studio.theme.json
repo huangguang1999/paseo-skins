@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "visual-studio",
+  "version": "0.1.1",
+  "name": "视觉设计",
+  "description": "为构图、色彩与细节判断保持敏锐。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "visual-studio.png",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#f7f6f1",
+    "panel": "#ecebe6",
+    "panelAlt": "#ecebe6",
+    "accent": "#ec4d3d",
+    "glow": "#efc93f",
+    "text": "#20211f",
+    "muted": "#686b66",
+    "line": "#ec4d3d"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "5e83bf172c49b0ee8d7e76f170d04f3c8bcb00d8f8e8d7f35fdc44449c90eb42",
+    "bytes": 3713864,
+    "width": 2048,
+    "height": 1152
+  }
+}

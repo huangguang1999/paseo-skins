@@ -2,11 +2,17 @@ import { readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { adaptDreamSkinPackage } from "./dreamskin-adapter.mjs";
+import {
+  adaptDreamSkinPackage,
+  resolveDreamSkinThemeIdentifiers,
+} from "./dreamskin-adapter.mjs";
 
 const repositoryRoot = fileURLToPath(new URL("../", import.meta.url));
 const siteRoot = path.join(repositoryRoot, "site");
 const catalogPath = path.join(siteRoot, "catalog.json");
+const provenancePath = path.join(repositoryRoot, "ASSET_PROVENANCE.md");
+const upstreamPackageStatus = "Upstream package terms preserved";
+const popularCollectionUrl = "https://dreamskin.cc/gallery?community=popular";
 
 function readOption(name) {
   const index = process.argv.indexOf(name);
@@ -17,8 +23,16 @@ function readOption(name) {
 const metadataPath = readOption("--metadata");
 const packagesDirectory = readOption("--packages");
 const metadata = JSON.parse(await readFile(metadataPath, "utf8"));
-if (!Array.isArray(metadata.items) || metadata.items.length !== 30) {
-  throw new Error("DreamSkin metadata must contain exactly 30 popular themes");
+if (
+  metadata.sort !== "popular" ||
+  metadata.sourceUrl !== popularCollectionUrl ||
+  !Number.isFinite(Date.parse(metadata.capturedAt)) ||
+  !Number.isInteger(metadata.total) ||
+  metadata.total < 1 ||
+  !Array.isArray(metadata.items) ||
+  metadata.items.length !== metadata.total
+) {
+  throw new Error("DreamSkin metadata must contain the complete popular collection");
 }
 for (const [index, item] of metadata.items.entries()) {
   if (!item?.id || !item?.slug || !item?.packageSha256 || !Number.isInteger(item.packageBytes)) {
@@ -29,12 +43,22 @@ for (const [index, item] of metadata.items.entries()) {
   }
 }
 
-const adaptations = [];
+const themeIdentifiers = resolveDreamSkinThemeIdentifiers(metadata.items);
+const validatedThemes = [];
 for (const [index, sourceItem] of metadata.items.entries()) {
   const packageBytes = await readFile(path.join(packagesDirectory, `${sourceItem.id}.zip`));
-  adaptations.push(adaptDreamSkinPackage({ packageBytes, popularRank: index + 1, sourceItem }));
+  const adaptation = adaptDreamSkinPackage({
+    packageBytes,
+    popularRank: index + 1,
+    sourceItem,
+    themeIdentifier: themeIdentifiers[index],
+  });
+  validatedThemes.push({
+    catalogTheme: adaptation.catalogTheme,
+    imageFilename: adaptation.imageFilename,
+  });
 }
-if (new Set(adaptations.map(({ catalogTheme }) => catalogTheme.id)).size !== adaptations.length) {
+if (new Set(validatedThemes.map(({ catalogTheme }) => catalogTheme.id)).size !== validatedThemes.length) {
   throw new Error("DreamSkin themes produced duplicate Paseo identifiers");
 }
 
@@ -49,7 +73,14 @@ for (const theme of previousCatalog.themes) {
   ]);
 }
 
-for (const adaptation of adaptations) {
+for (const [index, sourceItem] of metadata.items.entries()) {
+  const packageBytes = await readFile(path.join(packagesDirectory, `${sourceItem.id}.zip`));
+  const adaptation = adaptDreamSkinPackage({
+    packageBytes,
+    popularRank: index + 1,
+    sourceItem,
+    themeIdentifier: themeIdentifiers[index],
+  });
   await writeFile(path.join(siteRoot, "themes", adaptation.imageFilename), adaptation.imageBytes);
   await writeFile(
     path.join(siteRoot, "themes", `${adaptation.themeManifest.id}.theme.json`),
@@ -58,6 +89,39 @@ for (const adaptation of adaptations) {
 }
 await writeFile(
   catalogPath,
-  `${JSON.stringify({ schemaVersion: 1, name: "Paseo Skins", themes: adaptations.map(({ catalogTheme }) => catalogTheme) }, null, 2)}\n`,
+  `${JSON.stringify({
+    schemaVersion: 1,
+    name: "Paseo Skins",
+    source: {
+      capturedAt: metadata.capturedAt,
+      sort: metadata.sort,
+      total: metadata.total,
+      url: metadata.sourceUrl,
+    },
+    themes: validatedThemes.map(({ catalogTheme }) => catalogTheme),
+  }, null, 2)}\n`,
 );
-console.log(`Imported ${adaptations.length} verified DreamSkin packages with byte-identical backgrounds.`);
+
+const provenance = await readFile(provenancePath, "utf8");
+const retainedProvenanceLines = provenance
+  .split(/\r?\n/)
+  .filter((line) => !line.includes(`| ${upstreamPackageStatus} |`));
+while (retainedProvenanceLines.at(-1) === "") retainedProvenanceLines.pop();
+const provenanceRows = validatedThemes.map(({ catalogTheme, imageFilename }) => {
+  const fields = [
+    catalogTheme.author,
+    catalogTheme.sourceUrl,
+    catalogTheme.sourceLicense,
+    catalogTheme.sourcePackageSha256,
+    catalogTheme.sourceImageSha256,
+  ];
+  if (fields.some((field) => /[|\r\n]/.test(String(field)))) {
+    throw new Error(`DreamSkin provenance contains an unsupported table character: ${catalogTheme.id}`);
+  }
+  return `| \`site/themes/${imageFilename}\` | ${catalogTheme.author} | ${catalogTheme.sourceUrl} | ${catalogTheme.sourceLicense} | ${upstreamPackageStatus} | Source package SHA-256 \`${catalogTheme.sourcePackageSha256}\`; image SHA-256 \`${catalogTheme.sourceImageSha256}\` |`;
+});
+await writeFile(
+  provenancePath,
+  `${[...retainedProvenanceLines, ...provenanceRows].join("\n")}\n`,
+);
+console.log(`Imported ${validatedThemes.length} verified DreamSkin packages with byte-identical backgrounds.`);

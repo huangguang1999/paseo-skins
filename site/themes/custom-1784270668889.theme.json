@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "custom-1784270668889",
+  "version": "1.0.3",
+  "name": "珊瑚穹顶之城",
+  "description": "由 DreamSkin 社区主题「珊瑚穹顶之城」适配，保留原背景图。",
+  "image": "custom-1784270668889.jpg",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.72,
+    "focusY": 0.46,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#f7f6f5",
+    "panel": "#fefefe",
+    "panelAlt": "#ebe8e8",
+    "accent": "#e35655",
+    "glow": "#aa4140",
+    "text": "#1e1a1a",
+    "muted": "#6b6868",
+    "line": "#d4d3d2"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "9ab51fcc9d80b1ffa7a328dc9d63e5ab75802eccd9f26a1bea23280a9bd1063b",
+    "bytes": 763159,
+    "width": 2560,
+    "height": 1440
+  }
+}

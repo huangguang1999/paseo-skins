@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "1-79e70f8d",
+  "version": "0.1.1",
+  "name": "月色安纳普尔纳",
+  "description": "由 DreamSkin 社区主题「月色安纳普尔纳」适配，保留原背景图。",
+  "image": "1-79e70f8d.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#121415",
+    "panel": "#262c2c",
+    "panelAlt": "#272c2d",
+    "accent": "#417c87",
+    "glow": "#719da5",
+    "text": "#eef1f1",
+    "muted": "#929495",
+    "line": "#3e4041"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "acbd8dfcd13f12e9bd94b66f9137f648dae2060da4bcf5c50a263c2f611e54c6",
+    "bytes": 1032442,
+    "width": 4717,
+    "height": 2984
+  }
+}

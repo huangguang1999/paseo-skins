@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "fisher-girl",
+  "version": "0.1.0",
+  "name": "渔女",
+  "description": "由 DreamSkin 社区主题「渔女」适配，保留原背景图。",
+  "image": "fisher-girl.jpg",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#758dd7",
+    "panel": "#acaeec",
+    "panelAlt": "#6f88d3",
+    "accent": "#082f68",
+    "glow": "#5290f0",
+    "text": "#0c0c0d",
+    "muted": "#939394",
+    "line": "#3f3f40"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "f52239ba3b329ce8afda4ac37f645bdb9f04d47e6767b6c36c3205145265fb32",
+    "bytes": 3869095,
+    "width": 4000,
+    "height": 2357
+  }
+}

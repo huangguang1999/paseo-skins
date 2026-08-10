@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "girl-24005",
+  "version": "0.1.0",
+  "name": "我在看你忙来忙去",
+  "description": "由 DreamSkin 社区主题「我在看你忙来忙去」适配，保留原背景图。",
+  "image": "girl-24005.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.17,
+    "focusY": 0.31,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#131313",
+    "panel": "#1d1d1d",
+    "panelAlt": "#2a2a2a",
+    "accent": "#f7e7dc",
+    "glow": "#f9ede5",
+    "text": "#f0f0f0",
+    "muted": "#939393",
+    "line": "#3f3f3f"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "39e4050c351d005ba401383121fdde7d77126ab3f0f5d9a2395a2d1443714465",
+    "bytes": 5096468,
+    "width": 2560,
+    "height": 1440
+  }
+}

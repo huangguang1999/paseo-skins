@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "xianjian",
+  "version": "0.1.0",
+  "name": "仙剑问情",
+  "description": "由 DreamSkin 社区主题「仙剑问情」适配，保留原背景图。",
+  "image": "xianjian.jpg",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.68,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.72,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#161718",
+    "panel": "#1c77b0",
+    "panelAlt": "#3f84c6",
+    "accent": "#34b7f9",
+    "glow": "#4674a0",
+    "text": "#ffffff",
+    "muted": "#66f5ff",
+    "line": "#70e2ff"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "b22df3bcf7a409a33319692285f2f8fc00c0712c8e131710f487a36c70ec5ce9",
+    "bytes": 3506799,
+    "width": 3840,
+    "height": 2160
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "moonlit-elf",
+  "version": "0.1.0",
+  "name": "芙莉莲的克制",
+  "description": "由 DreamSkin 社区主题「芙莉莲的克制」适配，保留原背景图。",
+  "image": "moonlit-elf.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.66,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#242a31",
+    "panel": "#2f3640",
+    "panelAlt": "#39414d",
+    "accent": "#d9c99d",
+    "glow": "#c3d8df",
+    "text": "#f3f5f6",
+    "muted": "#aab5bd",
+    "line": "#52606e"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "dd3dd183f1c803fa7e3e9737df8ac13ff8f943d0cfa7fdc74337f11c35fecc25",
+    "bytes": 224665,
+    "width": 2560,
+    "height": 1440
+  }
+}

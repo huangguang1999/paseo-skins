@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "twin-iris-storm",
+  "version": "0.1.0",
+  "name": "双瞳雷界 · Twin Iris Storm",
+  "description": "雷光撕开夜幕，异色双瞳锁定前路。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "twin-iris-storm.webp",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.46,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#07111f",
+    "panel": "#101c2c",
+    "panelAlt": "#192b3d",
+    "accent": "#32c7ff",
+    "glow": "#8b78e6",
+    "text": "#f5f8ff",
+    "muted": "#9eacc0",
+    "line": "rgba(71, 202, 255, .28)"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "5a1b0389f166d33be66d8ececd98550c582e70724a6ef64000e04a5572d030f6",
+    "bytes": 238168,
+    "width": 2560,
+    "height": 1440
+  }
+}

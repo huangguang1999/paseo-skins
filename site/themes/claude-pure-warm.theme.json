@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "claude-pure-warm",
+  "version": "0.1.0",
+  "name": "PureClaude",
+  "description": "由 DreamSkin 社区主题「PureClaude」适配，保留原背景图。",
+  "image": "claude-pure-warm.png",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#FAF9F5",
+    "panel": "#FFFFFF",
+    "panelAlt": "#F5F4ED",
+    "accent": "#D97757",
+    "glow": "#FAE9DF",
+    "text": "#141413",
+    "muted": "#73726C",
+    "line": "#E8E6DC"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "14f93e03bff81f5f343e7052df74c0f09801b70048f9bcdafdca796c6fd9865a",
+    "bytes": 19331,
+    "width": 2848,
+    "height": 1600
+  }
+}

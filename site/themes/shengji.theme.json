@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "shengji",
+  "version": "0.1.0",
+  "name": "我独自升级",
+  "description": "由 DreamSkin 社区主题「我独自升级」适配，保留原背景图。",
+  "image": "shengji.png",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.25,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#141414",
+    "panel": "#23262a",
+    "panelAlt": "#1c1e21",
+    "accent": "#4d93f1",
+    "glow": "#7aaef5",
+    "text": "#ffffff",
+    "muted": "#f5f5f5",
+    "line": "#a592af"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "0b75eb586f79c29c51001b15859bb051bf7a3c4ad05c49c8fd8468d701ddf2d4",
+    "bytes": 4541496,
+    "width": 2848,
+    "height": 1600
+  }
+}

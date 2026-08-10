@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "cyberpunk-edgerunners",
+  "version": "0.1.0",
+  "name": "Lucy",
+  "description": "由 DreamSkin 社区主题「Lucy」适配，保留原背景图。",
+  "image": "cyberpunk-edgerunners.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.02,
+    "focusY": 0.49,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#0e172b",
+    "panel": "#7c405c",
+    "panelAlt": "#2f6970",
+    "accent": "#0d8da7",
+    "glow": "#4aaabd",
+    "text": "#eef0f1",
+    "muted": "#929495",
+    "line": "#3e4041"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "19a2bc39852c17f9cd4c97500fc1fa60b0c74ef52252ba78b99523e0dc3ef672",
+    "bytes": 1654103,
+    "width": 2082,
+    "height": 1170
+  }
+}

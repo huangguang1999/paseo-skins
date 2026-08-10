@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "autogyro-cavalon-01",
+  "version": "0.1.0",
+  "name": "Autogyro",
+  "description": "把依赖、里程碑和行动排成节奏。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "autogyro-cavalon-01.jpg",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.05,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#e6e6e6",
+    "panel": "#ffffff",
+    "panelAlt": "#f2f2f2",
+    "accent": "#3e76ab",
+    "glow": "#6e98c0",
+    "text": "#000000",
+    "muted": "#000000",
+    "line": "#c4c4c4"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "c17ba8c16e928644196a50f0547be116d642907d67e616180d4a0aed0ab03ffd",
+    "bytes": 3865474,
+    "width": 3543,
+    "height": 2362
+  }
+}

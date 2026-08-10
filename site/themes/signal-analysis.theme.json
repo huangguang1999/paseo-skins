@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "signal-analysis",
+  "version": "0.1.1",
+  "name": "数据洞察",
+  "description": "在噪声中寻找稳定信号。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "signal-analysis.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#071720",
+    "panel": "#0c2530",
+    "panelAlt": "#123744",
+    "accent": "#29c3ba",
+    "glow": "#e45d5d",
+    "text": "#effcff",
+    "muted": "#94bcc4",
+    "line": "#29c3ba"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "09c288a9cf884056622e0351081e3b7a3aa9417a5528b6fdcd3a8a6c099ae9fa",
+    "bytes": 2721240,
+    "width": 2048,
+    "height": 1152
+  }
+}

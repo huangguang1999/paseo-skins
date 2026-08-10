@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "gilded-echo",
+  "version": "1.0.1",
+  "name": "VCTCN",
+  "description": "万千落款，共赴一场不熄的回响。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "gilded-echo.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#060504",
+    "panel": "#100d08",
+    "panelAlt": "#1b160c",
+    "accent": "#d9b55c",
+    "glow": "#fff1bd",
+    "text": "#fff8e8",
+    "muted": "#c9bc9c",
+    "line": "rgba(217, 181, 92, 0.34)"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "3c83b42f14e95c502ab59bf5dd75f1f626ebdfe4ca838ef31c72f8c1cce2d541",
+    "bytes": 354430,
+    "width": 1920,
+    "height": 1080
+  }
+}

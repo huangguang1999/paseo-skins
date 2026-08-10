@@ -31,6 +31,30 @@ function normalizeIdentifier(value) {
   return identifier;
 }
 
+export function resolveDreamSkinThemeIdentifiers(sourceItems) {
+  const baseIdentifiers = sourceItems.map((sourceItem) =>
+    normalizeIdentifier(sourceItem.slug ?? sourceItem.themeId ?? sourceItem.id),
+  );
+  const identifierCounts = new Map();
+  for (const identifier of baseIdentifiers) {
+    identifierCounts.set(identifier, (identifierCounts.get(identifier) ?? 0) + 1);
+  }
+  const identifiers = baseIdentifiers.map((baseIdentifier, index) => {
+    if (identifierCounts.get(baseIdentifier) === 1) return baseIdentifier;
+    const sourceVersionIdentifier = String(sourceItems[index].id ?? "");
+    const suffix = sourceVersionIdentifier.match(/^ver_([a-z0-9]+)$/i)?.[1]?.slice(0, 8);
+    if (!suffix) {
+      throw new Error(`Duplicate DreamSkin slug has no stable version id: ${baseIdentifier}`);
+    }
+    const prefix = baseIdentifier.slice(0, 64 - suffix.length - 1).replace(/-+$/g, "");
+    return normalizeIdentifier(`${prefix}-${suffix}`);
+  });
+  if (new Set(identifiers).size !== identifiers.length) {
+    throw new Error("DreamSkin themes cannot produce unique Paseo identifiers");
+  }
+  return identifiers;
+}
+
 function normalizeColor(value, field) {
   const color = String(value ?? "").trim();
   const eightDigitHex = color.match(/^#([0-9a-f]{6})([0-9a-f]{2})$/i);
@@ -58,10 +82,11 @@ function resolveAppearance(sourceTheme) {
 }
 
 function licenseUrl(sourceLicense, sourceUrl) {
-  const normalized = sourceLicense.toLowerCase().replaceAll(" ", "");
+  const normalized = sourceLicense.toLowerCase().replace(/[\s-]+/g, "");
   if (normalized === "mit") return "https://opensource.org/license/mit";
   if (normalized === "ccby4.0") return "https://creativecommons.org/licenses/by/4.0/";
-  if (normalized === "ccby-nc4.0") return "https://creativecommons.org/licenses/by-nc/4.0/";
+  if (normalized === "ccbync4.0") return "https://creativecommons.org/licenses/by-nc/4.0/";
+  if (normalized === "ccbyncsa4.0") return "https://creativecommons.org/licenses/by-nc-sa/4.0/";
   return sourceUrl;
 }
 
@@ -79,7 +104,7 @@ function buildColors(sourceTheme) {
   };
 }
 
-export function adaptDreamSkinPackage({ packageBytes, popularRank, sourceItem }) {
+export function adaptDreamSkinPackage({ packageBytes, popularRank, sourceItem, themeIdentifier = null }) {
   if (packageBytes.length !== sourceItem.packageBytes || sha256(packageBytes) !== sourceItem.packageSha256) {
     throw new Error(`DreamSkin package integrity mismatch: ${sourceItem.id}`);
   }
@@ -97,7 +122,7 @@ export function adaptDreamSkinPackage({ packageBytes, popularRank, sourceItem })
   if (!imageRecord) throw new Error(`DreamSkin package has no background image: ${sourceItem.id}`);
   const imageBytes = entries.get(imageRecord.path);
   const imageMetadata = parseImageMetadata(imageBytes);
-  const identifier = normalizeIdentifier(sourceItem.slug ?? sourceTheme.id);
+  const identifier = normalizeIdentifier(themeIdentifier ?? sourceItem.slug ?? sourceTheme.id);
   const imageExtension = path.extname(imageRecord.path).toLowerCase();
   const imageFilename = `${identifier}${imageExtension}`;
   const sourceUrl = `https://api.dreamskin.cc/v1/themes/${sourceItem.id}/download`;
@@ -157,6 +182,8 @@ export function adaptDreamSkinPackage({ packageBytes, popularRank, sourceItem })
     sourcePackageSha256: sourceItem.packageSha256,
     sourceProvenance: sourceManifest.provenance?.summary ?? "",
     sourcePublisher: publisher,
+    sourceReviewedAt: sourceItem.reviewedAt,
+    sourceSubmittedAt: sourceItem.submittedAt,
     sourceThemeId: sourceManifest.themeId,
     sourceVersionId: sourceItem.id,
   };

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "sakura",
+  "version": "0.1.0",
+  "name": "Sakura",
+  "description": "由 DreamSkin 社区主题「Sakura」适配，保留原背景图。",
+  "image": "sakura.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#131313",
+    "panel": "#1d1d1d",
+    "panelAlt": "#2a2a2a",
+    "accent": "#6c98b6",
+    "glow": "#91b2c8",
+    "text": "#f0f0f0",
+    "muted": "#939393",
+    "line": "#3f3f3f"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "4b665eee2d225665f24c52c17f359657bfdef85ccc8caae6ab63aed9ef2a3ea4",
+    "bytes": 897881,
+    "width": 1080,
+    "height": 1080
+  }
+}

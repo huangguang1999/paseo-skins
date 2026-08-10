@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "h2h-iconic-heart",
+  "version": "0.1.0",
+  "name": "H2H-ICONIC HEART",
+  "description": "由 DreamSkin 社区主题「H2H-ICONIC HEART」适配，保留原背景图。",
+  "image": "h2h-iconic-heart.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#17121f",
+    "panel": "#231b29",
+    "panelAlt": "#302433",
+    "accent": "#e2b273",
+    "glow": "#473447",
+    "text": "#f6e7d3",
+    "muted": "#b3a69d",
+    "line": "#453636"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "9f0daada14713dc06f33e0572ccad91192e17dde7a413ad237ee220911cf5274",
+    "bytes": 3095910,
+    "width": 3000,
+    "height": 2000
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "crimson-mist",
+  "version": "0.1.0",
+  "name": "赤霞迷雾 · Crimson Mist",
+  "description": "暮色燃过群山，雾海归于寂静。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "crimson-mist.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.52,
+    "focusY": 0.42,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#0b0d14",
+    "panel": "#151722",
+    "panelAlt": "#222432",
+    "accent": "#df5b54",
+    "glow": "#d6a1a5",
+    "text": "#f6f2f3",
+    "muted": "#aaa7b1",
+    "line": "rgba(214, 122, 125, .25)"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "378136814ae47bb966cff27f84b93fc2fddbf9f40fa909087d0691cbdef50c4b",
+    "bytes": 307537,
+    "width": 1920,
+    "height": 1080
+  }
+}

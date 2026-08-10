@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "reliability-watch",
+  "version": "0.1.1",
+  "name": "运维值守",
+  "description": "稳定、警觉的持续观测模式。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "reliability-watch.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#061116",
+    "panel": "#0a1b22",
+    "panelAlt": "#102a34",
+    "accent": "#23b9b6",
+    "glow": "#e59b37",
+    "text": "#eaf9fb",
+    "muted": "#8eafb8",
+    "line": "#23b9b6"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "f940956b9fd94c6e079c9e2c4b2b087e8fce95407fa33206352e8cb7e314c0af",
+    "bytes": 2438288,
+    "width": 2048,
+    "height": 1152
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "xunzi",
+  "version": "0.1.3",
+  "name": "薰子",
+  "description": "由 DreamSkin 社区主题「薰子」适配，保留原背景图。",
+  "image": "xunzi.jpg",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#a0b9cd",
+    "panel": "#F8F8F8",
+    "panelAlt": "#E4E4E4",
+    "accent": "#9C8C55",
+    "glow": "#7a6c3e",
+    "text": "#1e1e1e",
+    "muted": "#646464",
+    "line": "#cbcbcb"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "8472b466225e9e1f931e0d46e231d7459f6a8985eda899a5b719579e3cdae017",
+    "bytes": 1844947,
+    "width": 2848,
+    "height": 1600
+  }
+}

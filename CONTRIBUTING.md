@@ -15,7 +15,7 @@
 11. Renderer 的 hover、selected、focus 等瞬态背景必须由 CSS 状态管理，不得固化为内联计算色。
 12. 深色或彩色填充控件需要按实际交互祖先背景检查文字节点，对比度不得低于 4.5。
 13. Renderer 改动必须同时验证目标页冷注入和 SPA 导航进入，并按 [Renderer 样式安全手册](docs/RENDERER_STYLE_SAFETY.md) 检查 SVG、伪元素及 `pointer-events: none` 辅助层。
-14. 第三方主题适配包只允许包含 Theme v2 清单、原背景图和来源说明；上游 CSS、JavaScript、字体或其他可执行内容不得进入发布物。
+14. 第三方主题适配包只允许包含 Theme v2 清单、原背景图和来源说明；上游 CSS、JavaScript、字体或其他可执行内容不得进入发布物。公开站由浏览器在下载时生成 ZIP，不得在 Pages 产物中重复存储全部原图。
 15. 画廊缩略图、完整模拟器和 Studio 必须复用 `site/paseo-preview-frame.js`，并以当前真实 Paseo 截图校准父级比例与侧栏 Workspace 树；不得自行添加 Mac 标题栏、旧首页任务卡、整行选中背景或其他不存在的界面。
 16. 修改 `apply`、Watcher 或 autostart 时，必须覆盖临时前台模式、`--persist` 首次安装、同主题、Guardian 切换、手动 Watcher 冲突和“Paseo 已运行但无 CDP”六种状态；成功切换还要真实验证 status、verify、reload 与回退。
 17. 网站内容与控件必须使用 `--font-size-*` 字体层级，除 `.paseo-preview-frame` 的微缩界面外不得小于 10px；修改字号后要同时检查三列卡片、完整预览、Studio 和 390px。
@@ -42,7 +42,7 @@ npm run create -- \
   --output ./generated-theme
 ```
 
-更新 DreamSkin 适配主题时，把热门榜 API 返回的前 30 条元数据和对应原始 ZIP 保存在仓库外，再运行：
+更新 DreamSkin 适配主题时，把热门榜 API 返回的完整分页元数据和对应原始 ZIP 保存在仓库外，再运行：
 
 ```bash
 npm run import:dreamskin-themes -- \
@@ -50,6 +50,6 @@ npm run import:dreamskin-themes -- \
   --packages /absolute/path/to/source-packages
 ```
 
-导入器要求元数据按下载量降序排列，并逐包核对包体大小、原包 SHA-256、内部文件哈希与图片元数据。它只发布原背景图和新生成的 Theme v2 清单，不发布上游 `theme.css` 或脚本。原始 ZIP 不得提交到仓库；导入后必须运行 `npm run release:check` 并完成桌面端、390 px 和真实下载验收。
+导入器要求 `total` 与 `items.length` 一致、`sort` 为 `popular`、元数据按下载量降序排列，并逐包核对包体大小、原包 SHA-256、内部文件哈希与图片元数据。重复 slug 会加上稳定的源版本后缀，不能覆盖已有主题。它只发布原背景图和新生成的 Theme v2 清单，不发布上游 `theme.css` 或脚本；同时从机器真值重建来源清单。原始 ZIP 不得提交到仓库；导入后必须运行 `npm run release:check` 并完成桌面端、390 px 和真实下载验收。
 
 公开投稿可以直接使用 GitHub 的 **Theme submission** Issue 模板；代码 Pull Request 请说明改动目标、风险、验证证据和恢复方式。不要顺手重构无关代码。

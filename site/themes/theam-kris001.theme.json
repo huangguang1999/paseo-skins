@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "theam-kris001",
+  "version": "0.1.0",
+  "name": "牙牙婍",
+  "description": "　　　　　　　　　　宇宙无敌可爱牙牙婍 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "theam-kris001.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.37,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#131313",
+    "panel": "#1d1d1d",
+    "panelAlt": "#2a2a2a",
+    "accent": "#cc8a79",
+    "glow": "#d9a79b",
+    "text": "#f0f0f0",
+    "muted": "#9e9e9e",
+    "line": "#3f3f3f"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "1641173d7e73892e92b6b93c277ae0d282b03145340e01a27d608605a2647ab7",
+    "bytes": 935812,
+    "width": 1080,
+    "height": 1920
+  }
+}

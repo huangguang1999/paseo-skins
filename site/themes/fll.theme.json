@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "fll",
+  "version": "0.1.0",
+  "name": "芙丽莲",
+  "description": "由 DreamSkin 社区主题「芙丽莲」适配，保留原背景图。",
+  "image": "fll.jpg",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.41,
+    "focusY": 0,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#f6f6f6",
+    "panel": "#fefefe",
+    "panelAlt": "#eae9e9",
+    "accent": "#c96a66",
+    "glow": "#97504d",
+    "text": "#1d1b1b",
+    "muted": "#6a6969",
+    "line": "#d3d3d3"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "88fbecc5d882117a5ed5d424fb210ec2102e46eb8813795fe41145ecde2a5b3b",
+    "bytes": 758773,
+    "width": 1500,
+    "height": 1133
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "playwithme",
+  "version": "0.1.0",
+  "name": "PlayWithMe",
+  "description": "由 DreamSkin 社区主题「PlayWithMe」适配，保留原背景图。",
+  "image": "playwithme.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 1,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.72,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#131314",
+    "panel": "#1d1d1e",
+    "panelAlt": "#292a2b",
+    "accent": "#d6e3ec",
+    "glow": "#e0eaf1",
+    "text": "#efeff0",
+    "muted": "#939394",
+    "line": "#3f3f40"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "7c7daa1db860d2ff1213c11c33b09f32e77b3c0308e402ca4815c62686a93dc5",
+    "bytes": 20290,
+    "width": 1671,
+    "height": 1209
+  }
+}

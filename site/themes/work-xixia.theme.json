@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "work-xixia",
+  "version": "0.1.0",
+  "name": "不干活就没饭吃",
+  "description": "不干活就没饭吃 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "work-xixia.png",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.75,
+    "focusY": 0.55,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#F4EEFF",
+    "panel": "#FFFFFF",
+    "panelAlt": "#F8F2FF",
+    "accent": "#C39BFF",
+    "glow": "#FFF8FF",
+    "text": "#403653",
+    "muted": "#9388AA",
+    "line": "rgba(195,155,255,.28)"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "5a3bda156737278b60c6062373c55d67d4f3d285af2e438bec8c8c608c5c6c13",
+    "bytes": 1493334,
+    "width": 1672,
+    "height": 941
+  }
+}

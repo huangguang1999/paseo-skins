@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "001",
+  "version": "0.1.0",
+  "name": "铁人红",
+  "description": "由 DreamSkin 社区主题「铁人红」适配，保留原背景图。",
+  "image": "001.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#151211",
+    "panel": "#201c1b",
+    "panelAlt": "#2f2726",
+    "accent": "#ec3112",
+    "glow": "#f1654d",
+    "text": "#f2eeee",
+    "muted": "#959291",
+    "line": "#413e3d"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "2f16e3796ef4094900e99be264e720ab0aeadc7608de9807a53d9b7a2671f8a5",
+    "bytes": 1747655,
+    "width": 1572,
+    "height": 1001
+  }
+}

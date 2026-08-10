@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "xueyuan",
+  "version": "0.1.0",
+  "name": "课桌里的诗",
+  "description": "由 DreamSkin 社区主题「课桌里的诗」适配，保留原背景图。",
+  "image": "xueyuan.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.55,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#2a1f16",
+    "panel": "#3a2c1e",
+    "panelAlt": "#4a3826",
+    "accent": "#d8a24a",
+    "glow": "#f3e6c8",
+    "text": "#f4ecdd",
+    "muted": "#b8a888",
+    "line": "#5a4632"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "9d1ee58d0c0e7279f94ad4d465581acc4e9a5a07b6e878d5de6fa9ff51a45be0",
+    "bytes": 1757523,
+    "width": 1196,
+    "height": 896
+  }
+}

@@ -14,6 +14,15 @@ function extractJsonLd(html) {
     .map((match) => JSON.parse(match[1]));
 }
 
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
 test("homepage exposes canonical, social, and software metadata", async () => {
   const html = await readFile(path.join(outputRoot, "index.html"), "utf8");
   assert.match(html, /<link rel="canonical" href="https:\/\/huangguang1999\.github\.io\/paseo-skins\/"/);
@@ -56,10 +65,11 @@ test("every catalog theme has an indexable bilingual detail page", async () => {
     const hasDistinctEnglishName = theme.englishName.trim().toLocaleLowerCase()
       !== theme.name.trim().toLocaleLowerCase();
     const expectedHeading = hasDistinctEnglishName
-      ? `<h1>${theme.name}<br /><i>${theme.englishName}</i></h1>`
-      : `<h1>${theme.name}</h1>`;
+      ? `<h1>${escapeHtml(theme.name)}<br /><i>${escapeHtml(theme.englishName)}</i></h1>`
+      : `<h1>${escapeHtml(theme.name)}</h1>`;
     assert.ok(html.includes(expectedHeading));
-    assert.match(html, new RegExp(theme.englishName));
+    assert.ok(html.includes(escapeHtml(theme.englishName)));
+    assert.doesNotMatch(html, /免费开源的 Paseo 桌面主题/);
     assert.match(html, new RegExp(`rel="canonical" href="https://huangguang1999\\.github\\.io/paseo-skins/themes/${theme.id}/"`));
     assert.match(html, new RegExp(`themes/${theme.manifest.split("/").at(-1)}`));
     assert.match(html, /<meta property="og:image:width" content="\d+"/);
@@ -101,7 +111,9 @@ test("popular gallery is login-free and Studio controls are accessible without n
 
   assert.match(galleryHtml, /<h1 id="community-title">社区主题/);
   assert.doesNotMatch(galleryHtml, /community-hero/);
-  assert.match(galleryHtml, /30 款/);
+  assert.match(galleryHtml, /id="community-count"/);
+  assert.match(galleryHtml, /完整热门榜/);
+  assert.doesNotMatch(galleryHtml, /30 款|前 30/);
   assert.match(galleryHtml, /id="community-sort-tabs"/);
   assert.match(galleryHtml, /id="community-page-jump"/);
   assert.doesNotMatch(galleryHtml, /<(?:a|button)[^>]*>[^<]*(?:登录|注册|Login|Sign in)/i);
@@ -110,12 +122,16 @@ test("popular gallery is login-free and Studio controls are accessible without n
   assert.doesNotMatch(galleryScript, /window\.prompt/);
   assert.doesNotMatch(galleryScript, /Codex/);
   assert.match(galleryScript, /const PAGE_SIZE = 6/);
+  assert.match(galleryScript, /loadVisibleManifests/);
+  assert.doesNotMatch(galleryScript, /Promise\.all\(state\.catalog\.map/);
+  assert.match(galleryScript, /community-pagination-gap/);
   assert.match(galleryScript, /Paseo/);
   assert.match(galleryScript, /sourceDownloads/);
   assert.doesNotMatch(galleryScript, /inspirationThemeName|热门题材参考|原创重绘/);
   assert.match(galleryHtml, /保留原图/);
   assert.match(galleryScript, /下载主题包/);
-  assert.match(galleryScript, /packageUrl/);
+  assert.match(galleryScript, /downloadThemePackage/);
+  assert.match(galleryScript, /theme-package-browser/);
   assert.match(studioHtml, /id="builder-upload-zone"[^>]+role="button"[^>]+tabindex="0"/);
   assert.match(studioHtml, /id="builder-focus-x"[^>]+aria-label="横向焦点"/);
   assert.match(studioHtml, /id="css-status"[^>]+role="status"/);

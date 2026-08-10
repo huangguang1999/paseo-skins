@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "1-76eb6afa",
+  "version": "0.1.0",
+  "name": "CR7-01",
+  "description": "由 DreamSkin 社区主题「CR7-01」适配，保留原背景图。",
+  "image": "1-76eb6afa.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#141212",
+    "panel": "#1f1c1c",
+    "panelAlt": "#2c2828",
+    "accent": "#ac5863",
+    "glow": "#c1828a",
+    "text": "#f1efef",
+    "muted": "#949292",
+    "line": "#403e3e"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "cf54741259bfe9292bae5ed386508235eefbd0bec78aa794262558a92501ea7e",
+    "bytes": 289702,
+    "width": 1680,
+    "height": 1050
+  }
+}

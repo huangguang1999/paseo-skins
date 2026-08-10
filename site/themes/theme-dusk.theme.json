@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "theme-dusk",
+  "version": "0.1.0",
+  "name": "落日",
+  "description": "由 DreamSkin 社区主题「落日」适配，保留原背景图。",
+  "image": "theme-dusk.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#141212",
+    "panel": "#1f1c1c",
+    "panelAlt": "#2c2828",
+    "accent": "#f05155",
+    "glow": "#f47d80",
+    "text": "#f1efef",
+    "muted": "#949292",
+    "line": "#403e3e"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "c15a3971a4a52909a348700e7b28c86fdb3e5380e8d293122f3b61fa92b70464",
+    "bytes": 9193537,
+    "width": 3840,
+    "height": 2244
+  }
+}

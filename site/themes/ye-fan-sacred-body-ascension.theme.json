@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "ye-fan-sacred-body-ascension",
+  "version": "0.1.0",
+  "name": "叶凡·圣体大成",
+  "description": "由 DreamSkin 社区主题「叶凡·圣体大成」适配，保留原背景图。",
+  "image": "ye-fan-sacred-body-ascension.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.62,
+    "focusY": 0.48,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#050811",
+    "panel": "#111627",
+    "panelAlt": "#182038",
+    "accent": "#e8b54d",
+    "glow": "#fff1bf",
+    "text": "#f8f5e8",
+    "muted": "#b4b7c2",
+    "line": "#805e29"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "091a47c264d3d9ced120d7bd6a283fe60198cc610be91bcc25b1a261216a53ac",
+    "bytes": 2411421,
+    "width": 3840,
+    "height": 2160
+  }
+}

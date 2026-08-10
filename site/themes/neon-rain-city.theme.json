@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "neon-rain-city",
+  "version": "1.0.0",
+  "name": "霓虹雨城",
+  "description": "雨落霓虹，代码醒来。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "neon-rain-city.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.72,
+    "focusY": 0.46,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#081225",
+    "panel": "#0d1930",
+    "panelAlt": "#142440",
+    "accent": "#28c7f7",
+    "glow": "#56d8ff",
+    "text": "#edf7ff",
+    "muted": "#91a8c1",
+    "line": "rgba(40, 199, 247, 0.30)"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "74aa24ef3534f1d4b3308c050ab52bf084bb23e704b5ce62807f788f60fbee60",
+    "bytes": 340090,
+    "width": 1672,
+    "height": 941
+  }
+}

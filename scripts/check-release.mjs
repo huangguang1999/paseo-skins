@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { execFile } from "node:child_process";
-import { readFile } from "node:fs/promises";
+import { readdir, readFile, stat } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
@@ -15,6 +15,16 @@ const repositoryRoot = fileURLToPath(new URL("../", import.meta.url));
 const packageMetadata = JSON.parse(await readFile(path.join(repositoryRoot, "package.json"), "utf8"));
 const changelog = await readFile(path.join(repositoryRoot, "CHANGELOG.md"), "utf8");
 const catalogSource = JSON.parse(await readFile(path.join(repositoryRoot, "site/catalog.json"), "utf8"));
+const maximumPagesBytes = 1_000_000_000;
+
+async function directoryBytes(directory) {
+  let bytes = 0;
+  for (const entry of await readdir(directory, { withFileTypes: true })) {
+    const entryPath = path.join(directory, entry.name);
+    bytes += entry.isDirectory() ? await directoryBytes(entryPath) : (await stat(entryPath)).size;
+  }
+  return bytes;
+}
 
 if (packageMetadata.version !== PACKAGE_VERSION) {
   throw new Error(`Package ${packageMetadata.version} does not match runtime ${PACKAGE_VERSION}`);
@@ -42,6 +52,10 @@ const { stdout } = await execFileAsync(
   { cwd: repositoryRoot, encoding: "utf8", maxBuffer: 8 * 1024 * 1024 },
 );
 const [pack] = JSON.parse(stdout);
+const pagesBytes = await directoryBytes(path.join(repositoryRoot, "_site"));
+if (pagesBytes > maximumPagesBytes) {
+  throw new Error(`GitHub Pages artifact exceeds 1 GB: ${pagesBytes} bytes`);
+}
 const packageFiles = new Set(pack.files.map((entry) => entry.path));
 for (const requiredFile of [
   "src/cli.mjs",
@@ -68,5 +82,6 @@ console.log(JSON.stringify({
   themes: catalog.themes.length,
   packageFiles: packageFiles.size,
   packedBytes: pack.size,
+  pagesBytes,
   unpackedBytes: pack.unpackedSize,
 }, null, 2));

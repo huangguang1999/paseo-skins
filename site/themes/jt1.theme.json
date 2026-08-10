@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "jt1",
+  "version": "0.1.0",
+  "name": "金瞳",
+  "description": "由 DreamSkin 社区主题「金瞳」适配，保留原背景图。",
+  "image": "jt1.jpg",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#f6f6f6",
+    "panel": "#fefefe",
+    "panelAlt": "#e9e9e9",
+    "accent": "#858585",
+    "glow": "#646464",
+    "text": "#1c1c1c",
+    "muted": "#696969",
+    "line": "#d3d3d3"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "6b13b25f1e547f9baa27715ae498872e459f25a61c5f1df93e701ea7feef77fe",
+    "bytes": 507123,
+    "width": 1024,
+    "height": 1024
+  }
+}

@@ -3,7 +3,10 @@ import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-import { adaptDreamSkinPackage } from "../scripts/dreamskin-adapter.mjs";
+import {
+  adaptDreamSkinPackage,
+  resolveDreamSkinThemeIdentifiers,
+} from "../scripts/dreamskin-adapter.mjs";
 import { createStoredZip } from "../scripts/theme-package.mjs";
 
 function sha256(bytes) {
@@ -86,4 +89,15 @@ test("DreamSkin adapter rejects a package whose source hash changed", async () =
     () => adaptDreamSkinPackage({ packageBytes: damaged, popularRank: 1, sourceItem: fixture.sourceItem }),
     /package integrity mismatch/,
   );
+});
+
+test("DreamSkin identifiers remain stable when popular themes reuse a slug", () => {
+  const identifiers = resolveDreamSkinThemeIdentifiers([
+    { id: "ver_unique1234567890", slug: "unique-theme" },
+    { id: "ver_aaaaaaaa11111111", slug: "1" },
+    { id: "ver_bbbbbbbb22222222", slug: "1" },
+  ]);
+
+  assert.deepEqual(identifiers, ["unique-theme", "1-aaaaaaaa", "1-bbbbbbbb"]);
+  assert.equal(new Set(identifiers).size, identifiers.length);
 });

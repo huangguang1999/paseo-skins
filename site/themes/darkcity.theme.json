@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "darkcity",
+  "version": "0.1.0",
+  "name": "夜晚都市",
+  "description": "由 DreamSkin 社区主题「夜晚都市」适配，保留原背景图。",
+  "image": "darkcity.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#191a1a",
+    "panel": "#252b32",
+    "panelAlt": "#353a41",
+    "accent": "#e6da51",
+    "glow": "#5895e0",
+    "text": "#eef0f1",
+    "muted": "#919395",
+    "line": "#3d3f41"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "3cc6c437626cd72d84ea5f9fb350924946b3222a13f1d5d2b018b0cd7730113d",
+    "bytes": 2573553,
+    "width": 3840,
+    "height": 2160
+  }
+}

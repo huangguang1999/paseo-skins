@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "joestar-legacy",
+  "version": "1.0.4",
+  "name": "JOJO的奇妙冒险",
+  "description": "命运交织，意志觉醒。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "joestar-legacy.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.43,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#060912",
+    "panel": "#101522",
+    "panelAlt": "#181d2b",
+    "accent": "#cdbf98",
+    "glow": "#9385ad",
+    "text": "#ebecef",
+    "muted": "#989eaa",
+    "line": "rgba(205, 191, 152, 0.20)"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "5c1453f4d48627c604c49bea66b99efaf62d1cdd454dda9545f75e481cf8a176",
+    "bytes": 2674674,
+    "width": 1664,
+    "height": 944
+  }
+}

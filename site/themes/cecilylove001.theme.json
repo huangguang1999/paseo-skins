@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "cecilylove001",
+  "version": "0.1.1",
+  "name": "鞠婧祎-月鳞绮纪-采花女妆造图",
+  "description": "由 DreamSkin 社区主题「鞠婧祎-月鳞绮纪-采花女妆造图」适配，保留原背景图。",
+  "image": "cecilylove001.jpg",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.2,
+    "focusY": 0.35,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#f6f6f6",
+    "panel": "#fefefe",
+    "panelAlt": "#eae9e9",
+    "accent": "#ab7c55",
+    "glow": "#805d40",
+    "text": "#1d1c1b",
+    "muted": "#696969",
+    "line": "#d3d3d3"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "066a27cbc91697ff573b18a10059b6a8cec43ccb3498603128c6fe894252389a",
+    "bytes": 533092,
+    "width": 2560,
+    "height": 1440
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "aozora-no-tabi",
+  "version": "0.1.0",
+  "name": "青空の旅",
+  "description": "晴れた空の向こうへ。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "aozora-no-tabi.jpg",
+  "appearance": "light",
+  "art": {
+    "focusX": 0,
+    "focusY": 0.48,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#e8f5f2",
+    "panel": "#f4faf6",
+    "panelAlt": "#e1f1e9",
+    "accent": "#69b83f",
+    "glow": "#f7ffe9",
+    "text": "#183d3d",
+    "muted": "#F8F6DF",
+    "line": "#b9d7cd"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "8270aa98335c1f96661d06b0a4ca3a8e23d14363b45faeea3d928075614cbbd4",
+    "bytes": 659743,
+    "width": 4096,
+    "height": 1743
+  }
+}

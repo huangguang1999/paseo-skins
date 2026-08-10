@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "beach",
+  "version": "0.1.0",
+  "name": "沙滩",
+  "description": "由 DreamSkin 社区主题「沙滩」适配，保留原背景图。",
+  "image": "beach.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#151311",
+    "panel": "#1f1d1b",
+    "panelAlt": "#2e2926",
+    "accent": "#ef8f5b",
+    "glow": "#f3ab84",
+    "text": "#f1efee",
+    "muted": "#959391",
+    "line": "#413f3d"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "85394ba143b227ceacd7ff398849c878dff17c80cbf4e4340e4e7123dd163fc8",
+    "bytes": 928003,
+    "width": 1672,
+    "height": 941
+  }
+}

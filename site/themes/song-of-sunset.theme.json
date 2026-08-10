@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "song-of-sunset",
+  "version": "0.1.1",
+  "name": "夕阳之歌",
+  "description": "由 DreamSkin 社区主题「夕阳之歌」适配，保留原背景图。",
+  "image": "song-of-sunset.jpg",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.25,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#f7f6f5",
+    "panel": "#fefefe",
+    "panelAlt": "#eceae7",
+    "accent": "#ed5213",
+    "glow": "#b23e0e",
+    "text": "#201c18",
+    "muted": "#6b6a67",
+    "line": "#d5d3d2"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "bc852c4f7940863e2fd943066a4b4ca5a13a21994be837fe6bffddf7e37476f4",
+    "bytes": 6264320,
+    "width": 4160,
+    "height": 6240
+  }
+}

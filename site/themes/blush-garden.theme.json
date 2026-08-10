@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "blush-garden",
+  "version": "0.1.0",
+  "name": "粉系定制",
+  "description": "柔粉玫瑰与轻盈花瓣，让工作台保持温柔明亮。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "blush-garden.png",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.64,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#fff5f7",
+    "panel": "#ffffff",
+    "panelAlt": "#fce7eb",
+    "accent": "#e98b9c",
+    "glow": "#c85f76",
+    "text": "#321d22",
+    "muted": "#7a5c63",
+    "line": "#e98b9c"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "761ccedd2420501e3e0e7236270b3141d7237043ffa6202abfbc96d6bf2a75d3",
+    "bytes": 2149153,
+    "width": 1672,
+    "height": 941
+  }
+}

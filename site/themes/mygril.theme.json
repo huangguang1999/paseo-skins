@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "mygril",
+  "version": "0.1.0",
+  "name": "美女小姐姐",
+  "description": "由 DreamSkin 社区主题「美女小姐姐」适配，保留原背景图。",
+  "image": "mygril.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.36,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#141313",
+    "panel": "#1e1d1d",
+    "panelAlt": "#2b2a29",
+    "accent": "#edae74",
+    "glow": "#f2c297",
+    "text": "#f0f0ef",
+    "muted": "#949393",
+    "line": "#403f3f"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "cb68e3b4a449cd025d06e8b893f98cc129f7d393c8080224d1773df1286b538e",
+    "bytes": 1737467,
+    "width": 1600,
+    "height": 2848
+  }
+}

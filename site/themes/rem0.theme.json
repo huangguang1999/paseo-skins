@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "rem0",
+  "version": "0.1.0",
+  "name": "雷姆",
+  "description": "由 DreamSkin 社区主题「雷姆」适配，保留原背景图。",
+  "image": "rem0.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#172033",
+    "panel": "#172033",
+    "panelAlt": "#213253",
+    "accent": "#9ADFFF",
+    "glow": "#EAF8FF",
+    "text": "#FFFFFF",
+    "muted": "#E2ECF7",
+    "line": "#7890B0"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "9afa825c5b59fcf6b90926386049b44efd98276acf0801fe25ff8188d25876d6",
+    "bytes": 8718282,
+    "width": 3840,
+    "height": 2160
+  }
+}

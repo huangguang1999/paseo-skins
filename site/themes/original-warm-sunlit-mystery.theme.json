@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "original-warm-sunlit-mystery",
+  "version": "1.0.1",
+  "name": "暖阳秘语",
+  "description": "让柔和的金色陪伴创作，把专注留给此刻。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "original-warm-sunlit-mystery.png",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.72,
+    "focusY": 0.48,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#f4dca4",
+    "panel": "#fff9e9",
+    "panelAlt": "#f7ebce",
+    "accent": "#9b642d",
+    "glow": "#ffe6a5",
+    "text": "#332419",
+    "muted": "#705844",
+    "line": "#b99a70"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "9fd271065e032753791fe61f9c8cbd1e6fc50bbe3194a19f9d4995a92b939416",
+    "bytes": 1913939,
+    "width": 1672,
+    "height": 941
+  }
+}

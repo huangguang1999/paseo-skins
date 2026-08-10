@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "anima-hand-00009",
+  "version": "0.1.0",
+  "name": "Anima Hand 00009",
+  "description": "由 DreamSkin 社区主题「Anima Hand 00009」适配，保留原背景图。",
+  "image": "anima-hand-00009.png",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#f7f6f6",
+    "panel": "#fefefe",
+    "panelAlt": "#eae9e8",
+    "accent": "#a7800d",
+    "glow": "#7d600a",
+    "text": "#1e1c1a",
+    "muted": "#6a6968",
+    "line": "#d4d3d3"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "64379516e0717ebb4bc5b67be2937a389fb76635c29ab0b15da079abf9b61660",
+    "bytes": 4127031,
+    "width": 2048,
+    "height": 1228
+  }
+}

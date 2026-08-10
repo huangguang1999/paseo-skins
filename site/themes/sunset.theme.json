@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "sunset",
+  "version": "0.4.0",
+  "name": "长河落日圆",
+  "description": "由 DreamSkin 社区主题「长河落日圆」适配，保留原背景图。",
+  "image": "sunset.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#2b292a",
+    "panel": "#1e1d1d",
+    "panelAlt": "#2e2e2e",
+    "accent": "#f6908c",
+    "glow": "#f8aca9",
+    "text": "#ffffff",
+    "muted": "#fed7d7",
+    "line": "#292929"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "74cffff5faf875db7f4e60b1e33e8237f30820d59c0e35190233667904debc55",
+    "bytes": 63713,
+    "width": 1920,
+    "height": 1080
+  }
+}

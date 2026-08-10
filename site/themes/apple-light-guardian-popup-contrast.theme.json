@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "apple-light-guardian-popup-contrast",
+  "version": "1.0.0",
+  "name": "Go fight",
+  "description": "Go fight! DreamSkin 原主题包适配，保留原背景图。",
+  "image": "apple-light-guardian-popup-contrast.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.54,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#0b1633",
+    "panel": "#18233d",
+    "panelAlt": "#25304a",
+    "accent": "#7ccbff",
+    "glow": "#f27771",
+    "text": "#f7f9ff",
+    "muted": "#b8c2d9",
+    "line": "#b6c6e4"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "8725fc70d40a157a3cf298c44abec76e8ff4bf5fb9c043b6b340a8bfa5f23c5c",
+    "bytes": 2821001,
+    "width": 2048,
+    "height": 1153
+  }
+}

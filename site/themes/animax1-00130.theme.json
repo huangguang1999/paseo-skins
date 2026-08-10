@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "animax1-00130",
+  "version": "0.1.0",
+  "name": "AnimaX1 00130",
+  "description": "由 DreamSkin 社区主题「AnimaX1 00130」适配，保留原背景图。",
+  "image": "animax1-00130.png",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.33,
+    "focusY": 0.48,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#f6f6f7",
+    "panel": "#fefefe",
+    "panelAlt": "#e8e9ea",
+    "accent": "#356fab",
+    "glow": "#285380",
+    "text": "#1b1c1e",
+    "muted": "#69696a",
+    "line": "#d3d3d4"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "f0647441379a09daa4e993b738ee72ab74b8918220210d3a13185a178a1acbad",
+    "bytes": 4325334,
+    "width": 2432,
+    "height": 1536
+  }
+}

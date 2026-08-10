@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "call-bsiisjqeqfnfkyb1lclwk1po",
+  "version": "0.1.0",
+  "name": "call BsIIsjqEQfnfkYb1LclWK1PO",
+  "description": "由 DreamSkin 社区主题「call BsIIsjqEQfnfkYb1LclWK1PO」适配，保留原背景图。",
+  "image": "call-bsiisjqeqfnfkyb1lclwk1po.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#131313",
+    "panel": "#1e1d1d",
+    "panelAlt": "#2a2a2a",
+    "accent": "#be8f7a",
+    "glow": "#ceab9b",
+    "text": "#f0f0f0",
+    "muted": "#939393",
+    "line": "#3f3f3f"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "3417e86a6939b6edc17a28a020388637fcedbe68be481566fbe786a2ed84c6eb",
+    "bytes": 2417057,
+    "width": 1672,
+    "height": 941
+  }
+}

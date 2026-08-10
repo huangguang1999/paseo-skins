@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "oriental-sword",
+  "version": "0.1.0",
+  "name": "双生",
+  "description": "由 DreamSkin 社区主题「双生」适配，保留原背景图。",
+  "image": "oriental-sword.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.22,
+    "focusY": 0.52,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#101820",
+    "panel": "#182631",
+    "panelAlt": "#243743",
+    "accent": "#d85b38",
+    "glow": "#f2c47c",
+    "text": "#f4f1eb",
+    "muted": "#9aa9ad",
+    "line": "#34454d"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "2caaf0cd67c2d990f183703329b552439aa283aa502039a8dd33e948124ee146",
+    "bytes": 1088528,
+    "width": 2459,
+    "height": 1385
+  }
+}

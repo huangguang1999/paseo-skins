@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "custom-liang-wenfeng-20260803",
+  "version": "1.0.0",
+  "name": "梁文锋",
+  "description": "把复杂问题，做成清晰答案。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "custom-liang-wenfeng-20260803.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.53,
+    "focusY": 0.08,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#151310",
+    "panel": "#1d1a18",
+    "panelAlt": "#29241f",
+    "accent": "#d7a64a",
+    "glow": "#7e4e20",
+    "text": "#f5f0e5",
+    "muted": "#b7ad9b",
+    "line": "rgba(215, 166, 74, 0.28)"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "4f23cbfa3da337003dc8611a1e99e9b8284e3a05c5e8c6215534ecfdb4e98b77",
+    "bytes": 1183729,
+    "width": 2560,
+    "height": 1440
+  }
+}

@@ -250,7 +250,7 @@ img { display: block; max-width: 100%; }
 .community-card-title > div { min-width: 0; }
 .community-card-title h3 { margin: 0; overflow: hidden; font-size: 19px; font-weight: 600; letter-spacing: -.035em; text-overflow: ellipsis; white-space: nowrap; }
 .community-card-title p { margin: 5px 0 0; color: var(--muted); font-size: var(--font-size-caption); }
-.community-download-button { flex: 0 0 auto; min-width: 98px; min-height: 38px; padding: 0 13px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--ink); border-radius: 3px; color: #fff; background: var(--ink); font-size: var(--font-size-caption); font-weight: 700; transition: background .18s, border-color .18s; }
+.community-download-button { flex: 0 0 auto; min-width: 98px; min-height: 38px; padding: 0 13px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--ink); border-radius: 3px; color: #fff; background: var(--ink); cursor: pointer; font-family: inherit; font-size: var(--font-size-caption); font-weight: 700; white-space: nowrap; transition: background .18s, border-color .18s; }
 .community-download-button:hover { border-color: var(--gold); background: var(--gold); }
 .community-card-copy dl { display: grid; grid-template-columns: 1fr 1fr; gap: 7px 16px; margin: 16px 0 12px; padding: 13px 0; border-top: 1px solid var(--soft-line); border-bottom: 1px solid var(--soft-line); }
 .community-card-copy dl div { min-width: 0; display: flex; justify-content: space-between; gap: 7px; font: var(--font-size-caption) var(--mono); }
@@ -265,6 +265,7 @@ img { display: block; max-width: 100%; }
 .community-pagination button { min-width: 38px; height: 38px; border: 1px solid var(--line); color: var(--muted); background: transparent; cursor: pointer; }
 .community-pagination button:hover { color: var(--ink); border-color: var(--ink); }
 .community-pagination button[aria-current="page"] { color: #fff; border-color: var(--ink); background: var(--ink); }
+.community-pagination-gap { display: grid; width: 28px; height: 38px; place-items: center; color: var(--muted); font: var(--font-size-caption) var(--mono); }
 .community-page-jump { grid-column: 3; justify-self: end; display: flex; align-items: center; gap: 7px; color: var(--muted); font-size: var(--font-size-caption); }
 .community-page-jump input { width: 45px; height: 34px; border: 1px solid var(--line); color: var(--ink); background: #fff; text-align: center; }
 .community-page-jump button { height: 34px; padding: 0 11px; border: 1px solid var(--line); color: var(--ink); background: transparent; cursor: pointer; }

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "preset-aegean-citadel",
+  "version": "1.0.0",
+  "name": "银石堡向你致意——混沌止步，秩序由此降临。",
+  "description": "Where chaos ends, order begins. DreamSkin 原主题包适配，保留原背景图。",
+  "image": "preset-aegean-citadel.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.74,
+    "focusY": 0.46,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#071522",
+    "panel": "#0b1d2b",
+    "panelAlt": "#132b3a",
+    "accent": "#d4a95f",
+    "glow": "#7f9f6a",
+    "text": "#f4ead8",
+    "muted": "#b9c9c8",
+    "line": "rgba(212, 169, 95, .30)"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "dc1d87e1cec63d6b166175aa57b9d1615879b02849c2b781b499b95c9cef739b",
+    "bytes": 2695190,
+    "width": 1672,
+    "height": 941
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "inkstorm-ascent",
+  "version": "1.0.1",
+  "name": "凡人修仙",
+  "description": "云海铺卷，惊雷替思绪落款。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "inkstorm-ascent.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.58,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#071012",
+    "panel": "#0b171a",
+    "panelAlt": "#12272a",
+    "accent": "#d6bc78",
+    "glow": "#a94739",
+    "text": "#eef4f0",
+    "muted": "#a8b8b4",
+    "line": "rgba(214, 188, 120, 0.27)"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "bc682e8b4238831667ff70b364e5fb4dee73ad490ad53981d4670ed5aed7975d",
+    "bytes": 2188031,
+    "width": 7680,
+    "height": 4320
+  }
+}

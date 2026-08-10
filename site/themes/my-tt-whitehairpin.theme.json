@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "my-tt-whitehairpin",
+  "version": "0.1.0",
+  "name": "早期卡黄",
+  "description": "由 DreamSkin 社区主题「早期卡黄」适配，保留原背景图。",
+  "image": "my-tt-whitehairpin.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.78,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#120B08",
+    "panel": "#403530",
+    "panelAlt": "#211713",
+    "accent": "#EE9A32",
+    "glow": "#FFD27A",
+    "text": "#F1EFEE",
+    "muted": "#A99A92",
+    "line": "#4A362C"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "b188072d35de9da33c1d48bd0be29b0c56a81d8afbc86e473d00c4a072c8fab2",
+    "bytes": 1688632,
+    "width": 1672,
+    "height": 941
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "pastel-workspace",
+  "version": "0.1.0",
+  "name": "治愈角落",
+  "description": "把治愈的彩虹与温柔的微光，带进今天的工作台。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "pastel-workspace.jpg",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.75,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#faf5f0",
+    "panel": "#f2eae4",
+    "panelAlt": "#eae4ec",
+    "accent": "#a499ba",
+    "glow": "#77698a",
+    "text": "#594f4d",
+    "muted": "#968a88",
+    "line": "#a499ba"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "adee550d5098199516df53be8e22d18d76b9eceef4f05c166ae44977275c4170",
+    "bytes": 110127,
+    "width": 1376,
+    "height": 768
+  }
+}

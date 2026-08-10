@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "spirit-trail",
+  "version": "0.1.1",
+  "name": "灵宠奇旅",
+  "description": "自然灵性与温暖轻冒险。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "spirit-trail.png",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#f2f8ec",
+    "panel": "#e5f0df",
+    "panelAlt": "#e5f0df",
+    "accent": "#67b878",
+    "glow": "#e88968",
+    "text": "#29342b",
+    "muted": "#6b7c6c",
+    "line": "#67b878"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "0527e1f765bb3f7efe8e19f09d6fe503bb9b9956dfa3aac6d7a0abc6821c5ae3",
+    "bytes": 3174893,
+    "width": 2048,
+    "height": 1152
+  }
+}

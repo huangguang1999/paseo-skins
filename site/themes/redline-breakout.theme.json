@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "redline-breakout",
+  "version": "1.0.1",
+  "name": "SPIDER-MAN",
+  "description": "越过分镜，直抵结论。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "redline-breakout.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.72,
+    "focusY": 0.48,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#090808",
+    "panel": "#151112",
+    "panelAlt": "#241a1b",
+    "accent": "#e64835",
+    "glow": "#921f24",
+    "text": "#f5efe5",
+    "muted": "#b9aea1",
+    "line": "rgba(227, 63, 54, 0.30)"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "414106bbb66186cfce80bc617dbf961569d8aeeb2c6814060df9ae5294d671bd",
+    "bytes": 4446517,
+    "width": 4720,
+    "height": 2332
+  }
+}

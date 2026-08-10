@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "scarlet-myth",
+  "version": "0.1.1",
+  "name": "赤焰神话",
+  "description": "上古火纹与祭器质感。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "scarlet-myth.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#1a0d09",
+    "panel": "#2a1510",
+    "panelAlt": "#3d2117",
+    "accent": "#df482f",
+    "glow": "#a72824",
+    "text": "#fff1df",
+    "muted": "#c7a58f",
+    "line": "#df482f"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "996d9f93892189901f529cbd50b1fe505f1d3fe12f7350b676b4c37f19501457",
+    "bytes": 3374886,
+    "width": 2048,
+    "height": 1152
+  }
+}

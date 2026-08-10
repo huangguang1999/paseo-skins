@@ -15,7 +15,6 @@ export function loadCatalog() {
       themes: catalog.themes.map((theme) => ({
         ...theme,
         manifestUrl: new URL(theme.manifest, catalogUrl).href,
-        packageUrl: new URL(theme.package, catalogUrl).href,
         previewUrl: new URL(theme.preview, catalogUrl).href,
       })),
     };

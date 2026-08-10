@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "ymj",
+  "version": "0.1.0",
+  "name": "樱美玖",
+  "description": "由 DreamSkin 社区主题「樱美玖」适配，保留原背景图。",
+  "image": "ymj.jpg",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.2,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#fafafa",
+    "panel": "#a57e96",
+    "panelAlt": "#ffffff",
+    "accent": "#6fb7f4",
+    "glow": "#93c9f7",
+    "text": "#000000",
+    "muted": "#7f7a7a",
+    "line": "#403f3f"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "5b8395bac4f8151cc888adf89f501fd72f9af7c347f15b4fb7de5fa02dc95a8e",
+    "bytes": 2042242,
+    "width": 2278,
+    "height": 1280
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "sunrise-coast-lab",
+  "version": "0.1.0",
+  "name": "Sunrise Coast Lab",
+  "description": "Build in the sunshine. DreamSkin 原主题包适配，保留原背景图。",
+  "image": "sunrise-coast-lab.png",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.72,
+    "focusY": 0.42,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#F7F3EA",
+    "panel": "#FFF8F0",
+    "panelAlt": "#FFFDF8",
+    "accent": "#5EA9FF",
+    "glow": "#FFF5D6",
+    "text": "#1F2A33",
+    "muted": "#6A7682",
+    "line": "#D7DFE7"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "9653e28e356c540d4be2f492ea9d1267368c18e11a35da1256623cce5dfd151f",
+    "bytes": 1710676,
+    "width": 1672,
+    "height": 941
+  }
+}

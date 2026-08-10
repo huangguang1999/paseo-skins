@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "qingdao-zhanqiao-huilange",
+  "version": "1.0.0",
+  "name": "青岛栈桥回澜阁",
+  "description": "由 DreamSkin 社区主题「青岛栈桥回澜阁」适配，保留原背景图。",
+  "image": "qingdao-zhanqiao-huilange.png",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.72,
+    "focusY": 0.18,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#F5F6F7",
+    "panel": "#F7FBFD",
+    "panelAlt": "#EDF4F7",
+    "accent": "#1377C2",
+    "glow": "#1168AA",
+    "text": "#1A1D1E",
+    "muted": "#5A6468",
+    "line": "#B8D3E1"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "669197e4c963203970dc097538c1f87e5cbad7410dc24e5c138a917b52e1f3ed",
+    "bytes": 2531490,
+    "width": 1672,
+    "height": 941
+  }
+}

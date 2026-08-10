@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "femaleandcow",
+  "version": "0.1.0",
+  "name": "骑牛的少女",
+  "description": "由 DreamSkin 社区主题「骑牛的少女」适配，保留原背景图。",
+  "image": "femaleandcow.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#131313",
+    "panel": "#1e1d1d",
+    "panelAlt": "#2b2a2a",
+    "accent": "#efac32",
+    "glow": "#f3c165",
+    "text": "#f0eff0",
+    "muted": "#939393",
+    "line": "#3f3f3f"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "387261b4cac7ca877f4687dbfd9d59ce058f73f8c6f735bb84989c6d5b474bfb",
+    "bytes": 1568252,
+    "width": 3840,
+    "height": 2160
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "prism-night",
+  "version": "0.1.1",
+  "name": "紫夜限定",
+  "description": "蓝紫星夜、晶体蝴蝶与微光轨道，适合沉浸工作。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "prism-night.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.62,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#090d38",
+    "panel": "#12164b",
+    "panelAlt": "#1b225f",
+    "accent": "#7b78ff",
+    "glow": "#da55dc",
+    "text": "#f4f2ff",
+    "muted": "#aaa9dc",
+    "line": "#7b78ff"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "933f46678605340dccf14421842cc12b7fc090cf816d4836a7434428c8e30ac5",
+    "bytes": 2093593,
+    "width": 1716,
+    "height": 916
+  }
+}

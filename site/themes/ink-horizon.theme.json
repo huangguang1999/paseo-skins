@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "ink-horizon",
+  "version": "0.1.1",
+  "name": "墨影江湖",
+  "description": "水墨留白与凌厉刀光。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "ink-horizon.png",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#f2f1ec",
+    "panel": "#e7e6e0",
+    "panelAlt": "#e7e6e0",
+    "accent": "#d1483f",
+    "glow": "#be3b34",
+    "text": "#282a2b",
+    "muted": "#707373",
+    "line": "#d1483f"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "25f02d34ef17a54be6d0cf2688345facb4e2f872af307c341fad1180444095fb",
+    "bytes": 3747918,
+    "width": 2048,
+    "height": 1152
+  }
+}

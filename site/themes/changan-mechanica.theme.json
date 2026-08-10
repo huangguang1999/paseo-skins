@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "changan-mechanica",
+  "version": "0.1.1",
+  "name": "长安机关",
+  "description": "盛唐幻想与精密机关。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "changan-mechanica.png",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.46,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#fbf2df",
+    "panel": "#f2e3ca",
+    "panelAlt": "#f2e3ca",
+    "accent": "#c83e2e",
+    "glow": "#9d2f28",
+    "text": "#38231a",
+    "muted": "#7d664f",
+    "line": "#d9a94f"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "7127eaf611cf6025d95ddef7f37e4659c786b2d442c6d8f5aed4068f975cafd8",
+    "bytes": 3305403,
+    "width": 2048,
+    "height": 1152
+  }
+}

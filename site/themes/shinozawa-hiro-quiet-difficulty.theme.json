@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "shinozawa-hiro-quiet-difficulty",
+  "version": "1.2.1",
+  "name": "篠澤広 · Quiet Difficulty",
+  "description": "越不擅长，越值得继续。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "shinozawa-hiro-quiet-difficulty.png",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.76,
+    "focusY": 0.48,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#F5F0E8",
+    "panel": "#FFFCF7",
+    "panelAlt": "#EEE9E2",
+    "accent": "#A45A20",
+    "glow": "#8F4A17",
+    "text": "#3F464E",
+    "muted": "#626C78",
+    "line": "rgba(66, 111, 148, .22)"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "5854dccf7d6607299e1c0f1e8b808ec2fd07b18a768bc6dae571acd133ad1032",
+    "bytes": 1889349,
+    "width": 1586,
+    "height": 992
+  }
+}

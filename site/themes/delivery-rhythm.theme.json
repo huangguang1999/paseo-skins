@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "delivery-rhythm",
+  "version": "0.1.1",
+  "name": "项目推进",
+  "description": "把依赖、里程碑和行动排成节奏。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "delivery-rhythm.png",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#f3f6f7",
+    "panel": "#e7edef",
+    "panelAlt": "#e7edef",
+    "accent": "#2fa9a0",
+    "glow": "#e66d3f",
+    "text": "#263036",
+    "muted": "#69777c",
+    "line": "#2fa9a0"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "185e663b1b9d9cbf248f560ba1d95cc0220fc534a616fbf7c911af74fbdbe7ac",
+    "bytes": 2959278,
+    "width": 2048,
+    "height": 1152
+  }
+}

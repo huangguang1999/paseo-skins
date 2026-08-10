@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "orbital-forge",
+  "version": "0.1.1",
+  "name": "星穹机甲",
+  "description": "东方科幻与重型机械结构。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "orbital-forge.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#0b1118",
+    "panel": "#111c26",
+    "panelAlt": "#1b2b36",
+    "accent": "#d84b45",
+    "glow": "#b92f38",
+    "text": "#edf6fa",
+    "muted": "#91a9b5",
+    "line": "#3ea5bd"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "af0e66dfc05a7ef0aabe1b79ac64de5c7bfb69da00d4c0c57fbd25a8ee2c7c74",
+    "bytes": 3336069,
+    "width": 2048,
+    "height": 1152
+  }
+}

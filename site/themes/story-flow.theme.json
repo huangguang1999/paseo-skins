@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "story-flow",
+  "version": "0.1.1",
+  "name": "内容创作",
+  "description": "让素材、节奏与叙事持续流动。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "story-flow.png",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#fff4ef",
+    "panel": "#f9e5df",
+    "panelAlt": "#f9e5df",
+    "accent": "#ef705f",
+    "glow": "#d84991",
+    "text": "#382129",
+    "muted": "#7e5d66",
+    "line": "#ef705f"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "42e29ea96c0c512c0cddfefad4b7572f4a4a4431b64ba2a1cb98d679c50bf267",
+    "bytes": 3637731,
+    "width": 2048,
+    "height": 1152
+  }
+}

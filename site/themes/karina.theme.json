@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "karina",
+  "version": "0.1.1",
+  "name": "karina",
+  "description": "由 DreamSkin 社区主题「karina」适配，保留原背景图。",
+  "image": "karina.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#121314",
+    "panel": "#1c1d1e",
+    "panelAlt": "#28292c",
+    "accent": "#5372ab",
+    "glow": "#7e95c0",
+    "text": "#efeff0",
+    "muted": "#929394",
+    "line": "#3e3f40"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "b31a1f9d2772a3ca5fe379244418e8d0fb4d01e7cebf12b66bfd59a2bacd6368",
+    "bytes": 4037537,
+    "width": 3032,
+    "height": 1706
+  }
+}

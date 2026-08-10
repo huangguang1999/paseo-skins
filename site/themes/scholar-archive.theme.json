@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "scholar-archive",
+  "version": "0.1.1",
+  "name": "研究写作",
+  "description": "为阅读、考据与长文组织保留沉静。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "scholar-archive.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#18201b",
+    "panel": "#242d27",
+    "panelAlt": "#343d36",
+    "accent": "#879b75",
+    "glow": "#8d4e54",
+    "text": "#f7f4e9",
+    "muted": "#bdb8a7",
+    "line": "#879b75"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "790edf2cc3cb3bda5855eac2f8bf5c9caed990d8e639ac17cd66f6ad30f24a09",
+    "bytes": 3359581,
+    "width": 2048,
+    "height": 1152
+  }
+}

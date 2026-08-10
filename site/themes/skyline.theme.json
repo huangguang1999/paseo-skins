@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "skyline",
+  "version": "0.1.0",
+  "name": "Skyline",
+  "description": "由 DreamSkin 社区主题「Skyline」适配，保留原背景图。",
+  "image": "skyline.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#463633",
+    "panel": "#866c6b",
+    "panelAlt": "#443734",
+    "accent": "#ecb192",
+    "glow": "#f2c5ad",
+    "text": "#ffffff",
+    "muted": "#ffffff",
+    "line": "#956e5b"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "622793581a4336ec50a7f88e9f614291eb48098d34e191bc10abd3a1de0c7bd1",
+    "bytes": 6064056,
+    "width": 4000,
+    "height": 2671
+  }
+}

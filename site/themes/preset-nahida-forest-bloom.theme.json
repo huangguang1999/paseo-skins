@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "preset-nahida-forest-bloom",
+  "version": "1.0.0",
+  "name": "纳西妲·森之绽放",
+  "description": "由 DreamSkin 社区主题「纳西妲·森之绽放」适配，保留原背景图。",
+  "image": "preset-nahida-forest-bloom.jpg",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.72,
+    "focusY": 0.1,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#dfeae7",
+    "panel": "#c9d8d2",
+    "panelAlt": "#b9cbc4",
+    "accent": "#66bf4c",
+    "glow": "#9fc75f",
+    "text": "#111111",
+    "muted": "#4b5853",
+    "line": "rgba(73, 125, 89, .22)"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "b59509578efaad9fecdbf660f9f347453855068efe7d25e28c2e4022de762956",
+    "bytes": 675009,
+    "width": 2560,
+    "height": 1440
+  }
+}

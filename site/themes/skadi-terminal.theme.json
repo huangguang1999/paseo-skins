@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "skadi-terminal",
+  "version": "0.1.0",
+  "name": "斯卡蒂 |",
+  "description": "A silent terminal beneath the deep sea.🌠 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "skadi-terminal.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.58,
+    "focusY": 0.42,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#070d18",
+    "panel": "#101b2d",
+    "panelAlt": "#16283d",
+    "accent": "#4f91b8",
+    "glow": "#b5d7e8",
+    "text": "#edf4f7",
+    "muted": "#91a6b8",
+    "line": "rgba(120,180,220,.25)"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "31d8ba93cbe5b148b5b385e84899d2f1827f4977450fc54d4b2422a40b0b7892",
+    "bytes": 2755349,
+    "width": 1672,
+    "height": 941
+  }
+}

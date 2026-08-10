@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "jimeng-2026-08-04-5645",
+  "version": "0.1.0",
+  "name": "蓬松栗棕色长卷发小美女",
+  "description": "由 DreamSkin 社区主题「蓬松栗棕色长卷发小美女」适配，保留原背景图。",
+  "image": "jimeng-2026-08-04-5645.png",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0,
+    "focusY": 0,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.72,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#131313",
+    "panel": "#1d1d1d",
+    "panelAlt": "#2a2a2a",
+    "accent": "#996c4b",
+    "glow": "#b39178",
+    "text": "#f0f0f0",
+    "muted": "#939393",
+    "line": "#3f3f3f"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "942e69f69007b57fc90cb48c5ed81fec8afa6045cb4b838a926723257e17bd55",
+    "bytes": 7566334,
+    "width": 4096,
+    "height": 2304
+  }
+}

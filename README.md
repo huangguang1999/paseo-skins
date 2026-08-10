@@ -14,7 +14,7 @@
 
 运行时边界、组件职责和按改动类型划分的验证门禁见 [Architecture](ARCHITECTURE.md)。
 
-默认内置主题是项目原创「暗夜江湖·黑金」。公开画廊另外收录 DreamSkin 下载热度榜前 30 个公开主题包的 Paseo 适配版本：背景图保持字节不变，原作者、许可证、原包哈希和原图哈希完整保留；适配器只转换声明式主题参数，不复制或执行上游 CSS、脚本。首页完整展示主视觉，进入 workspace 后自动降低背景强度，避免影响代码与对话阅读。
+默认内置主题是项目原创「暗夜江湖·黑金」。公开画廊另外收录 DreamSkin 下载热度完整热门榜快照的 Paseo 适配版本：背景图保持字节不变，原作者、许可证、原包哈希和原图哈希完整保留；适配器只转换声明式主题参数，不复制或执行上游 CSS、脚本。首页完整展示主视觉，进入 workspace 后自动降低背景强度，避免影响代码与对话阅读。
 
 ![暗夜江湖黑金预览](docs/images/stage-black-gold-preview.png)
 
@@ -26,7 +26,7 @@
 - `pause` / `reset` 可恢复根节点、样式、overlay 和动态内联样式。
 - Theme v2 提供公开 JSON Schema；加载前校验图片类型、SHA-256、字节数、尺寸和像素数。
 - 一张本地 PNG、JPEG 或 WebP 即可自动取色并生成完整性可验证的主题，浏览器端不会上传图片。
-- 每套公开主题都提供 Paseo ZIP 直下，包内只有 Theme v2 清单、未经修改的原背景图和来源说明，解压后即可离线校验、应用。
+- 每套公开主题都提供 Paseo ZIP 直下；浏览器点击后只拉取该主题的清单与原图，校验 SHA-256 并在本地生成包含 Theme v2、未经修改原图和来源说明的 ZIP，解压后即可离线校验、应用。
 - 支持通过 `--theme-url` 安装远程主题；只接受 HTTPS 同目录 JSON 与图片，不执行远程脚本。
 - `doctor` 提供只读环境诊断，`verify` 检查根节点可见性、overlay 安全和横向溢出。
 - 主题素材逐项记录作者、来源和许可证；Release 同时生成校验和与 GitHub artifact attestation。
@@ -34,9 +34,9 @@
 
 ## 皮肤画廊
 
-画廊按 DreamSkin `popular` 接口返回的下载热度顺序收录前 30 套主题，包括晨雾山水、休闲室内居家、mikuu full background、悟空、firefly、月下松岚等。每张卡片展示原作者、原许可证、原站下载量、Paseo 预览和直接下载按钮；完整清单以 [`site/catalog.json`](site/catalog.json) 为机器真值。
+画廊按 DreamSkin `popular` 接口返回的下载热度顺序收录完整榜单快照；2026-08-10 快照共有 259 套，包括晨雾山水、休闲室内居家、mikuu full background、悟空、firefly、月下松岚等。每张卡片展示原作者、原许可证、原站下载量、Paseo 预览和直接下载按钮；完整清单、抓取时间与源站总数以 [`site/catalog.json`](site/catalog.json) 为机器真值。
 
-适配流程会先核验原包 SHA-256 和包内文件哈希，再原样复制背景图并生成 Paseo Theme v2 清单。DreamSkin 包中的 `theme.css`、脚本或其他可执行内容不会进入网站和适配 ZIP。图片仍按原主题包标注的条款使用，不属于本项目 MIT 许可内容。
+适配流程会先核验原包 SHA-256 和包内文件哈希，再原样复制背景图并生成 Paseo Theme v2 清单。DreamSkin 包中的 `theme.css`、脚本或其他可执行内容不会进入网站和适配 ZIP。为避免完整榜单把原图在 GitHub Pages 中重复存一份，ZIP 会在用户点击下载后由浏览器对当前主题校验并本地生成。图片仍按原主题包标注的条款使用，不属于本项目 MIT 许可内容。
 
 本地预览站点：
 

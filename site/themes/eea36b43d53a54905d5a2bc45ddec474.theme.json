@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "eea36b43d53a54905d5a2bc45ddec474",
+  "version": "0.1.0",
+  "name": "eea36b43d53a54905d5a2bc45ddec474",
+  "description": "由 DreamSkin 社区主题「eea36b43d53a54905d5a2bc45ddec474」适配，保留原背景图。",
+  "image": "eea36b43d53a54905d5a2bc45ddec474.png",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#f7f6f5",
+    "panel": "#fefefe",
+    "panelAlt": "#ebe9e8",
+    "accent": "#b8774c",
+    "glow": "#8a5939",
+    "text": "#1f1c19",
+    "muted": "#6b6967",
+    "line": "#d4d3d2"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "c0d377619b5c23a3818cb69c69dddead2b271425704ac46b4a4ad6b904fe9d9f",
+    "bytes": 1858186,
+    "width": 1536,
+    "height": 1024
+  }
+}

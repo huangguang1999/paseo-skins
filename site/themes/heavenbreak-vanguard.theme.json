@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "heavenbreak-vanguard",
+  "version": "0.1.0",
+  "name": "破天战阵 · Heavenbreak Vanguard",
+  "description": "长风压境，孤身仍向天幕列阵。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "heavenbreak-vanguard.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.46,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#0b1219",
+    "panel": "#15202b",
+    "panelAlt": "#23313c",
+    "accent": "#e77b52",
+    "glow": "#b7c7d1",
+    "text": "#f3f4f4",
+    "muted": "#a7adb2",
+    "line": "rgba(117, 151, 176, .28)"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "859c684a18fb520b4ffb0ef567ca2954e396f9094ce0838488afeef85305194a",
+    "bytes": 588011,
+    "width": 2560,
+    "height": 1440
+  }
+}

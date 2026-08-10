@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "mai-xiaowen-arknights-banner-bright",
+  "version": "0.1.0",
+  "name": "mai xiaowen arknights banner bright",
+  "description": "由 DreamSkin 社区主题「mai xiaowen arknights banner bright」适配，保留原背景图。",
+  "image": "mai-xiaowen-arknights-banner-bright.png",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.5,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#f6f6f6",
+    "panel": "#fefefe",
+    "panelAlt": "#e9e9ea",
+    "accent": "#5c88c3",
+    "glow": "#456692",
+    "text": "#1b1c1d",
+    "muted": "#696969",
+    "line": "#d3d3d3"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "68650d07b1e6b372344ae65b4db6779979c557cc9272833db07a2eddbfe3bb3a",
+    "bytes": 3695833,
+    "width": 2560,
+    "height": 1440
+  }
+}

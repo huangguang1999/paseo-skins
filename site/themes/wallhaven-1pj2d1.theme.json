@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "wallhaven-1pj2d1",
+  "version": "0.1.0",
+  "name": "wallhaven 1pj2d1",
+  "description": "由 DreamSkin 社区主题「wallhaven 1pj2d1」适配，保留原背景图。",
+  "image": "wallhaven-1pj2d1.jpg",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0,
+    "focusY": 0.5,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#131313",
+    "panel": "#1d1d1e",
+    "panelAlt": "#2a2a2b",
+    "accent": "#ad596b",
+    "glow": "#FFB8C8",
+    "text": "#dbdbdb",
+    "muted": "#8A8590",
+    "line": "#3f3f3f"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "b1d58504b04f7b02cc4d17d6023c0a50f216cc0b0d3391392c65f48e29ce7e61",
+    "bytes": 873418,
+    "width": 1920,
+    "height": 1229
+  }
+}

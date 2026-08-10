@@ -23,8 +23,8 @@ local/remote manifest ──► theme-loader ──► validated theme + verifie
 ```
 
 - `src/theme-loader.mjs` is the single trust boundary for local Theme v1/v2 data and image integrity.
-- `scripts/dreamskin-adapter.mjs` is the import boundary for public DreamSkin packages. It verifies the source package and declared files, preserves the selected image bytes, maps only declarative theme values, and drops upstream CSS or executable content.
-- `scripts/theme-package.mjs` owns bounded ZIP reading and deterministic Paseo ZIP creation. Adapted packages contain exactly one Theme v2 manifest, one original image, and one attribution README.
+- `scripts/dreamskin-adapter.mjs` is the import boundary for public DreamSkin packages. It verifies the source package and declared files, preserves the selected image bytes, maps only declarative theme values, drops upstream CSS or executable content, and resolves reused upstream slugs with stable version-derived identifiers.
+- `shared/stored-zip.mjs` owns deterministic, dependency-free Paseo ZIP creation in both Node.js and browsers. `scripts/theme-package.mjs` adds bounded upstream ZIP reading; `site/theme-package-browser.js` revalidates the selected manifest and image before creating a local download. Adapted packages contain exactly one Theme v2 manifest, one original image, and one attribution README.
 - `src/remote-theme.mjs` adds HTTPS, redirect, origin, size, and cache constraints before delegating to the loader.
 - `src/cli-options.mjs` and `src/cli-help.mjs` are pure command-interface modules. `src/cli.mjs` orchestrates I/O and lifecycle operations.
 - `src/cdp-client.mjs` owns target discovery, loopback WebSocket validation, screenshot capture, and watcher registration.
@@ -50,6 +50,7 @@ local/remote manifest ──► theme-loader ──► validated theme + verifie
 11. Gallery and simulator previews share the same current-Paseo frame: 23.2% sidebar, 4.5% main toolbar, full-canvas artwork, workspace context, and composer. The sidebar preserves the current root-workspace and child-tab hierarchy, including square workspace marks, status dots, ring-only selection, diff counters, and outline controls. Do not substitute an invented task-card mock or generic grouped list.
 12. `apply` never competes with an active watcher. Without `--persist`, it may start a foreground watcher; with `--persist`, it installs or reconfigures the autostart Guardian. It may return idempotent success for the same persistent theme or reject a conflicting manual watcher. A successful active result requires matching watcher and renderer theme IDs; a Paseo process already running without CDP must be reported as installed but awaiting a normal app restart.
 13. Public-site text outside `.paseo-preview-frame` never renders below 10px. Metadata, provenance, buttons, code, and form help must use the shared typography tokens rather than independent micro sizes.
+14. A DreamSkin popular snapshot is complete only when catalog `source.total` equals the contiguous `popularRank` collection. Gallery rendering fetches manifests only for the visible page, so collection growth does not multiply startup requests.
 
 ## Change verification matrix
 

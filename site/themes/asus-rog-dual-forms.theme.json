@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "asus-rog-dual-forms",
+  "version": "1.0.1",
+  "name": "ASUS ROG · Dual Forms",
+  "description": "双核协同已就绪，让灵感、代码与执行在同一战术界面汇合。 DreamSkin 原主题包适配，保留原背景图。",
+  "image": "asus-rog-dual-forms.jpg",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.83,
+    "focusY": 0.46,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#eaf2f5",
+    "panel": "rgba(248, 251, 252, 0.949)",
+    "panelAlt": "rgba(237, 245, 247, 0.910)",
+    "accent": "#d63855",
+    "glow": "#79e0ec",
+    "text": "#20262f",
+    "muted": "#667482",
+    "line": "rgba(175, 197, 205, 0.502)"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "4c14455394ff3677edacb3d3099d878b9302919a88d5ae1299a284b7074e6bc3",
+    "bytes": 2258201,
+    "width": 3840,
+    "height": 2160
+  }
+}
