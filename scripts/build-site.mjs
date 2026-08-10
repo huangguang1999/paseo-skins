@@ -54,10 +54,21 @@ function renderThemePage(theme) {
   const packageUrl = new URL(theme.package, baseUrl).href;
   const description = `${theme.description} 免费开源的 Paseo 桌面主题，支持 Agent Skill 一键接入与安全 CDP 注入。`;
   const installCommand = `npx --yes github:huangguang1999/paseo-skins apply ${theme.id}`;
+  const hasDistinctEnglishName = theme.englishName.trim().toLocaleLowerCase()
+    !== theme.name.trim().toLocaleLowerCase();
+  const displayName = hasDistinctEnglishName
+    ? `${theme.name} / ${theme.englishName}`
+    : theme.name;
+  const structuredName = hasDistinctEnglishName
+    ? `${theme.name} (${theme.englishName})`
+    : theme.name;
+  const heroName = hasDistinctEnglishName
+    ? `${escapeHtml(theme.name)}<br /><i>${escapeHtml(theme.englishName)}</i>`
+    : escapeHtml(theme.name);
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
-    name: `${theme.name} (${theme.englishName})`,
+    name: structuredName,
     description,
     url: canonicalUrl,
     image: previewUrl,
@@ -80,7 +91,7 @@ function renderThemePage(theme) {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>${escapeHtml(theme.name)} / ${escapeHtml(theme.englishName)} — Paseo 主题皮肤</title>
+    <title>${escapeHtml(displayName)} — Paseo 主题皮肤</title>
     <meta name="description" content="${escapeHtml(description)}" />
     <meta name="author" content="Huang Guang" />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
@@ -91,7 +102,7 @@ function renderThemePage(theme) {
     <meta property="og:site_name" content="Paseo Skins" />
     <meta property="og:locale" content="zh_CN" />
     <meta property="og:locale:alternate" content="en_US" />
-    <meta property="og:title" content="${escapeHtml(theme.name)} / ${escapeHtml(theme.englishName)} — Paseo 主题皮肤" />
+    <meta property="og:title" content="${escapeHtml(displayName)} — Paseo 主题皮肤" />
     <meta property="og:description" content="${escapeHtml(description)}" />
     <meta property="og:url" content="${canonicalUrl}" />
     <meta property="og:image" content="${previewUrl}" />
@@ -100,7 +111,7 @@ function renderThemePage(theme) {
     <meta property="og:image:height" content="${theme.previewHeight}" />
     <meta property="og:image:alt" content="${escapeHtml(theme.name)} Paseo 主题预览" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="${escapeHtml(theme.name)} / ${escapeHtml(theme.englishName)}" />
+    <meta name="twitter:title" content="${escapeHtml(displayName)}" />
     <meta name="twitter:description" content="${escapeHtml(description)}" />
     <meta name="twitter:image" content="${previewUrl}" />
     <meta name="twitter:image:alt" content="${escapeHtml(theme.name)} Paseo theme preview" />
@@ -122,7 +133,7 @@ function renderThemePage(theme) {
     <main>
       <section class="page-hero theme-detail-hero" style="--detail-accent:${escapeHtml(theme.accent)}">
         <p class="eyebrow">INSTALLABLE PASEO THEME</p>
-        <h1>${escapeHtml(theme.name)}<br /><i>${escapeHtml(theme.englishName)}</i></h1>
+        <h1>${heroName}</h1>
         <p>${escapeHtml(theme.description)} <span lang="en">${escapeHtml(theme.englishDescription)}</span></p>
       </section>
       <article class="content-shell theme-detail-layout">

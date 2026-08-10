@@ -53,7 +53,12 @@ test("sitemap and robots expose all canonical product and theme pages", async ()
 test("every catalog theme has an indexable bilingual detail page", async () => {
   for (const theme of catalog.themes) {
     const html = await readFile(path.join(outputRoot, "themes", theme.id, "index.html"), "utf8");
-    assert.match(html, new RegExp(`<h1>${theme.name}<br`));
+    const hasDistinctEnglishName = theme.englishName.trim().toLocaleLowerCase()
+      !== theme.name.trim().toLocaleLowerCase();
+    const expectedHeading = hasDistinctEnglishName
+      ? `<h1>${theme.name}<br /><i>${theme.englishName}</i></h1>`
+      : `<h1>${theme.name}</h1>`;
+    assert.ok(html.includes(expectedHeading));
     assert.match(html, new RegExp(theme.englishName));
     assert.match(html, new RegExp(`rel="canonical" href="https://huangguang1999\\.github\\.io/paseo-skins/themes/${theme.id}/"`));
     assert.match(html, new RegExp(`themes/${theme.manifest.split("/").at(-1)}`));
@@ -62,7 +67,10 @@ test("every catalog theme has an indexable bilingual detail page", async () => {
     assert.match(html, /type="application\/json" title=".+ Theme v2 manifest"/);
     const [structuredData] = extractJsonLd(html);
     assert.equal(structuredData["@type"], "CreativeWork");
-    assert.equal(structuredData.name, `${theme.name} (${theme.englishName})`);
+    assert.equal(
+      structuredData.name,
+      hasDistinctEnglishName ? `${theme.name} (${theme.englishName})` : theme.name,
+    );
   }
 });
 

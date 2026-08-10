@@ -32,6 +32,7 @@ local/remote manifest ──► theme-loader ──► validated theme + verifie
 - `src/renderer-style-audit.mjs` owns the supported-page plan, renderer contrast and hover checks, structured reporting, and restoration of the original route. The CLI adapter is `scripts/audit-renderer-styles.mjs`.
 - `src/stage-black-gold-skin.mjs` is serialized into the renderer. It therefore remains self-contained and must provide a complete `destroy` path.
 - `site/paseo-preview-frame.js` is the single DOM source for gallery thumbnails, the full simulator, and Studio. Its parent proportions mirror the current Paseo workspace shell; visual changes require comparison against a real Paseo screenshot.
+- `site/styles.css` owns the public-site typography scale. Content and controls use the shared 10/11/12/13/14px tokens; only the deliberately miniaturized Paseo frame may render below 10px.
 - `site/` never connects to local CDP. It operates on the public catalog and browser-local files only.
 
 ## Non-negotiable invariants
@@ -48,6 +49,7 @@ local/remote manifest ──► theme-loader ──► validated theme + verifie
 10. Upstream package adaptations retain the original author, license, download URL, package SHA-256, and image SHA-256. The repository MIT license never replaces source-package terms.
 11. Gallery and simulator previews share the same current-Paseo frame: 23.2% sidebar, 4.5% main toolbar, full-canvas artwork, workspace context, and composer. The sidebar preserves the current root-workspace and child-tab hierarchy, including square workspace marks, status dots, ring-only selection, diff counters, and outline controls. Do not substitute an invented task-card mock or generic grouped list.
 12. `apply` never competes with an active watcher. It may return idempotent success for the same theme, reconfigure a loaded autostart Guardian, or reject a conflicting manual watcher. A successful Guardian switch requires matching watcher and renderer theme IDs.
+13. Public-site text outside `.paseo-preview-frame` never renders below 10px. Metadata, provenance, buttons, code, and form help must use the shared typography tokens rather than independent micro sizes.
 
 ## Change verification matrix
 
