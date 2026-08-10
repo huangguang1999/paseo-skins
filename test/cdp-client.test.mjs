@@ -2,9 +2,39 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import {
+  buildScreenshotCaptureParameters,
   isPaseoApplicationTarget,
   validateCdpWebSocketUrl,
 } from "../src/cdp-client.mjs";
+
+test("screenshot capture stays compatible with high-DPI Node WebSocket limits", () => {
+  assert.deepEqual(
+    buildScreenshotCaptureParameters({
+      deviceScaleFactor: 2,
+      screenshotFormat: "jpeg",
+      viewport: { pageX: 0, pageY: 0, clientWidth: 1920, clientHeight: 1080 },
+    }),
+    {
+      captureBeyondViewport: false,
+      format: "jpeg",
+      fromSurface: true,
+      quality: 92,
+    },
+  );
+  assert.deepEqual(
+    buildScreenshotCaptureParameters({
+      deviceScaleFactor: 2,
+      screenshotFormat: "png",
+      viewport: { pageX: 0, pageY: 0, clientWidth: 1920, clientHeight: 1080 },
+    }),
+    {
+      captureBeyondViewport: false,
+      format: "png",
+      fromSurface: true,
+      clip: { x: 0, y: 0, width: 1920, height: 1080, scale: 0.5 },
+    },
+  );
+});
 
 test("isPaseoApplicationTarget accepts the packaged renderer", () => {
   assert.equal(

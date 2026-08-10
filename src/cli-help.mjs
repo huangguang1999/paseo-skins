@@ -12,7 +12,10 @@ Options:
 Examples:
   paseo-skin list
   paseo-skin apply morning-mist
-  paseo-skin apply firefly --port 9225`,
+  paseo-skin apply firefly --port 9225
+
+If the autostart Guardian is active, apply switches that single owner in place and exits after verification.
+A different manual watcher must be stopped with Ctrl+C before apply can take ownership.`,
   autostart: `Manage the opt-in macOS login agents that restore the skin after Paseo restarts.
 
 Usage:

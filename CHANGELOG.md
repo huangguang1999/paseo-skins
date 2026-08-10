@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- **S（背景）**：网站复制的 `apply <theme-id>` 在 autostart Guardian 已守护旧主题时会被单 Watcher 锁直接拒绝；同时 Node.js 25 在高 DPI Paseo 窗口捕获大体积 PNG 时会关闭 WebSocket，JPEG 的旧 `fromSurface: false` 参数也可能返回无法截图。
+- **T（任务）**：让公开的一键命令在现有常驻主题上也能安全切换，并保证 status、verify、截图、reload 和回退形成可执行闭环。
+- **A（行动）**：为 autostart 持久化受限的运行配置并兼容读取旧 Guardian；`apply` 根据所有权状态选择前台启动、幂等成功、Guardian 重配置或手动冲突拒绝，且只在 Watcher 与 renderer 主题 ID 同时匹配后返回成功。截图统一使用 surface 捕获，高 DPI PNG 按 CSS 像素缩放以限制 WebSocket 消息体积。
+- **R（结果）**：真实环境已完成 `blue-hair-sofa → cecilylove002` 切换、同主题重复执行、reload 持久化及 Node.js 25 JPEG/PNG 截图验证，过程中始终只有一个 Watcher。
+
 - **S（背景）**：画廊缩略图和完整模拟器使用了自绘的旧式小窗口，包含不存在的 Mac 标题栏与任务卡，侧栏、工具栏、主画布和输入框比例均与当前 Paseo 不符。
 - **T（任务）**：以真实 Paseo“新建 workspace”页面为视觉真值，统一修正所有主题预览，而不是逐卡片覆盖样式。
 - **A（行动）**：新增共享的 `paseo-preview-frame`，按 23.2% 侧栏、4.5% 主工具栏、全画布背景、workspace 上下文与大输入框重建结构；侧栏继续按真实 Workspace 树还原方形根标识、状态圆点、仅圆环选中态、代码增删计数与轮廓工具图标。画廊、完整模拟器和 Studio 共用同一 DOM，并加入结构回归测试与真实浏览器截图门禁。

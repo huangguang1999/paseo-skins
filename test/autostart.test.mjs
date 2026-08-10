@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdtemp, readFile, rm, stat } from "node:fs/promises";
+import { mkdtemp, readFile, rm, stat, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import test from "node:test";
@@ -15,6 +15,7 @@ import {
   collectAutostartStatus,
   GUARDIAN_LABEL,
   installAutostart,
+  readAutostartConfiguration,
   uninstallAutostart,
 } from "../src/autostart.mjs";
 
@@ -124,9 +125,11 @@ test("installAutostart writes both plists, the guardian script, and bootstraps t
   const cdpEnvPlist = path.join(home, "Library", "LaunchAgents", `${CDP_ENV_LABEL}.plist`);
   const guardianPlist = path.join(home, "Library", "LaunchAgents", `${GUARDIAN_LABEL}.plist`);
   const guardianScript = path.join(home, ".paseo-skin-loader", "guardian.mjs");
+  const configurationPath = path.join(home, ".paseo-skin-loader", "autostart.json");
   assert.equal(result.cdpEnvPlist, cdpEnvPlist);
   assert.equal(result.guardianPlist, guardianPlist);
   assert.equal(result.guardianScript, guardianScript);
+  assert.equal(result.configurationPath, configurationPath);
 
   assert.match(await readFile(cdpEnvPlist, "utf8"), /--remote-debugging-port=9224/);
   const guardianScriptSource = await readFile(guardianScript, "utf8");
@@ -134,12 +137,49 @@ test("installAutostart writes both plists, the guardian script, and bootstraps t
   assert.match(guardianScriptSource, /"\/abs\/theme\.json"/);
   // 脚本必须可执行
   assert.equal((await stat(guardianScript)).mode & 0o100, 0o100);
+  assert.equal((await stat(configurationPath)).mode & 0o077, 0);
+  assert.deepEqual(
+    await readAutostartConfiguration({ configurationPath, guardianPath: guardianScript }),
+    {
+      schemaVersion: 1,
+      cliPath: "/repo/src/cli.mjs",
+      nodeExecutablePath: "/opt/node/bin/node",
+      remoteDebuggingPort: 9224,
+      themeArguments: ["--theme", "/abs/theme.json"],
+    },
+  );
 
   const flat = calls.map((call) => call.join(" "));
   assert.ok(flat.some((c) => c === `bootout gui/501/${CDP_ENV_LABEL}` || c.endsWith(`bootout gui/501/${CDP_ENV_LABEL}`)));
   assert.ok(flat.some((c) => c.includes(`bootstrap gui/501`) && c.includes(cdpEnvPlist)));
   assert.ok(flat.some((c) => c.includes(`bootstrap gui/501`) && c.includes(guardianPlist)));
   assert.ok(flat.some((c) => c.includes(`kickstart -k gui/501/${CDP_ENV_LABEL}`)));
+});
+
+test("readAutostartConfiguration migrates a legacy generated guardian", async (context) => {
+  const stateRoot = await mkdtemp(path.join(os.tmpdir(), "paseo-autostart-legacy-"));
+  context.after(() => rm(stateRoot, { force: true, recursive: true }));
+  const guardianPath = path.join(stateRoot, "guardian.mjs");
+  await writeFile(guardianPath, buildGuardianScript({
+    cliPath: "/stable/repo/src/cli.mjs",
+    remoteDebuggingPort: 9224,
+    themeArguments: ["--theme-url", "https://example.com/theme.json"],
+  }));
+
+  assert.deepEqual(
+    await readAutostartConfiguration({
+      configurationPath: path.join(stateRoot, "missing.json"),
+      guardianPath,
+      nodeExecutablePath: "/opt/node/bin/node",
+    }),
+    {
+      schemaVersion: 1,
+      cliPath: "/stable/repo/src/cli.mjs",
+      nodeExecutablePath: "/opt/node/bin/node",
+      remoteDebuggingPort: 9224,
+      themeArguments: ["--theme-url", "https://example.com/theme.json"],
+    },
+  );
 });
 
 test("installAutostart refuses non-macOS platforms", async () => {

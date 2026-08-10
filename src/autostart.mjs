@@ -1,11 +1,12 @@
 import { execFile } from "node:child_process";
-import { chmod, mkdir, rm, writeFile } from "node:fs/promises";
+import { chmod, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 
 const executeFile = promisify(execFile);
+const AUTOSTART_CONFIGURATION_SCHEMA_VERSION = 1;
 
 // 中性、可移植的 launchd 标签（不含任何机器/用户特定前缀）。
 export const CDP_ENV_LABEL = "com.paseo-skins.cdp-env";
@@ -34,6 +35,93 @@ function guardianScriptPath() {
 
 function guardianLogPath() {
   return path.join(autostartStateRoot(), "guardian.log");
+}
+
+function autostartConfigurationPath() {
+  return path.join(autostartStateRoot(), "autostart.json");
+}
+
+function validateThemeArguments(themeArguments) {
+  if (!Array.isArray(themeArguments) || !themeArguments.every((argument) => typeof argument === "string")) {
+    throw new Error("Autostart theme arguments must be strings");
+  }
+  if (themeArguments.length === 0) return themeArguments;
+  if (themeArguments.length !== 2 || !["--theme", "--theme-url"].includes(themeArguments[0])) {
+    throw new Error("Autostart theme arguments have an invalid shape");
+  }
+  if (themeArguments[0] === "--theme" && !path.isAbsolute(themeArguments[1])) {
+    throw new Error("Autostart theme manifest must be absolute");
+  }
+  if (themeArguments[0] === "--theme-url") {
+    const themeUrl = new URL(themeArguments[1]);
+    if (themeUrl.protocol !== "https:" || themeUrl.username || themeUrl.password) {
+      throw new Error("Autostart theme URL must be credential-free HTTPS");
+    }
+  }
+  return themeArguments;
+}
+
+function validateAutostartConfiguration(configuration) {
+  if (
+    !configuration ||
+    typeof configuration !== "object" ||
+    Array.isArray(configuration) ||
+    configuration.schemaVersion !== AUTOSTART_CONFIGURATION_SCHEMA_VERSION ||
+    typeof configuration.cliPath !== "string" ||
+    !path.isAbsolute(configuration.cliPath) ||
+    typeof configuration.nodeExecutablePath !== "string" ||
+    !path.isAbsolute(configuration.nodeExecutablePath) ||
+    !Number.isInteger(configuration.remoteDebuggingPort) ||
+    configuration.remoteDebuggingPort < 1_024 ||
+    configuration.remoteDebuggingPort > 65_535
+  ) {
+    throw new Error("Autostart configuration has an invalid schema");
+  }
+  return {
+    ...configuration,
+    themeArguments: validateThemeArguments(configuration.themeArguments),
+  };
+}
+
+function parseLegacyGuardianConfiguration(source, nodeExecutablePath) {
+  const match = source.match(
+    /const child = spawn\(process\.execPath, \[([^\n]+)\], \{ stdio: "inherit" \}\);/,
+  );
+  if (!match) throw new Error("Legacy guardian configuration could not be recovered");
+  let argumentsList;
+  try {
+    argumentsList = JSON.parse(`[${match[1]}]`);
+  } catch {
+    throw new Error("Legacy guardian arguments are invalid");
+  }
+  if (
+    argumentsList.length < 4 ||
+    typeof argumentsList[0] !== "string" ||
+    argumentsList[1] !== "inject" ||
+    argumentsList[2] !== "--port"
+  ) {
+    throw new Error("Legacy guardian arguments have an invalid shape");
+  }
+  return validateAutostartConfiguration({
+    schemaVersion: AUTOSTART_CONFIGURATION_SCHEMA_VERSION,
+    cliPath: argumentsList[0],
+    nodeExecutablePath,
+    remoteDebuggingPort: Number(argumentsList[3]),
+    themeArguments: argumentsList.slice(4),
+  });
+}
+
+export async function readAutostartConfiguration({
+  configurationPath = autostartConfigurationPath(),
+  guardianPath = guardianScriptPath(),
+  nodeExecutablePath = process.execPath,
+} = {}) {
+  try {
+    return validateAutostartConfiguration(JSON.parse(await readFile(configurationPath, "utf8")));
+  } catch (error) {
+    if (error.code !== "ENOENT") throw error;
+  }
+  return parseLegacyGuardianConfiguration(await readFile(guardianPath, "utf8"), nodeExecutablePath);
 }
 
 function xmlEscape(value) {
@@ -230,6 +318,16 @@ export async function installAutostart({
   await mkdir(launchAgentsDirectory(), { recursive: true });
 
   const scriptPath = guardianScriptPath();
+  const configurationPath = autostartConfigurationPath();
+  const configuration = validateAutostartConfiguration({
+    schemaVersion: AUTOSTART_CONFIGURATION_SCHEMA_VERSION,
+    cliPath,
+    nodeExecutablePath,
+    remoteDebuggingPort,
+    themeArguments,
+  });
+  await writeFile(configurationPath, `${JSON.stringify(configuration, null, 2)}\n`, { mode: 0o600 });
+  await chmod(configurationPath, 0o600);
   await writeFile(
     scriptPath,
     buildGuardianScript({ cliPath, remoteDebuggingPort, themeArguments }),
@@ -271,6 +369,7 @@ export async function installAutostart({
     cdpEnvPlist,
     guardianPlist,
     guardianScript: scriptPath,
+    configurationPath,
   };
 }
 
@@ -292,7 +391,12 @@ export async function uninstallAutostart({
   await executeFileImplementation("/bin/launchctl", ["unsetenv", "PASEO_ELECTRON_FLAGS"]).catch(() => {});
 
   const removed = [];
-  for (const filePath of [cdpEnvPlistPath(), guardianPlistPath(), guardianScriptPath()]) {
+  for (const filePath of [
+    cdpEnvPlistPath(),
+    guardianPlistPath(),
+    guardianScriptPath(),
+    autostartConfigurationPath(),
+  ]) {
     await rm(filePath, { force: true });
     removed.push(filePath);
   }

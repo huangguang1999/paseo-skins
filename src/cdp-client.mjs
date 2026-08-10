@@ -144,18 +144,59 @@ export async function capturePaseoScreenshot(
   try {
     await connection.connect();
     await connection.send("Page.enable");
-    const screenshot = await connection.send("Page.captureScreenshot", {
-      captureBeyondViewport: false,
-      format: screenshotFormat,
-      fromSurface: screenshotFormat === "jpeg" ? false : true,
-      ...(screenshotFormat === "jpeg" ? { quality: 92 } : {}),
-    });
+    const [layoutMetrics, deviceScaleFactorEvaluation] = await Promise.all([
+      connection.send("Page.getLayoutMetrics").catch(() => null),
+      connection.send("Runtime.evaluate", {
+        expression: "window.devicePixelRatio",
+        returnByValue: true,
+      }).catch(() => null),
+    ]);
+    const screenshot = await connection.send(
+      "Page.captureScreenshot",
+      buildScreenshotCaptureParameters({
+        deviceScaleFactor: deviceScaleFactorEvaluation?.result?.value,
+        screenshotFormat,
+        viewport: layoutMetrics?.cssVisualViewport,
+      }),
+    );
     await mkdir(path.dirname(resolvedOutputPath), { recursive: true });
     await writeFile(resolvedOutputPath, Buffer.from(screenshot.data, "base64"));
     return { outputPath: resolvedOutputPath, targetUrl: target.url };
   } finally {
     connection.close();
   }
+}
+
+export function buildScreenshotCaptureParameters({
+  deviceScaleFactor = 1,
+  screenshotFormat,
+  viewport = null,
+}) {
+  const parameters = {
+    captureBeyondViewport: false,
+    format: screenshotFormat,
+    fromSurface: true,
+    ...(screenshotFormat === "jpeg" ? { quality: 92 } : {}),
+  };
+  const scaleFactor = Number(deviceScaleFactor);
+  if (
+    screenshotFormat === "png" &&
+    Number.isFinite(scaleFactor) &&
+    scaleFactor > 1 &&
+    Number.isFinite(viewport?.pageX) &&
+    Number.isFinite(viewport?.pageY) &&
+    Number.isFinite(viewport?.clientWidth) &&
+    Number.isFinite(viewport?.clientHeight)
+  ) {
+    parameters.clip = {
+      x: viewport.pageX,
+      y: viewport.pageY,
+      width: viewport.clientWidth,
+      height: viewport.clientHeight,
+      scale: 1 / scaleFactor,
+    };
+  }
+  return parameters;
 }
 
 class CdpConnection {

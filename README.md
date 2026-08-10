@@ -54,7 +54,7 @@ npm run site
 npx --yes github:huangguang1999/paseo-skins apply morning-mist
 ```
 
-`apply` 从同源公开 catalog 解析主题 ID，下载并验证 Theme v2 清单与图片，然后复用与 `start` 相同的安全 watcher 流程。网页不会直接连接或控制本机 Paseo。
+`apply` 从同源公开 catalog 解析主题 ID，下载并验证 Theme v2 清单与图片，然后复用与 `start` 相同的安全 watcher 流程。没有 watcher 时，它启动一个前台 watcher；已启用 autostart Guardian 时，它会更新既有 Guardian 的主题并等待 watcher 与 renderer 同时确认新主题，不会启动第二个竞争 watcher。手动 watcher 占用端口时，命令会要求先在原终端按 `Ctrl+C`。网页不会直接连接或控制本机 Paseo。
 
 ## Agent Skill 接入
 
@@ -113,6 +113,8 @@ npx --yes github:huangguang1999/paseo-skins start \
 | `npm run autostart:status` | 查看开机自启代理是否已加载 |
 | `npm run autostart:uninstall` | 移除开机自启代理 |
 | `npm run check` | 运行语法检查和全部测试 |
+
+截图命令在高 DPI 窗口中会让 PNG 使用 CSS 像素尺寸，避免 Node.js WebSocket 因超大消息断开；JPEG 保持 92 质量并使用 Chromium surface 捕获。
 | `npm run release:check` | 执行发布前测试、站点链接、素材权利和包内容审计 |
 
 一键恢复的推荐顺序：

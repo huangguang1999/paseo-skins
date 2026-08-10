@@ -3,7 +3,7 @@ import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import test from "node:test";
 
-import { parseArguments } from "../src/cli.mjs";
+import { parseArguments, selectApplyMode } from "../src/cli.mjs";
 
 const execFileAsync = promisify(execFile);
 
@@ -65,6 +65,34 @@ test("parseArguments supports applying a public theme by id", () => {
   assert.equal(options.remoteDebuggingPort, 9225);
   assert.throws(() => parseArguments(["apply"]), /valid lowercase theme id/);
   assert.throws(() => parseArguments(["apply", "Aurora Ridge"]), /valid lowercase theme id/);
+});
+
+test("selectApplyMode switches a loaded guardian without competing watchers", () => {
+  assert.equal(selectApplyMode({
+    guardianLoaded: true,
+    requestedThemeId: "morning-mist",
+    watcher: { active: true, record: { themeId: "blue-hair-sofa" } },
+  }), "reconfigure-autostart");
+  assert.equal(selectApplyMode({
+    guardianLoaded: true,
+    requestedThemeId: "morning-mist",
+    watcher: { active: true, record: { themeId: "morning-mist" } },
+  }), "already-active");
+  assert.equal(selectApplyMode({
+    guardianLoaded: false,
+    requestedThemeId: "morning-mist",
+    watcher: { active: false, record: null },
+  }), "start-watcher");
+  assert.equal(selectApplyMode({
+    guardianLoaded: true,
+    requestedThemeId: "morning-mist",
+    watcher: { active: false, record: null },
+  }), "reconfigure-autostart");
+  assert.equal(selectApplyMode({
+    guardianLoaded: false,
+    requestedThemeId: "morning-mist",
+    watcher: { active: true, record: { themeId: "blue-hair-sofa" } },
+  }), "manual-watcher-conflict");
 });
 
 test("parseArguments rejects privileged and invalid ports", () => {
