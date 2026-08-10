@@ -84,25 +84,39 @@ img { display: block; max-width: 100%; }
 .split-heading > p { width: 380px; margin: 0; color: var(--muted); font-size: 14px; line-height: 1.8; }
 .centered-heading { text-align: center; margin-bottom: 64px; }
 
-.paseo-preview-frame { position: absolute; inset: 0; overflow: hidden; container-type: inline-size; color: var(--preview-text); font-family: var(--sans); }
+.paseo-preview-frame { --preview-selection: #2997e3; position: absolute; inset: 0; overflow: hidden; container-type: inline-size; color: var(--preview-text); font-family: "PingFang SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
 .paseo-preview-scrim { position: absolute; z-index: 0; inset: 0; background: color-mix(in srgb, var(--preview-background) 28%, transparent); pointer-events: none; }
 .paseo-preview-sidebar { position: absolute; z-index: 3; inset: 0 auto 0 0; width: 23.2%; overflow: hidden; border-right: 1px solid var(--preview-line); color: var(--preview-muted); background: color-mix(in srgb, var(--preview-panel) 78%, transparent); backdrop-filter: blur(16px); transition: width .3s, padding .3s, opacity .2s; }
-.paseo-preview-global-nav { height: 11.2%; min-height: 0; display: grid; align-content: center; gap: 4%; padding: 2.2% 4%; border-bottom: 1px solid color-mix(in srgb, var(--preview-accent) 40%, transparent); }
-.paseo-preview-global-nav span { display: block; overflow: hidden; font-size: clamp(3px,.62cqw,10px); line-height: 1.2; text-overflow: ellipsis; white-space: nowrap; }
-.paseo-preview-global-nav b { margin-left: 3%; font-weight: 450; }
-.paseo-preview-workspace-heading { height: 5.3%; display: flex; align-items: center; justify-content: space-between; padding: 0 4%; }
-.paseo-preview-workspace-heading small { font-size: clamp(2.5px,.48cqw,8px); }
-.paseo-preview-workspace-heading span { font-size: clamp(2.5px,.5cqw,8px); }
-.paseo-preview-workspace-list { height: 75%; overflow: hidden; padding: 0 2.4%; }
-.paseo-preview-workspace-list section { display: grid; gap: clamp(1px,.22cqw,4px); margin-bottom: 5%; }
-.paseo-preview-workspace-list strong, .paseo-preview-workspace-list span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.paseo-preview-workspace-list strong { display: flex; align-items: center; gap: 4%; padding: 2% 3%; color: var(--preview-muted); font-size: clamp(3px,.62cqw,10px); font-weight: 500; }
-.paseo-preview-workspace-list strong > i { flex: 0 0 auto; width: clamp(5px,1.2cqw,18px); aspect-ratio: 1; display: grid; place-items: center; border-radius: 23%; color: var(--preview-panel); background: var(--preview-accent); font-size: clamp(2.5px,.5cqw,8px); font-style: normal; }
-.paseo-preview-workspace-list span { display: flex; align-items: center; gap: 5%; padding: 2.1% 6%; border-radius: clamp(1px,.25cqw,4px); font-size: clamp(3px,.6cqw,10px); }
-.paseo-preview-workspace-list span > i { flex: 0 0 auto; width: clamp(2px,.35cqw,6px); aspect-ratio: 1; border-radius: 50%; background: color-mix(in srgb, var(--preview-muted) 34%, transparent); }
-.paseo-preview-workspace-list span.is-selected { color: var(--preview-text); background: color-mix(in srgb, var(--preview-panel-alt) 82%, transparent); }
-.paseo-preview-workspace-list span.is-selected > i { background: var(--preview-accent); box-shadow: 0 0 0 clamp(1px,.2cqw,3px) color-mix(in srgb, var(--preview-accent) 20%, transparent); }
-.paseo-preview-sidebar > footer { position: absolute; inset: auto 0 0; min-height: 4.5%; display: flex; align-items: center; justify-content: space-between; padding: 0 4%; border-top: 1px solid var(--preview-line); background: color-mix(in srgb, var(--preview-panel) 82%, transparent); font-size: clamp(2.5px,.5cqw,8px); white-space: nowrap; }
+.paseo-preview-icon { flex: 0 0 auto; width: clamp(3.5px,.9cqw,13px); height: clamp(3.5px,.9cqw,13px); fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+.paseo-preview-global-nav { height: 10.6%; min-height: 0; display: grid; grid-template-rows: repeat(3,1fr); align-content: center; padding: 1.1% 3.7%; border-bottom: 1px solid color-mix(in srgb, var(--preview-selection) 46%, transparent); }
+.paseo-preview-global-nav span { min-width: 0; display: flex; align-items: center; gap: 4%; overflow: hidden; font-size: clamp(3px,.78cqw,12px); line-height: 1.2; text-overflow: ellipsis; white-space: nowrap; }
+.paseo-preview-global-nav b { overflow: hidden; font-weight: 400; text-overflow: ellipsis; }
+.paseo-preview-workspace-heading { height: 5.2%; display: flex; align-items: center; justify-content: space-between; padding: 0 3.7%; }
+.paseo-preview-workspace-heading small { font-size: clamp(2.5px,.62cqw,9px); }
+.paseo-preview-workspace-heading > span { display: flex; align-items: center; gap: clamp(2px,.45cqw,7px); }
+.paseo-preview-workspace-heading .paseo-preview-icon { width: clamp(3px,.72cqw,11px); height: clamp(3px,.72cqw,11px); }
+.paseo-preview-workspace-list { height: 79.7%; overflow: hidden; padding: .3% 2.1% 0; }
+.paseo-preview-workspace-group { margin-bottom: 2.7%; }
+.paseo-preview-workspace-root, .paseo-preview-workspace-tab { min-width: 0; display: flex; align-items: center; color: var(--preview-muted); white-space: nowrap; }
+.paseo-preview-workspace-root { min-height: clamp(7px,2.3cqw,34px); gap: 4%; padding: 0 3.8%; font-size: clamp(3px,.78cqw,12px); }
+.paseo-preview-workspace-root > i { position: relative; flex: 0 0 auto; width: clamp(4px,.95cqw,14px); aspect-ratio: 1; display: grid; place-items: center; border-radius: 22%; color: color-mix(in srgb, var(--preview-panel) 82%, #111); background: var(--preview-accent); font-style: normal; }
+.paseo-preview-workspace-root > i.is-warm { background: color-mix(in srgb, var(--preview-accent) 62%, #a77727); }
+.paseo-preview-workspace-root > i.is-presence::after { content: ""; position: absolute; right: -18%; bottom: -18%; width: 42%; aspect-ratio: 1; border: clamp(1px,.14cqw,2px) solid color-mix(in srgb, var(--preview-panel) 94%, white); border-radius: 50%; background: #25ad5f; }
+.paseo-preview-workspace-root > i b { font-size: clamp(2.5px,.55cqw,8px); font-weight: 500; }
+.paseo-preview-workspace-root > strong { min-width: 0; overflow: hidden; font-weight: 400; text-overflow: ellipsis; }
+.paseo-preview-workspace-tab { min-height: clamp(6px,1.95cqw,29px); gap: 5%; padding: 0 4%; font-size: clamp(3px,.76cqw,11px); }
+.paseo-preview-workspace-tab > i { flex: 0 0 auto; width: clamp(2px,.3cqw,5px); aspect-ratio: 1; margin-left: 1%; border-radius: 50%; background: color-mix(in srgb, var(--preview-muted) 24%, transparent); }
+.paseo-preview-workspace-tab > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.paseo-preview-workspace-tab > em { flex: 0 0 auto; margin-left: auto; color: #bd5e5e; font-size: clamp(2.5px,.61cqw,9px); font-style: normal; }
+.paseo-preview-workspace-tab > em b { color: #438e5a; font-weight: 400; }
+.paseo-preview-workspace-tab.is-live > i { background: #27ad63; }
+.paseo-preview-workspace-tab.is-selected { color: var(--preview-text); }
+.paseo-preview-workspace-tab.is-selected > i { position: relative; width: clamp(4px,.66cqw,10px); margin-left: 0; border: clamp(1px,.11cqw,2px) solid color-mix(in srgb, var(--preview-selection) 52%, transparent); background: transparent; box-shadow: 0 0 0 clamp(1px,.1cqw,2px) color-mix(in srgb, var(--preview-selection) 18%, transparent); }
+.paseo-preview-workspace-tab.is-selected > i::after { content: ""; position: absolute; inset: 23%; border-radius: 50%; background: var(--preview-selection); }
+.paseo-preview-sidebar > footer { position: absolute; inset: auto 0 0; min-height: 4.5%; display: flex; align-items: center; justify-content: space-between; padding: 0 3.7%; border-top: 1px solid color-mix(in srgb, var(--preview-selection) 42%, var(--preview-line)); background: color-mix(in srgb, var(--preview-panel) 82%, transparent); font-size: clamp(2.5px,.62cqw,9px); white-space: nowrap; }
+.paseo-preview-sidebar > footer > span { display: flex; align-items: center; gap: clamp(2px,.5cqw,7px); }
+.paseo-preview-sidebar > footer > span:last-child { gap: clamp(2px,.65cqw,9px); }
+.paseo-preview-sidebar > footer .paseo-preview-icon { width: clamp(3px,.72cqw,11px); height: clamp(3px,.72cqw,11px); }
 .paseo-preview-toolbar { position: absolute; z-index: 2; top: 0; right: 0; left: 23.2%; height: 4.5%; display: flex; align-items: center; padding: 0 1.1%; border-bottom: 1px solid var(--preview-line); color: var(--preview-muted); background: color-mix(in srgb, var(--preview-panel) 68%, transparent); backdrop-filter: blur(14px); transition: left .3s; }
 .paseo-preview-toolbar span { font-size: clamp(3px,.65cqw,10px); }
 .paseo-preview-canvas { position: absolute; z-index: 1; top: 4.5%; right: 0; bottom: 0; left: 23.2%; overflow: hidden; transition: left .3s; }

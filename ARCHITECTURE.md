@@ -45,7 +45,7 @@ local/remote manifest ──► theme-loader ──► validated theme + verifie
 8. `verify` checks the active theme by default. It enforces an exact theme identity only when the caller explicitly supplies `--theme` or `--theme-url`.
 9. Public visual assets require a unique provenance entry. Personal dogfood themes and `tmp/` evidence are never release inputs.
 10. Upstream package adaptations retain the original author, license, download URL, package SHA-256, and image SHA-256. The repository MIT license never replaces source-package terms.
-11. Gallery and simulator previews share the same current-Paseo frame: 23.2% sidebar, 4.5% main toolbar, full-canvas artwork, workspace context, and composer. Do not substitute an invented task-card mock.
+11. Gallery and simulator previews share the same current-Paseo frame: 23.2% sidebar, 4.5% main toolbar, full-canvas artwork, workspace context, and composer. The sidebar preserves the current root-workspace and child-tab hierarchy, including square workspace marks, status dots, ring-only selection, diff counters, and outline controls. Do not substitute an invented task-card mock or generic grouped list.
 
 ## Change verification matrix
 
