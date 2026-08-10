@@ -16,6 +16,7 @@
 12. 深色或彩色填充控件需要按实际交互祖先背景检查文字节点，对比度不得低于 4.5。
 13. Renderer 改动必须同时验证目标页冷注入和 SPA 导航进入，并按 [Renderer 样式安全手册](docs/RENDERER_STYLE_SAFETY.md) 检查 SVG、伪元素及 `pointer-events: none` 辅助层。
 14. 第三方主题适配包只允许包含 Theme v2 清单、原背景图和来源说明；上游 CSS、JavaScript、字体或其他可执行内容不得进入发布物。
+15. 画廊缩略图、完整模拟器和 Studio 必须复用 `site/paseo-preview-frame.js`，并以当前真实 Paseo 截图校准父级比例；不得自行添加 Mac 标题栏、旧首页任务卡或其他不存在的界面。
 
 本地检查：
 

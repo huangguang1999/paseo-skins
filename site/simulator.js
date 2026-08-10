@@ -1,4 +1,5 @@
 import { copyWithFeedback, loadCatalog, loadTheme, showToast } from "./common.js";
+import { renderPaseoPreviewFrame } from "./paseo-preview-frame.js";
 
 const DEFAULT_STATE = {
   appearance: "auto",
@@ -76,43 +77,8 @@ export async function mountSimulator(root, options = {}) {
     </div>
     <div class="simulator-viewport" data-slot="viewport-frame">
       <div class="simulator-window">
-        <div class="simulator-titlebar"><i></i><i></i><i></i><span>PASEO</span></div>
-        <div class="simulator-app">
-          <aside class="simulator-sidebar">
-            <div class="simulator-wordmark">Paseo</div>
-            <nav aria-label="模拟侧栏">
-              <button type="button">＋ 新任务</button>
-              <button type="button">◌ 历史</button>
-              <button type="button">◫ 计划</button>
-            </nav>
-            <small>WORKSPACES</small>
-            <div class="simulator-workspace is-active">◇ Paseo Skins</div>
-            <div class="simulator-workspace">主题规范与安全</div>
-            <div class="simulator-workspace">发布前验收</div>
-            <span class="simulator-sidebar-footer">⚙ 设置</span>
-          </aside>
-          <main class="simulator-canvas">
-            <section class="simulator-home" data-page="home">
-              <p class="simulator-kicker">MAKE YOUR WORKSPACE YOURS</p>
-              <h2>今天想完成什么？</h2>
-              <p>主题只改变外观，不修改 Paseo 本体。</p>
-              <div class="simulator-actions">
-                <article><b>⌘</b><span>探索并理解代码</span></article>
-                <article><b>✦</b><span>构建新功能与工具</span></article>
-                <article><b>◒</b><span>审查并改进实现</span></article>
-                <article><b>↗</b><span>修复问题与故障</span></article>
-              </div>
-            </section>
-            <section class="simulator-tasks" data-page="tasks" hidden>
-              <p class="simulator-kicker">TASKS</p>
-              <h2>进行中的工作</h2>
-              <div class="simulator-task"><span>完善主题预览</span><b>进行中</b></div>
-              <div class="simulator-task"><span>检查安全边界</span><b>待处理</b></div>
-              <div class="simulator-task"><span>发布主题包</span><b>待处理</b></div>
-            </section>
-            <div class="simulator-composer"><span>随便说点什么</span><b>↑</b></div>
-          </main>
-        </div>
+        <div class="simulator-theme-art" aria-hidden="true"></div>
+        <div class="paseo-preview-frame" data-preview-page="home">${renderPaseoPreviewFrame()}</div>
       </div>
     </div>`;
 
@@ -173,9 +139,8 @@ export async function mountSimulator(root, options = {}) {
     root.dataset.page = state.page;
     root.dataset.sidebar = state.sidebar;
     root.dataset.viewport = state.viewport;
+    root.querySelector(".paseo-preview-frame").dataset.previewPage = state.page;
     frame.classList.toggle("is-narrow", state.viewport === "narrow");
-    root.querySelector('[data-page="home"]').hidden = state.page !== "home";
-    root.querySelector('[data-page="tasks"]').hidden = state.page !== "tasks";
     renderControls();
     options.onStateChange?.({ ...state, theme: activeTheme });
   };

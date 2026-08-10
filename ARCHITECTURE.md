@@ -30,6 +30,7 @@ local/remote manifest ──► theme-loader ──► validated theme + verifie
 - `src/cdp-client.mjs` owns target discovery, loopback WebSocket validation, screenshot capture, and watcher registration.
 - `src/renderer-style-audit.mjs` owns the supported-page plan, renderer contrast and hover checks, structured reporting, and restoration of the original route. The CLI adapter is `scripts/audit-renderer-styles.mjs`.
 - `src/stage-black-gold-skin.mjs` is serialized into the renderer. It therefore remains self-contained and must provide a complete `destroy` path.
+- `site/paseo-preview-frame.js` is the single DOM source for gallery thumbnails, the full simulator, and Studio. Its parent proportions mirror the current Paseo workspace shell; visual changes require comparison against a real Paseo screenshot.
 - `site/` never connects to local CDP. It operates on the public catalog and browser-local files only.
 
 ## Non-negotiable invariants
@@ -44,6 +45,7 @@ local/remote manifest ──► theme-loader ──► validated theme + verifie
 8. `verify` checks the active theme by default. It enforces an exact theme identity only when the caller explicitly supplies `--theme` or `--theme-url`.
 9. Public visual assets require a unique provenance entry. Personal dogfood themes and `tmp/` evidence are never release inputs.
 10. Upstream package adaptations retain the original author, license, download URL, package SHA-256, and image SHA-256. The repository MIT license never replaces source-package terms.
+11. Gallery and simulator previews share the same current-Paseo frame: 23.2% sidebar, 4.5% main toolbar, full-canvas artwork, workspace context, and composer. Do not substitute an invented task-card mock.
 
 ## Change verification matrix
 

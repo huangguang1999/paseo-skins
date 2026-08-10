@@ -4,6 +4,7 @@ import {
   getApplyCommand,
   loadCatalog,
 } from "./common.js";
+import { renderPaseoPreviewFrame } from "./paseo-preview-frame.js";
 
 const PAGE_SIZE = 6;
 const SORTS = new Set(["newest", "popular", "creator"]);
@@ -57,40 +58,30 @@ function openApplyDialog(theme) {
   elements.applyDialog.showModal();
 }
 
-function renderMiniPaseo(theme, manifest) {
+function renderPaseoPreview(theme, manifest) {
   const colors = manifest?.colors ?? {};
+  const background = colors.background ?? "#f4f5f6";
   const panel = colors.panel ?? "rgba(15, 18, 24, .86)";
+  const panelAlt = colors.panelAlt ?? panel;
   const text = colors.text ?? "#ffffff";
   const muted = colors.muted ?? "#a5abb2";
   const line = colors.line ?? "rgba(255, 255, 255, .16)";
   const accent = colors.accent ?? theme.accent;
-  return `<div class="community-mini-window" style="--card-panel:${escapeHtml(panel)};--card-text:${escapeHtml(text)};--card-muted:${escapeHtml(muted)};--card-line:${escapeHtml(line)};--card-accent:${escapeHtml(accent)}">
-    <div class="community-mini-titlebar"><i></i><i></i><i></i><span>Paseo</span></div>
-    <div class="community-mini-app">
-      <aside>
-        <b>Paseo</b>
-        <span class="is-active">＋ 新建工作区</span>
-        <span>◷ 历史</span>
-        <span>▣ 计划</span>
-        <small>WORKSPACES</small>
-        <span>● 个人项目</span>
-        <span>○ 主题工作室</span>
-      </aside>
-      <section>
-        <p>今天想完成什么？</p>
-        <div><span>继续当前任务</span><span>检查工作区</span><span>创建计划</span></div>
-        <label>给 Paseo 发消息… <b>↑</b></label>
-      </section>
-    </div>
-  </div>`;
+  const focusX = Math.round((manifest?.art?.focusX ?? 0.5) * 100);
+  const focusY = Math.round((manifest?.art?.focusY ?? 0.5) * 100);
+  return {
+    frame: `<div class="paseo-preview-frame community-paseo-frame" data-preview-page="home" style="--preview-background:${escapeHtml(background)};--preview-panel:${escapeHtml(panel)};--preview-panel-alt:${escapeHtml(panelAlt)};--preview-text:${escapeHtml(text)};--preview-muted:${escapeHtml(muted)};--preview-line:${escapeHtml(line)};--preview-accent:${escapeHtml(accent)}">${renderPaseoPreviewFrame()}</div>`,
+    objectPosition: `${focusX}% ${focusY}%`,
+  };
 }
 
 function renderCard(theme) {
   const manifest = state.manifests.get(theme.id);
+  const preview = renderPaseoPreview(theme, manifest);
   return `<article class="community-card" data-theme-id="${escapeHtml(theme.id)}">
     <a class="community-card-preview" href="../preview/?themeId=${encodeURIComponent(theme.id)}" aria-label="预览${escapeHtml(theme.name)}">
-      <img src="${escapeHtml(theme.previewUrl)}" alt="${escapeHtml(theme.name)} Paseo 主题预览" loading="${theme.popularRank <= PAGE_SIZE ? "eager" : "lazy"}" />
-      ${renderMiniPaseo(theme, manifest)}
+      <img src="${escapeHtml(theme.previewUrl)}" alt="${escapeHtml(theme.name)} Paseo 主题预览" loading="${theme.popularRank <= PAGE_SIZE ? "eager" : "lazy"}" style="object-position:${preview.objectPosition}" />
+      ${preview.frame}
       <span class="community-rank">TOP ${String(theme.popularRank).padStart(2, "0")}</span>
     </a>
     <div class="community-card-copy">
