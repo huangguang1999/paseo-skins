@@ -2,6 +2,8 @@ import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { createThemePackage } from "./theme-package.mjs";
+
 const repositoryRoot = fileURLToPath(new URL("../", import.meta.url));
 const sourceRoot = path.join(repositoryRoot, "site");
 const outputRoot = path.join(repositoryRoot, "_site");
@@ -28,6 +30,14 @@ function getThemeAssetPath(theme, field) {
   return theme[field].slice(prefix.length);
 }
 
+function getThemePackagePath(theme) {
+  const expectedPath = `./packages/${theme.id}-paseo-theme.zip`;
+  if (theme.package !== expectedPath) {
+    throw new Error(`Theme ${theme.id} has an unsupported package path`);
+  }
+  return theme.package.slice("./".length);
+}
+
 function renderThemeIndex(themes) {
   return themes.map((theme) => `
             <a href="./themes/${escapeHtml(theme.id)}/">
@@ -41,6 +51,7 @@ function renderThemePage(theme) {
   const previewAsset = getThemeAssetPath(theme, "preview");
   const previewUrl = new URL(`themes/${previewAsset}`, baseUrl).href;
   const manifestUrl = new URL(theme.manifest, baseUrl).href;
+  const packageUrl = new URL(theme.package, baseUrl).href;
   const description = `${theme.description} 免费开源的 Paseo 桌面主题，支持 Agent Skill 一键接入与安全 CDP 注入。`;
   const installCommand = `npx --yes github:huangguang1999/paseo-skins apply ${theme.id}`;
   const structuredData = {
@@ -121,8 +132,9 @@ function renderThemePage(theme) {
           <h2>${escapeHtml(theme.name)}</h2>
           <div class="theme-tags">${theme.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}</div>
           <dl><div><dt>作者</dt><dd>${escapeHtml(theme.author)}</dd></div><div><dt>许可</dt><dd>${escapeHtml(theme.license)}</dd></div><div><dt>格式</dt><dd>Theme v2</dd></div></dl>
+          <a class="button primary-button" href="${packageUrl}" download>下载主题包</a>
           <div class="command-box"><code>${escapeHtml(installCommand)}</code><button id="copy-theme-command" type="button">复制</button></div>
-          <a class="button primary-button" href="../../preview/?themeId=${encodeURIComponent(theme.id)}">在模拟器预览</a>
+          <a class="button secondary-button" href="../../preview/?themeId=${encodeURIComponent(theme.id)}">在模拟器预览</a>
           <a class="button secondary-button" href="../../studio/?theme=${encodeURIComponent(theme.id)}">在 Studio 调整</a>
           <a class="button secondary-button" href="${manifestUrl}" download>下载 theme.json</a>
           <a class="theme-source-link" href="${escapeHtml(theme.sourceUrl)}" rel="noreferrer">图片来源：${escapeHtml(theme.author)} ↗</a>
@@ -161,13 +173,35 @@ for (const browserModule of ["theme-builder-core.js", "theme-builder.js"]) {
 
 const catalog = JSON.parse(await readFile(path.join(sourceRoot, "catalog.json"), "utf8"));
 const packageMetadata = JSON.parse(await readFile(path.join(repositoryRoot, "package.json"), "utf8"));
+const publishedThemes = [];
+await mkdir(path.join(outputRoot, "packages"), { recursive: true });
+for (const theme of catalog.themes) {
+  const manifestPath = path.join(sourceRoot, theme.manifest.replace(/^\.\//, ""));
+  const imagePath = path.join(sourceRoot, theme.preview.replace(/^\.\//, ""));
+  const [manifestBytes, imageBytes] = await Promise.all([
+    readFile(manifestPath),
+    readFile(imagePath),
+  ]);
+  const archive = createThemePackage({
+    identifier: theme.id,
+    imageFilename: path.basename(imagePath),
+    imageBytes,
+    manifestFilename: path.basename(manifestPath),
+    manifestBytes,
+  });
+  const archivePath = path.join(outputRoot, getThemePackagePath(theme));
+  await writeFile(archivePath, archive);
+  publishedThemes.push({ ...theme, packageBytes: archive.length });
+}
+const publishedCatalog = { ...catalog, themes: publishedThemes };
+await writeFile(path.join(outputRoot, "catalog.json"), `${JSON.stringify(publishedCatalog, null, 2)}\n`);
 let indexHtml = await readFile(path.join(outputRoot, "index.html"), "utf8");
 indexHtml = indexHtml
-  .replace("<!-- THEME_INDEX -->", renderThemeIndex(catalog.themes))
+  .replace("<!-- THEME_INDEX -->", renderThemeIndex(publishedCatalog.themes))
   .replaceAll("__SOFTWARE_VERSION__", packageMetadata.version);
 await writeFile(path.join(outputRoot, "index.html"), indexHtml);
 
-for (const theme of catalog.themes) {
+for (const theme of publishedCatalog.themes) {
   const themeDirectory = path.join(outputRoot, "themes", theme.id);
   const manifest = JSON.parse(await readFile(
     path.join(sourceRoot, theme.manifest.replace(/^\.\//, "")),
@@ -184,7 +218,7 @@ for (const theme of catalog.themes) {
 const sitemapUrls = [
   baseUrl,
   ...["gallery/", "studio/", "docs/", "download/"].map((pathname) => new URL(pathname, baseUrl).href),
-  ...catalog.themes.map((theme) => new URL(`themes/${theme.id}/`, baseUrl).href),
+  ...publishedCatalog.themes.map((theme) => new URL(`themes/${theme.id}/`, baseUrl).href),
 ];
 await writeFile(
   path.join(outputRoot, "sitemap.xml"),
@@ -195,4 +229,4 @@ await writeFile(
   `User-agent: *\nAllow: /\n\nSitemap: ${new URL("sitemap.xml", baseUrl).href}\n`,
 );
 
-console.log(`Built ${catalog.themes.length} searchable theme pages in ${outputRoot}`);
+console.log(`Built ${publishedCatalog.themes.length} searchable theme pages and download packages in ${outputRoot}`);

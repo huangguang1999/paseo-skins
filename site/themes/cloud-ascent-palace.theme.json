@@ -1,0 +1,34 @@
+{
+  "$schema": "https://huangguang1999.github.io/paseo-skins/schema/paseo-theme-v2.schema.json",
+  "schemaVersion": 2,
+  "id": "cloud-ascent-palace",
+  "version": "1.0.0",
+  "name": "云上仙途",
+  "description": "悬空宫阙、云梯和纸鸢组成原创仙境，留白与青黛色适合长时间工作。",
+  "image": "cloud-ascent-palace.png",
+  "appearance": "light",
+  "art": {
+    "focusX": 0.76,
+    "focusY": 0.52,
+    "homeOpacity": 0.96,
+    "workspaceOpacity": 0.2,
+    "utilityOpacity": 0.32
+  },
+  "colors": {
+    "background": "#e9eff0",
+    "panel": "rgba(255, 255, 255, 0.84)",
+    "panelAlt": "rgba(248, 246, 241, 0.72)",
+    "accent": "#628993",
+    "glow": "#e8b76b",
+    "text": "#172123",
+    "muted": "#647174",
+    "line": "rgba(23, 33, 35, 0.14)"
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "sha256": "e5356b68c96950cbb6b7efda91477a8190733ce2f4858839c972bad02408f3e2",
+    "bytes": 1663908,
+    "width": 1920,
+    "height": 1080
+  }
+}

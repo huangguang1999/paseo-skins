@@ -8,13 +8,13 @@
 
 **Open-source Paseo themes and skins, a browser-based theme builder Studio, a live simulator, a standard Agent Skill, and a safe macOS CDP theme loader.** Browse independent backgrounds, preview complete UI states, turn one image into a verified theme, apply it with one CLI command, and restore the native Paseo UI at any time.
 
-一个面向 Paseo 的非官方开源主题皮肤画廊、Agent Skill 与本地加载器。网页负责主题预览、搜索和一键复制 Agent 任务；Skill 负责安全工作流，CLI 负责下载声明式主题，并通过 `127.0.0.1` 上的 Chrome DevTools Protocol（CDP）只向 `paseo://app/` 渲染窗口注入样式。
+一个面向 Paseo 的非官方开源主题皮肤画廊、Agent Skill 与本地加载器。网页负责主题预览和主题包直下；Skill 负责安全工作流，CLI 负责校验声明式主题，并通过 `127.0.0.1` 上的 Chrome DevTools Protocol（CDP）只向 `paseo://app/` 渲染窗口注入样式。
 
 **[在线浏览 Paseo 主题](https://huangguang1999.github.io/paseo-skins/gallery/)** · **[打开主题 Studio](https://huangguang1999.github.io/paseo-skins/studio/)** · **[使用快捷 CLI](https://huangguang1999.github.io/paseo-skins/download/)** · **[查看主题文档](https://huangguang1999.github.io/paseo-skins/docs/)**
 
 运行时边界、组件职责和按改动类型划分的验证门禁见 [Architecture](ARCHITECTURE.md)。
 
-默认主题是原创「暗夜江湖·黑金」。公开画廊另提供极光、星云、雨夜城市、暖色书房、荒漠落日、水墨、月夜、猫咪暖室、奶油极简、海盐玻璃与霓虹终端等 12 套主题；每套主题分别配置焦点、安全区和颜色。首页完整展示主视觉，进入 workspace 后自动降低背景强度，避免影响代码与对话阅读。
+默认主题是原创「暗夜江湖·黑金」。公开画廊提供水墨、室内雨夜、全息舞台、神话云海、星鲸、森林、深海、仙境、科幻与极简等 30 套主题，其中 25 套为项目原创；每套主题分别配置焦点、安全区、颜色、版本、完整性哈希与素材来源。首页完整展示主视觉，进入 workspace 后自动降低背景强度，避免影响代码与对话阅读。
 
 ![暗夜江湖黑金预览](docs/images/stage-black-gold-preview.png)
 
@@ -26,12 +26,15 @@
 - `pause` / `reset` 可恢复根节点、样式、overlay 和动态内联样式。
 - Theme v2 提供公开 JSON Schema；加载前校验图片类型、SHA-256、字节数、尺寸和像素数。
 - 一张本地 PNG、JPEG 或 WebP 即可自动取色并生成完整性可验证的主题，浏览器端不会上传图片。
+- 每套公开主题都提供 ZIP 直下，解压后即可用同目录清单和图片离线校验、应用。
 - 支持通过 `--theme-url` 安装远程主题；只接受 HTTPS 同目录 JSON 与图片，不执行远程脚本。
 - `doctor` 提供只读环境诊断，`verify` 检查根节点可见性、overlay 安全和横向溢出。
 - 主题素材逐项记录作者、来源和许可证；Release 同时生成校验和与 GitHub artifact attestation。
 - Node.js 原生实现，无运行时第三方依赖。
 
 ## 皮肤画廊
+
+画廊按公开热门榜的题材分布提供 30 套可安装主题。下表是原有 12 个方向，新增的 18 套原创主题包括雨幕客厅、全息舞台、奇想保险库、云海行者、蔷薇晨窗、流萤河谷、星海鲸歌、水光舞厅、寂静轨道、赤崖朝光、灵感宇宙、森光小径、深海鱼城、云上仙途、青瓷雨庭、三日凌空、紫罗兰书信与缎带夜曲。
 
 | Paseo 主题 | English name | 风格 |
 |---|---|---|
@@ -54,7 +57,7 @@
 npm run site
 ```
 
-打开 `http://127.0.0.1:4173` 即可浏览和收藏主题、在隔离模拟器中切换首页/任务页/宽窄窗口、从一张本地图片生成 Theme v2，并复制一键换肤命令。站点是纯静态 HTML/CSS/JS，可直接发布到 GitHub Pages；主题目录位于 `site/catalog.json`。
+打开 `http://127.0.0.1:4173` 即可浏览主题、直接下载可用 ZIP、在隔离模拟器中切换首页/任务页/宽窄窗口，并从一张本地图片生成 Theme v2。站点是纯静态 HTML/CSS/JS，可直接发布到 GitHub Pages；主题目录位于 `site/catalog.json`。
 
 ## 一条命令换肤
 
@@ -68,7 +71,7 @@ npx --yes github:huangguang1999/paseo-skins apply aurora-ridge
 
 ## Agent Skill 接入
 
-网页主题卡默认复制一份完整 Agent 任务，包含标准 Skill URL、主题清单和安全约束。用户也可以全局安装 Skill：
+主题卡默认直接下载主题包；希望由 Agent 接管完整验收流程的用户也可以全局安装 Skill：
 
 ```bash
 npx skills add huangguang1999/paseo-skins --skill paseo-skins -g

@@ -68,7 +68,7 @@ test("every catalog theme has an indexable bilingual detail page", async () => {
 
 test("gallery, simulator, studio, docs, and CLI pages ship their interactive entry points", async () => {
   const expectations = [
-    ["gallery/index.html", /src="\.\.\/gallery\.js"/, /id="gallery-search"/],
+    ["gallery/index.html", /src="\.\.\/gallery\.js"/, /id="community-sort-tabs"/, /id="community-grid"/],
     ["preview/index.html", /src="\.\.\/preview\.js"/, /id="preview-simulator"/],
     ["studio/index.html", /src="\.\.\/theme-builder\.js"/, /id="studio-simulator"/],
     ["docs/index.html", /Theme v2/, /Safe CSS/],
@@ -80,7 +80,7 @@ test("gallery, simulator, studio, docs, and CLI pages ship their interactive ent
   }
 });
 
-test("gallery group flows and Studio controls are accessible without native prompts", async () => {
+test("popular gallery is login-free and Studio controls are accessible without native prompts", async () => {
   const [galleryHtml, galleryScript, studioHtml, builderScript, styles] = await Promise.all([
     readFile(path.join(outputRoot, "gallery/index.html"), "utf8"),
     readFile(path.join(outputRoot, "gallery.js"), "utf8"),
@@ -89,9 +89,20 @@ test("gallery group flows and Studio controls are accessible without native prom
     readFile(path.join(outputRoot, "styles.css"), "utf8"),
   ]);
 
-  assert.match(galleryHtml, /id="group-dialog"/);
-  assert.match(galleryHtml, /id="group-name"/);
+  assert.match(galleryHtml, /找到适合你的<br \/>工作区/);
+  assert.match(galleryHtml, /30 款/);
+  assert.match(galleryHtml, /id="community-sort-tabs"/);
+  assert.match(galleryHtml, /id="community-page-jump"/);
+  assert.doesNotMatch(galleryHtml, /<(?:a|button)[^>]*>[^<]*(?:登录|注册|Login|Sign in)/i);
+  assert.doesNotMatch(galleryHtml, /id="group-dialog"|id="group-name"|id="gallery-search"/);
+  assert.doesNotMatch(galleryScript, /localStorage|readSavedThemeGroups|saveThemeGroups/);
   assert.doesNotMatch(galleryScript, /window\.prompt/);
+  assert.doesNotMatch(galleryScript, /Codex/);
+  assert.match(galleryScript, /const PAGE_SIZE = 6/);
+  assert.match(galleryScript, /Paseo/);
+  assert.match(galleryScript, /referenceDownloads/);
+  assert.match(galleryScript, /下载主题包/);
+  assert.match(galleryScript, /packageUrl/);
   assert.match(studioHtml, /id="builder-upload-zone"[^>]+role="button"[^>]+tabindex="0"/);
   assert.match(studioHtml, /id="builder-focus-x"[^>]+aria-label="横向焦点"/);
   assert.match(studioHtml, /id="css-status"[^>]+role="status"/);

@@ -53,10 +53,11 @@
 }</code></pre>
 
           <h2 id="package">主题包</h2>
-          <p>最小主题包由 JSON 清单和同目录图片组成。CLI 的 <code>create</code> 会生成这两个文件；<code>inspect</code> 可以离线验证；<code>verify</code> 用真实 renderer 检查主题生命周期和布局安全。</p>
+          <p>最小主题包由 JSON 清单和同目录图片组成。公开主题库会把这两个文件与使用说明打成 ZIP 供直接下载；CLI 的 <code>create</code> 也能生成本地主题包，<code>inspect</code> 可以离线验证，<code>verify</code> 用真实 renderer 检查主题生命周期和布局安全。</p>
           <pre><code>my-theme/
 ├── my-theme.theme.json
-└── background.webp</code></pre>
+├── background.webp
+└── README.txt</code></pre>
 
           <h2 id="safety">安全边界</h2>
           <ul><li>不 patch <code>Paseo.app</code>、<code>app.asar</code>、daemon 或 Agent 数据。</li><li>CDP 只监听 <code>127.0.0.1</code>，不得转发到局域网或公网。</li><li>远程主题必须使用 HTTPS，清单与图片必须同源，不执行远程 JavaScript。</li><li><code>pause</code> / <code>reset</code> 会销毁 observer、overlay、style 与动态内联样式。</li><li>同一端口只允许一个 watcher，避免重复注入。</li></ul>

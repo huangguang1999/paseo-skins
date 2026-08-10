@@ -3,61 +3,80 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="浏览、搜索、收藏并在线预览 Paseo 主题，一条 CLI 命令安全应用。" />
+    <meta name="description" content="浏览 30 款由热门题材启发、为 Paseo 原创重绘的可安装主题。无需登录，一条 CLI 命令即可安全应用。" />
     <title>主题库 — Paseo Skins</title>
     <link rel="canonical" href="https://huangguang1999.github.io/paseo-skins/gallery/" />
     <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="../styles.css" />
     <script type="module" src="../gallery.js"></script>
   </head>
-  <body>
-    <header class="site-header">
+  <body class="community-gallery-page">
+    <header class="site-header community-header">
       <a class="brand" href="../"><span class="brand-glyph">P</span><span>Paseo <i>Skins</i></span></a>
-      <nav aria-label="主导航"><a href="./" aria-current="page">主题库</a><a href="../studio/">Studio</a><a href="../docs/">文档</a><a href="../download/">CLI</a></nav>
+      <nav aria-label="主导航"><a href="./" aria-current="page">主题库</a><a href="../studio/">工作室</a><a href="../docs/">文档</a><a href="../download/">下载</a></nav>
       <a class="header-action" href="https://github.com/huangguang1999/paseo-skins">GitHub <span>↗</span></a>
     </header>
+
     <main>
-      <section class="page-hero">
-        <p class="eyebrow">THEME LIBRARY</p>
-        <h1>找到你的<br /><i>工作氛围。</i></h1>
-        <p>每一款主题都有可验证的 Theme v2 清单、独立背景和安全区配置。先在模拟器里看完整状态，再复制一条命令应用。</p>
-      </section>
-      <section class="content-shell" aria-labelledby="gallery-title">
-        <h2 id="gallery-title" hidden>主题列表</h2>
-        <div class="gallery-toolbar">
-          <label class="gallery-search"><span hidden>搜索主题</span><input id="gallery-search" class="form-control" type="search" aria-label="搜索主题" placeholder="搜索名称、风格或标签…" autocomplete="off" /></label>
-          <select id="appearance-filter" class="form-control" aria-label="外观筛选"><option value="all">全部外观</option><option value="dark">深色</option><option value="light">浅色</option></select>
-          <select id="sort-filter" class="form-control" aria-label="排序"><option value="featured">精选排序</option><option value="name">按名称</option><option value="accent">按色彩</option></select>
-          <select id="group-filter" class="form-control" aria-label="收藏分组"><option value="all">全部主题</option><option value="favorites">我的收藏</option></select>
+      <section class="community-hero" aria-labelledby="community-hero-title">
+        <div>
+          <p class="eyebrow">PASEO THEME GALLERY</p>
+          <h1 id="community-hero-title">找到适合你的<br />工作区</h1>
         </div>
-        <div class="gallery-meta"><span id="gallery-count">正在加载…</span><div><button id="create-group" type="button" class="text-link">新建收藏夹</button> · <button id="reset-filters" type="button" class="text-link">重置筛选</button></div></div>
-        <div id="gallery-grid" class="gallery-grid" aria-live="polite"></div>
-        <div id="gallery-empty" class="empty-state" hidden><b>没有匹配的主题</b><p>换一个关键词，或重置筛选条件。</p></div>
-        <nav id="pagination" class="pagination" aria-label="主题分页"></nav>
+        <div class="community-hero-note">
+          <span aria-hidden="true">✦</span>
+          <p>让颜色、光线和空间进入 Paseo。30 款完整主题无需登录，预览满意后直接复制命令应用。</p>
+          <a href="#community-themes">浏览热门主题 <b>↓</b></a>
+        </div>
+      </section>
+
+      <section id="community-themes" class="community-library content-shell" aria-labelledby="community-title">
+        <div class="community-heading">
+          <div>
+            <p class="eyebrow">COMMUNITY COLLECTION</p>
+            <h2 id="community-title">社区主题 <span>30 款</span></h2>
+          </div>
+          <p>参考 DreamSkin 下载热度的题材分布，由本项目重新构图和绘制；不复制社区图片或主题源码。</p>
+        </div>
+
+        <div class="community-controls">
+          <div id="community-sort-tabs" class="community-sort-tabs" role="tablist" aria-label="主题排序">
+            <button type="button" role="tab" data-sort="newest" aria-selected="false">最新发布</button>
+            <button type="button" role="tab" data-sort="popular" aria-selected="true">下载热度</button>
+            <button type="button" role="tab" data-sort="creator" aria-selected="false">创作者</button>
+          </div>
+          <a class="community-source" href="https://dreamskin.cc/gallery?community=popular" rel="noreferrer">热门灵感来源 ↗</a>
+        </div>
+
+        <p id="community-status" class="community-status" role="status">正在加载 30 款主题…</p>
+        <div id="community-grid" class="community-grid" aria-live="polite"></div>
+
+        <div class="community-pagination-row">
+          <nav id="community-pagination" class="community-pagination" aria-label="主题分页"></nav>
+          <form id="community-page-jump" class="community-page-jump">
+            <label for="community-page-input">跳至</label>
+            <input id="community-page-input" type="number" min="1" value="1" inputmode="numeric" aria-label="页码" />
+            <span>页</span>
+            <button type="submit">前往</button>
+          </form>
+        </div>
       </section>
     </main>
-    <footer class="site-footer"><a class="brand" href="../"><span class="brand-glyph">P</span><span>Paseo <i>Skins</i></span></a><p>主题数据来自公开 catalog.json。</p><nav><a href="../studio/">制作主题</a><a href="../docs/">文档</a><a href="../download/">CLI</a></nav></footer>
+
+    <footer class="site-footer community-footer">
+      <a class="brand" href="../"><span class="brand-glyph">P</span><span>Paseo <i>Skins</i></span></a>
+      <p>30 款主题均可验证来源、许可与 Theme v2 完整性。</p>
+      <nav><a href="../studio/">制作主题</a><a href="../docs/">文档</a><a href="../download/">CLI</a></nav>
+    </footer>
 
     <dialog id="apply-dialog" class="gallery-dialog">
       <div class="dialog-inner">
         <p class="eyebrow">ONE-COMMAND APPLY</p>
         <h2 id="apply-title">应用主题</h2>
-        <p>网页不能也不会直接控制你的 Paseo。复制这条命令到终端，CLI 会先校验主题，再通过本机回环 CDP 应用。</p>
+        <p>复制命令到终端。CLI 会校验清单、图片哈希和本机回环 CDP，再安全应用到 Paseo。</p>
         <div class="command-box"><code id="apply-command"></code><button id="copy-command" type="button">复制</button></div>
-        <p><small>如果 Paseo 正在运行但没有开启 CDP，CLI 会安全退出，不会强制重启正在工作的 Agent。</small></p>
-        <div class="dialog-actions"><button id="close-apply-dialog" class="button secondary-button" type="button">关闭</button><a id="apply-doc-link" class="button primary-button" href="../download/">查看 CLI 指南</a></div>
+        <div class="dialog-actions"><button id="close-apply-dialog" class="button secondary-button" type="button">关闭</button><a class="button primary-button" href="../download/">查看 CLI 指南</a></div>
       </div>
-    </dialog>
-    <dialog id="group-dialog" class="gallery-dialog" aria-labelledby="group-dialog-title">
-      <form id="group-form" class="dialog-inner">
-        <p class="eyebrow">THEME COLLECTION</p>
-        <h2 id="group-dialog-title">新建收藏夹</h2>
-        <p id="group-dialog-hint">用收藏夹整理适合不同工作场景的主题。</p>
-        <label class="control-label" for="group-name">收藏夹名称</label>
-        <input id="group-name" class="form-control" name="groupName" maxlength="40" list="group-name-options" autocomplete="off" required />
-        <datalist id="group-name-options"></datalist>
-        <div class="dialog-actions"><button id="cancel-group-dialog" class="button secondary-button" type="button">取消</button><button class="button primary-button" type="submit">保存</button></div>
-      </form>
     </dialog>
   </body>
 </html>
