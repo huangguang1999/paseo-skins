@@ -326,6 +326,18 @@ test("global sidebar navigation uses a visible themed hover state", () => {
   assert.match(style.textContent, /settings-sidebar[^}]+button:hover[^}]+#308cca 14%/);
 });
 
+test("user message selections stay visible on accent-filled bubbles", () => {
+  const harness = createRendererHarness();
+
+  vm.runInNewContext(buildStageBlackGoldInjectionSource({ theme: createTheme("#f6f6f6") }), harness.context);
+  const style = harness.document.getElementById(STAGE_BLACK_GOLD_STYLE_ID);
+
+  assert.match(
+    style.textContent,
+    /\[data-testid="user-message"\]::selection,\s*#root \[data-testid="user-message"\] ::selection\s*\{[^}]*background:\s*#000000\s*!important;[^}]*color:\s*#f6f6f6\s*!important/,
+  );
+});
+
 test("filled interactive control labels keep accessible foreground contrast", () => {
   const harness = createRendererHarness({ flushAnimationFrames: true });
   const fixtures = [
