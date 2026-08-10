@@ -53,7 +53,7 @@ function renderThemePage(theme) {
   const manifestUrl = new URL(theme.manifest, baseUrl).href;
   const packageUrl = new URL(theme.package, baseUrl).href;
   const description = `${theme.description} 免费开源的 Paseo 桌面主题，支持 Agent Skill 一键接入与安全 CDP 注入。`;
-  const installCommand = `npx --yes github:huangguang1999/paseo-skins apply ${theme.id}`;
+  const installCommand = `npx --yes github:huangguang1999/paseo-skins apply ${theme.id} --persist`;
   const hasDistinctEnglishName = theme.englishName.trim().toLocaleLowerCase()
     !== theme.name.trim().toLocaleLowerCase();
   const displayName = hasDistinctEnglishName

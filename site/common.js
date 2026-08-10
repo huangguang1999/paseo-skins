@@ -44,7 +44,7 @@ export async function loadTheme(themeIdentifier, options = {}) {
 }
 
 export function getApplyCommand(themeIdentifier) {
-  return `npx --yes ${INSTALLER_PACKAGE} apply ${themeIdentifier}`;
+  return `npx --yes ${INSTALLER_PACKAGE} apply ${themeIdentifier} --persist`;
 }
 
 export async function copyText(value) {

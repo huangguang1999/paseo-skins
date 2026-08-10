@@ -51,10 +51,10 @@ npm run site
 主题库和模拟器会为每款公开主题生成稳定的快捷命令：
 
 ```bash
-npx --yes github:huangguang1999/paseo-skins apply morning-mist
+npx --yes github:huangguang1999/paseo-skins apply morning-mist --persist
 ```
 
-`apply` 从同源公开 catalog 解析主题 ID，下载并验证 Theme v2 清单与图片，然后复用与 `start` 相同的安全 watcher 流程。没有 watcher 时，它启动一个前台 watcher；已启用 autostart Guardian 时，它会更新既有 Guardian 的主题并等待 watcher 与 renderer 同时确认新主题，不会启动第二个竞争 watcher。手动 watcher 占用端口时，命令会要求先在原终端按 `Ctrl+C`。网页不会直接连接或控制本机 Paseo。
+`apply` 从同源公开 catalog 解析主题 ID，下载并验证 Theme v2 清单与图片。网站公开的命令明确携带 `--persist`：没有 Guardian 时安装当前用户的 macOS 登录代理，已有 Guardian 时原位切换主题，并等待 watcher 与 renderer 同时确认新主题。关闭终端、退出 Paseo 或重启电脑后，主题都会自动恢复。省略 `--persist` 才会使用前台 watcher；手动 watcher 占用端口时，命令会要求先在原终端按 `Ctrl+C`。网页不会直接连接或控制本机 Paseo。
 
 ## Agent Skill 接入
 
@@ -83,7 +83,7 @@ npm start
 
 如果 Paseo 尚未运行，`npm start` 会用官方可执行文件启动它，并只在 `127.0.0.1:9224` 开启 CDP。如果 Paseo 已经运行但没有 CDP，加载器会安全退出，不会替你强制重启或中断 agents；完成或 handoff 当前任务后，正常退出 Paseo再重试。
 
-终端需要保持运行。按 `Ctrl+C` 会停止 watcher 并注销 reload hook，但当前窗口的主题会保留，直到执行 `pause` / `reset` 或关闭窗口。
+直接运行 `start`、`inject` 或不带 `--persist` 的 `apply` 时，终端需要保持运行。按 `Ctrl+C` 会停止 watcher 并注销 reload hook，但当前窗口的主题会保留，直到执行 `pause` / `reset` 或关闭窗口。网站复制的 `apply ... --persist` 不需要保持终端运行。
 
 从画廊安装远程主题时，命令形态如下：
 
@@ -97,7 +97,7 @@ npx --yes github:huangguang1999/paseo-skins start \
 | 命令 | 作用 |
 |---|---|
 | `npm start` | 必要时启动 Paseo，并持续注入当前及新窗口 |
-| `npx --yes github:huangguang1999/paseo-skins apply <theme-id>` | 从公开目录解析主题 ID，校验后持续应用 |
+| `npx --yes github:huangguang1999/paseo-skins apply <theme-id> --persist` | 从公开目录解析主题 ID，校验后持久应用并自动恢复 |
 | `npm run inject -- --port 9224` | 连接已经启用 CDP 的 Paseo |
 | `npm run status -- --port 9224` | 查看应用、CDP、renderer 和主题状态 |
 | `npm run doctor -- --port 9224` | 只读检查环境、主题资源和可选实时连接 |
@@ -120,15 +120,22 @@ npx --yes github:huangguang1999/paseo-skins start \
 一键恢复的推荐顺序：
 
 ```bash
-# 先在 watcher 终端按 Ctrl+C
+# 持久模式先移除 Guardian；前台模式先在 watcher 终端按 Ctrl+C
+npm run autostart:uninstall
 npm run reset -- --port 9224
 ```
 
-`reset` 不退出 Paseo，也不重启 daemon。
+`autostart:uninstall` 阻止主题在下一次 reload 或重启后返回；`reset` 恢复当前 renderer，且不退出 Paseo、不重启 daemon。
 
-## 开机自启（可选，macOS）
+## 持久应用与开机自启（macOS）
 
-默认情况下皮肤是运行时注入的：Paseo 一退出，皮肤随渲染进程内存消失；而通过 Dock、Spotlight、自动更新或开机重新打开的 Paseo 不会开启 CDP，皮肤也就无法自动注入回来。如果你希望**每次重启后皮肤自动恢复、无需手动 `npm start`**，安装开机自启代理：
+网站、主题详情和 Agent Skill 给出的公开换肤命令都显式包含 `--persist`。该选项安装当前用户的开机自启代理，使主题在关闭终端、退出 Paseo 或重启电脑后自动恢复：
+
+```bash
+npx --yes github:huangguang1999/paseo-skins apply morning-mist --persist
+```
+
+制作本地主题或需要单独管理自启时，也可以直接安装：
 
 ```bash
 npm run autostart:install
@@ -141,7 +148,7 @@ npm run autostart:install -- --theme-url 'https://huangguang1999.github.io/paseo
 - `com.paseo-skins.cdp-env`：每次登录时通过 `launchctl setenv` 注入 `PASEO_ELECTRON_FLAGS`，使任何方式启动的 Paseo 都自动开启只绑 `127.0.0.1` 的 CDP。
 - `com.paseo-skins.guardian`：keepalive 常驻一个 `inject` watcher，检测到 CDP 就绪后自动注入皮肤，并跟随 Paseo 的后续重启与新窗口。
 
-安装后退出并重新打开一次 Paseo 即可确认。随时可移除：
+如果 Paseo 正在运行但没有开启本机 CDP，命令会先完成持久配置，再要求用户在工作结束后正常退出并重新打开一次 Paseo；它不会强制中断正在运行的 Agent。随时可移除：
 
 ```bash
 npm run autostart:uninstall

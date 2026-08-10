@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { resolveCatalogTheme } from "../site/common.js";
+import { getApplyCommand, resolveCatalogTheme } from "../site/common.js";
 
 const catalog = {
   themes: [
@@ -20,4 +20,11 @@ test("catalog theme resolution reports explicit fallback", () => {
   assert.equal(result.summary.id, "first-theme");
   assert.equal(result.fallbackUsed, true);
   assert.equal(result.requestedThemeId, "missing-theme");
+});
+
+test("public site commands explicitly request persistent apply", () => {
+  assert.equal(
+    getApplyCommand("morning-mist"),
+    "npx --yes github:huangguang1999/paseo-skins apply morning-mist --persist",
+  );
 });

@@ -22,8 +22,8 @@
         <article class="docs-content">
           <h2 id="quick-start">快速开始</h2>
           <p>在主题库中选择一款主题，进入模拟器检查首页、任务页、侧栏与窄窗口，然后复制一键换肤命令：</p>
-          <pre><code>npx --yes github:huangguang1999/paseo-skins apply morning-mist</code></pre>
-          <p>第一次运行时，CLI 会读取公开 catalog、校验同源主题清单、下载图片并核对 SHA-256。若 Paseo 没有开启本机 CDP，它会给出安全提示，不会强制重启正在工作的 Agent。</p>
+          <pre><code>npx --yes github:huangguang1999/paseo-skins apply morning-mist --persist</code></pre>
+          <p>第一次运行时，CLI 会读取公开 catalog、校验同源主题清单、下载图片并核对 SHA-256，再安装当前用户的持久 Guardian。关闭终端、退出 Paseo 或重启电脑后，主题都会自动恢复。若 Paseo 正在运行但没有开启本机 CDP，CLI 会要求你在工作完成后正常退出并重新打开，不会强制重启正在工作的 Agent。</p>
           <div class="docs-callout"><b>没有桌面客户端。</b><p>本项目刻意只提供静态网站与开源 CLI。网页负责浏览和制作，CLI 负责本机换肤，两者职责清晰。</p></div>
 
           <h2 id="theme-format">Theme v2</h2>

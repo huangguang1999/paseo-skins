@@ -15,4 +15,6 @@ test("Paseo agent skill exposes valid discovery metadata and safety rules", asyn
   assert.match(skill, /create[\s\S]+--image/);
   assert.match(skill, /paseo-theme-v2\.schema\.json/);
   assert.match(skill, /PNG\/JPEG\/WebP/);
+  assert.match(skill, /apply <theme-id> --persist/);
+  assert.match(skill, /closing the terminal.*restarting Paseo.*rebooting macOS/is);
 });

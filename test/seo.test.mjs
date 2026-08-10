@@ -86,6 +86,8 @@ test("gallery, simulator, studio, docs, and CLI pages ship their interactive ent
     const html = await readFile(path.join(outputRoot, relativePath), "utf8");
     for (const pattern of patterns) assert.match(html, pattern);
   }
+  const downloadHtml = await readFile(path.join(outputRoot, "download/index.html"), "utf8");
+  assert.match(downloadHtml, /apply morning-mist --persist/);
 });
 
 test("popular gallery is login-free and Studio controls are accessible without native prompts", async () => {

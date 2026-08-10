@@ -17,7 +17,7 @@
 13. Renderer 改动必须同时验证目标页冷注入和 SPA 导航进入，并按 [Renderer 样式安全手册](docs/RENDERER_STYLE_SAFETY.md) 检查 SVG、伪元素及 `pointer-events: none` 辅助层。
 14. 第三方主题适配包只允许包含 Theme v2 清单、原背景图和来源说明；上游 CSS、JavaScript、字体或其他可执行内容不得进入发布物。
 15. 画廊缩略图、完整模拟器和 Studio 必须复用 `site/paseo-preview-frame.js`，并以当前真实 Paseo 截图校准父级比例与侧栏 Workspace 树；不得自行添加 Mac 标题栏、旧首页任务卡、整行选中背景或其他不存在的界面。
-16. 修改 `apply`、Watcher 或 autostart 时，必须覆盖无 Watcher、同主题、Guardian 切换和手动 Watcher 冲突四种所有权状态；成功切换还要真实验证 status、verify、reload 与回退。
+16. 修改 `apply`、Watcher 或 autostart 时，必须覆盖临时前台模式、`--persist` 首次安装、同主题、Guardian 切换、手动 Watcher 冲突和“Paseo 已运行但无 CDP”六种状态；成功切换还要真实验证 status、verify、reload 与回退。
 17. 网站内容与控件必须使用 `--font-size-*` 字体层级，除 `.paseo-preview-frame` 的微缩界面外不得小于 10px；修改字号后要同时检查三列卡片、完整预览、Studio 和 390px。
 
 本地检查：

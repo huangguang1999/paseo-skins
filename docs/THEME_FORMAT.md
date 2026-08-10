@@ -97,6 +97,8 @@ https://example.com/themes/
 ```bash
 paseo-skin inspect --theme-url 'https://example.com/themes/mountain-night.theme.json'
 paseo-skin start --theme-url 'https://example.com/themes/mountain-night.theme.json'
+# 需要关闭终端、退出 Paseo 或重启电脑后自动恢复时：
+paseo-skin autostart install --theme-url 'https://example.com/themes/mountain-night.theme.json'
 ```
 
 加载器逐跳检查重定向协议，限制下载大小，要求图片与清单保持同源、同目录，并在缓存前重新验证 Theme v2 和 SHA-256。主题永远不会执行代码。

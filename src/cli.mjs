@@ -36,7 +36,6 @@ import {
   buildThemeArguments,
   collectAutostartStatus,
   installAutostart,
-  readAutostartConfiguration,
   uninstallAutostart,
 } from "./autostart.mjs";
 
@@ -113,17 +112,26 @@ async function start(options, preloadedTheme = null) {
       paseoExecutable: options.paseoExecutable,
       remoteDebuggingPort: options.remoteDebuggingPort,
     });
-    console.log(`[paseo-skin] Launched Paseo process ${processIdentifier}`);
+    if (!options.json) console.log(`[paseo-skin] Launched Paseo process ${processIdentifier}`);
     await waitForCdp(options.remoteDebuggingPort);
   }
   await runWatcher(options, loadedTheme);
 }
 
-export function selectApplyMode({ guardianLoaded, requestedThemeId, watcher }) {
-  if (watcher.active && watcher.record?.themeId === requestedThemeId) return "already-active";
+export function selectApplyMode({ guardianLoaded, persist = false, requestedThemeId, watcher }) {
+  if (
+    watcher.active &&
+    watcher.record?.themeId === requestedThemeId &&
+    (guardianLoaded || !persist)
+  ) return "already-active";
   if (guardianLoaded) return "reconfigure-autostart";
-  if (!watcher.active) return "start-watcher";
+  if (!watcher.active) return persist ? "install-autostart" : "start-watcher";
   return "manual-watcher-conflict";
+}
+
+export function selectPersistentActivation({ applicationRunning, cdpAvailable }) {
+  if (cdpAvailable) return "wait-for-activation";
+  return applicationRunning ? "await-paseo-restart" : "launch-paseo";
 }
 
 async function waitForAppliedTheme(options, expectedThemeId, timeoutMilliseconds = 30_000) {
@@ -153,6 +161,70 @@ async function waitForAppliedTheme(options, expectedThemeId, timeoutMilliseconds
   throw new Error(`Timed out waiting for theme ${expectedThemeId} to become active`);
 }
 
+async function configurePersistentTheme(options, loadedTheme, action) {
+  if (!loadedTheme.sourceUrl) {
+    throw new Error("Persistent public apply requires a verified remote theme URL");
+  }
+  await installAutostart({
+    remoteDebuggingPort: options.remoteDebuggingPort,
+    themeArguments: buildThemeArguments({ themeUrl: loadedTheme.sourceUrl }),
+  });
+
+  const cdpAvailable = await isCdpAvailable(options.remoteDebuggingPort);
+  const activationMode = selectPersistentActivation({
+    applicationRunning: cdpAvailable
+      ? true
+      : await isPaseoApplicationRunning({ paseoExecutable: options.paseoExecutable }),
+    cdpAvailable,
+  });
+  if (activationMode === "await-paseo-restart") {
+    const result = {
+      pass: true,
+      action,
+      active: false,
+      requiresPaseoRestart: true,
+      themeId: loadedTheme.theme.id,
+    };
+    if (options.json) {
+      console.log(JSON.stringify(result, null, 2));
+    } else {
+      console.log(
+        `[paseo-skin] Persistent theme ${loadedTheme.theme.name} is installed. ` +
+        "Paseo is currently running without local CDP; finish or hand off active work, " +
+        "quit Paseo normally, then reopen it once. The Guardian will apply the theme automatically.",
+      );
+    }
+    return;
+  }
+  if (activationMode === "launch-paseo") {
+    const processIdentifier = await launchPaseoWithCdp({
+      paseoExecutable: options.paseoExecutable,
+      remoteDebuggingPort: options.remoteDebuggingPort,
+    });
+    console.log(`[paseo-skin] Launched Paseo process ${processIdentifier}`);
+    await waitForCdp(options.remoteDebuggingPort);
+  }
+
+  const activation = await waitForAppliedTheme(options, loadedTheme.theme.id);
+  const result = {
+    pass: true,
+    action,
+    active: true,
+    requiresPaseoRestart: false,
+    themeId: loadedTheme.theme.id,
+    watcherPid: activation.watcher.record.pid,
+    renderers: activation.renderers.length,
+  };
+  if (options.json) {
+    console.log(JSON.stringify(result, null, 2));
+  } else {
+    console.log(
+      `[paseo-skin] Applied ${loadedTheme.theme.name} to ${result.renderers} renderer(s); ` +
+      "the autostart Guardian will restore it after the terminal closes, Paseo restarts, or macOS reboots.",
+    );
+  }
+}
+
 async function apply(options) {
   const loadedTheme = await resolveTheme(options);
   const [watcher, autostartStatus] = await Promise.all([
@@ -161,6 +233,7 @@ async function apply(options) {
   ]);
   const mode = selectApplyMode({
     guardianLoaded: autostartStatus.guardianLoaded,
+    persist: options.persist,
     requestedThemeId: loadedTheme.theme.id,
     watcher,
   });
@@ -180,47 +253,22 @@ async function apply(options) {
     const result = {
       pass: true,
       action: "already-active",
+      persistent: autostartStatus.guardianLoaded,
       themeId: loadedTheme.theme.id,
       watcherPid: activation.watcher.record.pid,
       renderers: activation.renderers.length,
     };
     console.log(options.json ? JSON.stringify(result, null, 2) :
-      `[paseo-skin] ${loadedTheme.theme.name} is already active on ${result.renderers} renderer(s).`);
+      `[paseo-skin] ${loadedTheme.theme.name} is already active on ${result.renderers} renderer(s).` +
+      (result.persistent ? " The autostart Guardian owns this theme." : ""));
     return;
   }
 
-  const configuration = await readAutostartConfiguration();
-  await Promise.all([
-    access(configuration.cliPath),
-    access(configuration.nodeExecutablePath),
-  ]).catch(() => {
-    throw new Error("The existing autostart runtime is unavailable; reinstall autostart before switching themes");
-  });
-  if (!loadedTheme.sourceUrl) {
-    throw new Error("Public apply requires a verified remote theme URL");
-  }
-  await installAutostart({
-    cliPath: configuration.cliPath,
-    nodeExecutablePath: configuration.nodeExecutablePath,
-    remoteDebuggingPort: options.remoteDebuggingPort,
-    themeArguments: buildThemeArguments({ themeUrl: loadedTheme.sourceUrl }),
-  });
-  const activation = await waitForAppliedTheme(options, loadedTheme.theme.id);
-  const result = {
-    pass: true,
-    action: "switched-autostart",
-    themeId: loadedTheme.theme.id,
-    watcherPid: activation.watcher.record.pid,
-    renderers: activation.renderers.length,
-  };
-  if (options.json) {
-    console.log(JSON.stringify(result, null, 2));
-  } else {
-    console.log(
-      `[paseo-skin] Applied ${loadedTheme.theme.name} to ${result.renderers} renderer(s); ` +
-      "the existing autostart guardian now owns this theme.",
-    );
-  }
+  await configurePersistentTheme(
+    options,
+    loadedTheme,
+    mode === "install-autostart" ? "installed-autostart" : "switched-autostart",
+  );
 }
 
 async function collectStatus(options) {

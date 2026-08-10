@@ -28,7 +28,7 @@ local/remote manifest ──► theme-loader ──► validated theme + verifie
 - `src/remote-theme.mjs` adds HTTPS, redirect, origin, size, and cache constraints before delegating to the loader.
 - `src/cli-options.mjs` and `src/cli-help.mjs` are pure command-interface modules. `src/cli.mjs` orchestrates I/O and lifecycle operations.
 - `src/cdp-client.mjs` owns target discovery, loopback WebSocket validation, screenshot capture, and watcher registration.
-- `src/autostart.mjs` owns the persistent Guardian runtime configuration. `apply` may reconfigure a loaded Guardian, but it must preserve the single-watcher lock and wait for both lock and renderer theme identity before reporting success.
+- `src/autostart.mjs` owns the persistent Guardian runtime configuration. Public one-click commands explicitly pass `--persist`, so `apply` may install or reconfigure the Guardian; it must preserve the single-watcher lock and wait for both lock and renderer theme identity before reporting active success.
 - `src/renderer-style-audit.mjs` owns the supported-page plan, renderer contrast and hover checks, structured reporting, and restoration of the original route. The CLI adapter is `scripts/audit-renderer-styles.mjs`.
 - `src/stage-black-gold-skin.mjs` is serialized into the renderer. It therefore remains self-contained and must provide a complete `destroy` path.
 - `site/paseo-preview-frame.js` is the single DOM source for gallery thumbnails, the full simulator, and Studio. Its parent proportions mirror the current Paseo workspace shell; visual changes require comparison against a real Paseo screenshot.
@@ -48,7 +48,7 @@ local/remote manifest ──► theme-loader ──► validated theme + verifie
 9. Public visual assets require a unique provenance entry. Personal dogfood themes and `tmp/` evidence are never release inputs.
 10. Upstream package adaptations retain the original author, license, download URL, package SHA-256, and image SHA-256. The repository MIT license never replaces source-package terms.
 11. Gallery and simulator previews share the same current-Paseo frame: 23.2% sidebar, 4.5% main toolbar, full-canvas artwork, workspace context, and composer. The sidebar preserves the current root-workspace and child-tab hierarchy, including square workspace marks, status dots, ring-only selection, diff counters, and outline controls. Do not substitute an invented task-card mock or generic grouped list.
-12. `apply` never competes with an active watcher. It may return idempotent success for the same theme, reconfigure a loaded autostart Guardian, or reject a conflicting manual watcher. A successful Guardian switch requires matching watcher and renderer theme IDs.
+12. `apply` never competes with an active watcher. Without `--persist`, it may start a foreground watcher; with `--persist`, it installs or reconfigures the autostart Guardian. It may return idempotent success for the same persistent theme or reject a conflicting manual watcher. A successful active result requires matching watcher and renderer theme IDs; a Paseo process already running without CDP must be reported as installed but awaiting a normal app restart.
 13. Public-site text outside `.paseo-preview-frame` never renders below 10px. Metadata, provenance, buttons, code, and form help must use the shared typography tokens rather than independent micro sizes.
 
 ## Change verification matrix

@@ -6,15 +6,19 @@ Usage:
 
 Options:
   --catalog-url <url>    Override the public catalog URL
+  --persist              Install/update the macOS Guardian for automatic restore
   --port <number>        CDP port (default: 9224)
   --json                 Print machine-readable output where supported
 
 Examples:
   paseo-skin list
-  paseo-skin apply morning-mist
+  paseo-skin apply morning-mist --persist
   paseo-skin apply firefly --port 9225
 
-If the autostart Guardian is active, apply switches that single owner in place and exits after verification.
+Without --persist, apply starts a foreground watcher when no Guardian exists.
+With --persist, apply installs or updates the current-user macOS Guardian and verifies immediately when CDP is ready.
+The Guardian restores the theme after the terminal closes, Paseo restarts, or macOS reboots.
+If the autostart Guardian is already active, apply switches that single owner in place.
 A different manual watcher must be stopped with Ctrl+C before apply can take ownership.`,
   autostart: `Manage the opt-in macOS login agents that restore the skin after Paseo restarts.
 
@@ -93,7 +97,7 @@ Common options:
 
 Quick examples:
   paseo-skin list
-  paseo-skin apply <theme-id>
+  paseo-skin apply <theme-id> --persist
   paseo-skin verify --screenshot ./paseo.png
 
 Run 'paseo-skin <command> --help' for command-specific options and examples.`;

@@ -49,71 +49,77 @@ npx --yes "$PASEO_SKIN_PACKAGE" inspect \
   --theme '/absolute/path/to/output/theme-id.theme.json'
 ```
 
-Use the normal apply and verify flow below with `--theme` instead of `--theme-url`. Never infer redistribution permission from the fact that an image is publicly reachable.
+Use the persistent local-theme flow below after inspection. Never infer redistribution permission from the fact that an image is publicly reachable.
 
-## Apply a theme
+## Apply a public theme persistently
 
-Set these shell placeholders before running commands:
+Set the selected catalog identifier and package placeholder:
 
 ```bash
-THEME_URL='<absolute theme manifest URL>'
+THEME_ID='<catalog theme id>'
 PASEO_SKIN_PACKAGE='github:huangguang1999/paseo-skins'
 ```
 
-1. Check Node.js and diagnose the theme without changing Paseo:
+1. Check Node.js and diagnose the selected catalog theme without changing Paseo. Require Node.js 22 or newer and a passing result.
 
 ```bash
 node --version
-npx --yes "$PASEO_SKIN_PACKAGE" doctor --theme-url "$THEME_URL" --json
+npx --yes "$PASEO_SKIN_PACKAGE" doctor --theme-url '<absolute theme manifest URL>' --json
 ```
 
-Require Node.js 22 or newer and a passing doctor result.
-
-2. Inspect the live state:
+2. Inspect ownership before changing it:
 
 ```bash
 npx --yes "$PASEO_SKIN_PACKAGE" status --json
+npx --yes "$PASEO_SKIN_PACKAGE" autostart status --json
 ```
 
-3. Choose the safe path:
+If a manual watcher owns the port, stop it cleanly with its original terminal interrupt before continuing. Never run competing watchers.
 
-- If Paseo is not running, start a long-lived terminal process with `start`.
-- If Paseo is already exposing the configured loopback CDP endpoint, start a long-lived terminal process with `inject`.
-- If Paseo is running without that CDP endpoint, stop. Ask the user to finish or hand off active work and quit Paseo normally. Never force-quit Paseo, kill its processes, restart the Paseo daemon, or interrupt agents.
+3. Install or switch the persistent Guardian with the explicit public command:
 
 ```bash
-npx --yes "$PASEO_SKIN_PACKAGE" start --theme-url "$THEME_URL"
+npx --yes "$PASEO_SKIN_PACKAGE" apply <theme-id> --persist --json
 ```
 
-or:
+`--persist` is explicit authorization to install current-user macOS LaunchAgents. A successful active result means closing the terminal, restarting Paseo, or rebooting macOS will restore the selected theme automatically.
+
+If the result contains `requiresPaseoRestart: true`, Paseo was already running without loopback CDP. Ask the user to finish or hand off active work, quit Paseo normally, and reopen it once. Never force-quit Paseo, kill its processes, restart the Paseo daemon, or interrupt agents.
+
+4. Verify the persistent owner and renderer after the theme becomes active:
 
 ```bash
-npx --yes "$PASEO_SKIN_PACKAGE" inject --theme-url "$THEME_URL" --port 9224
+npx --yes "$PASEO_SKIN_PACKAGE" autostart status --json
+npx --yes "$PASEO_SKIN_PACKAGE" verify --theme-url '<absolute theme manifest URL>' --port 9224
 ```
 
-Keep the watcher process running. Use the agent runtime's persistent terminal or PTY mechanism instead of waiting for it to exit.
+Treat the task as complete only when `verify` reports `pass: true`, unless the command explicitly reports that a normal user-controlled Paseo restart is still required. Report the applied theme, Guardian state, watcher state, and restore commands.
 
-4. Verify from a second terminal invocation:
+## Persist a local theme
+
+After creating and inspecting a local Theme v2 manifest, install it with:
 
 ```bash
-npx --yes "$PASEO_SKIN_PACKAGE" verify --theme-url "$THEME_URL" --port 9224
+npx --yes "$PASEO_SKIN_PACKAGE" autostart install \
+  --theme '/absolute/path/to/output/theme-id.theme.json'
 ```
 
-Treat the task as complete only when `verify` reports `pass: true`. Report the applied theme name, manifest URL, watcher state, and restore command.
+The local manifest and image must remain at those absolute paths. If Paseo is already running without CDP, ask the user to finish work and reopen it normally before verification.
 
 ## Switch themes
 
-Stop the existing watcher cleanly with its terminal interrupt, then start or inject the newly selected theme. Do not run competing watchers against the same Paseo renderer. The loader also enforces one watcher per CDP port and will reject a live competing owner.
+Run the selected catalog theme's `apply <theme-id> --persist` command. A loaded Guardian is reconfigured in place; a manual watcher must be stopped cleanly first.
 
 ## Restore native appearance
 
-Stop the watcher first, then run:
+Restore the native renderer and remove automatic recovery:
 
 ```bash
+npx --yes github:huangguang1999/paseo-skins autostart uninstall
 npx --yes github:huangguang1999/paseo-skins reset --port 9224
 ```
 
-`reset` removes injected styles without restarting Paseo or its daemon.
+`reset` removes injected styles without restarting Paseo or its daemon. `autostart uninstall` removes the current-user LaunchAgents so the theme does not return after the next restart.
 
 ## Safety rules
 

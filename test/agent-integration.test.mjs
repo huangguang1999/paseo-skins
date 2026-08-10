@@ -22,6 +22,7 @@ test("agent prompt contains the selected theme, skill, safety boundary, and veri
   assert.match(prompt, /https:\/\/huangguang1999\.github\.io\/paseo-skins\/SKILL\.md/);
   assert.match(prompt, /themes\/morning-mist\.theme\.json/);
   assert.match(prompt, /doctor/);
+  assert.match(prompt, /apply morning-mist --persist/);
   assert.match(prompt, /verify/);
   assert.match(prompt, /不要强退或重启/);
 });
@@ -29,7 +30,7 @@ test("agent prompt contains the selected theme, skill, safety boundary, and veri
 test("manual and persistent connection commands target the public project", () => {
   assert.equal(
     getApplyCommand(theme),
-    "npx --yes github:huangguang1999/paseo-skins apply morning-mist",
+    "npx --yes github:huangguang1999/paseo-skins apply morning-mist --persist",
   );
   assert.equal(
     getInstallCommand(theme, pageUrl),

@@ -21,6 +21,7 @@ function createDefaultOptions(command, helpCommand = null) {
     json: false,
     outputDirectory: null,
     paseoExecutable: DEFAULT_PASEO_EXECUTABLE,
+    persist: false,
     publicThemeId: null,
     remoteDebuggingPort: DEFAULT_REMOTE_DEBUGGING_PORT,
     screenshotPath: null,
@@ -109,6 +110,8 @@ export function parseArguments(argumentsList) {
       argumentIndex += 1;
     } else if (argument === "--force") {
       options.force = true;
+    } else if (argument === "--persist") {
+      options.persist = true;
     } else if (argument === "--json") {
       options.json = true;
     } else if (argument === "--include-development-targets") {
@@ -127,6 +130,9 @@ export function parseArguments(argumentsList) {
   }
   if (typeof options.paseoExecutable !== "string" || options.paseoExecutable.length === 0) {
     throw new Error("Paseo executable path is required");
+  }
+  if (options.persist && options.command !== "apply") {
+    throw new Error("--persist is only supported by apply");
   }
   if (options.command === "create") {
     if (!options.imagePath || !options.themeName || !options.outputDirectory) {
