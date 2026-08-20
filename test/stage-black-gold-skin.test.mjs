@@ -298,7 +298,7 @@ test("sidebar item backgrounds stay reversible across hover and selected states"
   assert.match(style.textContent, /sidebar-workspace-row-[^}]+\[aria-selected="true"\]/);
 });
 
-test("workspace row actions and scrims inherit the contextual row background", () => {
+test("workspace row actions reserve room across legacy and current Paseo scrims", () => {
   const harness = createRendererHarness();
 
   vm.runInNewContext(buildStageBlackGoldInjectionSource({ theme: createTheme("#f6f6f6") }), harness.context);
@@ -311,6 +311,14 @@ test("workspace row actions and scrims inherit the contextual row background", (
   assert.match(
     style.textContent,
     /\[data-testid\^="sidebar-workspace-row-"\]\s+\[id\^="sidebar-scrim-"\]\s+stop\s*\{[^}]*stop-color:\s*transparent\s*!important/,
+  );
+  assert.match(
+    style.textContent,
+    /\[data-testid="sidebar-workspace-trailing-scrim"\]\s*\{[^}]*display:\s*none\s*!important/,
+  );
+  assert.match(
+    style.textContent,
+    /div:has\(>\s*\[data-testid="sidebar-workspace-trailing-scrim"\]\)\s*\{[^}]*padding-right:\s*24px\s*!important/,
   );
 });
 

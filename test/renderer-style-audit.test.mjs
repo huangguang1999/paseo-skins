@@ -2,8 +2,10 @@ import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
+import vm from "node:vm";
 
 import {
+  buildRendererStyleHoverStateExpression,
   buildRendererStyleAuditReport,
   buildRendererStylePageSnapshotExpression,
   isVisibleThemedHover,
@@ -33,6 +35,7 @@ function createCleanHoverChecks() {
     label,
     persistentInlineBackground: false,
     visible: true,
+    workspaceActionOverlaps: [],
   }));
 }
 
@@ -63,6 +66,43 @@ test("renderer page snapshot expression is self-contained renderer JavaScript", 
   assert.match(expression, /4\.5/);
 });
 
+test("renderer page snapshot does not treat an icon aria-label as visible text", () => {
+  const iconButton = {
+    childNodes: [],
+    getAttribute: (name) => name === "aria-label" ? "停止 Agent" : null,
+    getBoundingClientRect: () => ({
+      bottom: 120,
+      height: 20,
+      left: 100,
+      right: 120,
+      top: 100,
+      width: 20,
+    }),
+    querySelectorAll: () => [],
+    style: { getPropertyPriority: () => "" },
+    textContent: "",
+  };
+  const expression = buildRendererStylePageSnapshotExpression("workspace");
+  const result = vm.runInNewContext(expression, {
+    document: {
+      querySelectorAll: (selector) => selector.startsWith("button,") ? [iconButton] : [],
+    },
+    getComputedStyle: () => ({
+      backgroundColor: "rgb(220, 38, 38)",
+      color: "rgb(0, 0, 0)",
+      display: "block",
+      stopColor: "transparent",
+      visibility: "visible",
+    }),
+    innerHeight: 800,
+    innerWidth: 1200,
+    Node: { TEXT_NODE: 3 },
+    window: { __PASEO_STAGE_BLACK_GOLD_SKIN__: { version: 17 }, location: { pathname: "/workspace" } },
+  });
+
+  assert.deepEqual(JSON.parse(JSON.stringify(result.lowContrastControls)), []);
+});
+
 test("renderer hover visibility rejects imperceptible and native opaque backgrounds", () => {
   assert.equal(
     isVisibleThemedHover(
@@ -89,6 +129,98 @@ test("renderer hover visibility rejects imperceptible and native opaque backgrou
     ),
     false,
   );
+});
+
+test("renderer hover probe measures workspace statistics covered by the trailing action", () => {
+  const statisticsLabel = {
+    childNodes: [{ nodeType: 3, textContent: "-17.4k" }],
+    getBoundingClientRect: () => ({ bottom: 440, left: 390.31, right: 424.54, top: 426 }),
+    getAttribute: () => null,
+  };
+  const workspaceAction = {
+    childNodes: [],
+    getBoundingClientRect: () => ({ bottom: 441, left: 413.54, right: 431.54, top: 423 }),
+    getAttribute: (name) => name === "data-testid"
+      ? "sidebar-workspace-kebab-server:workspace"
+      : null,
+  };
+  const trailingScrim = {
+    childNodes: [],
+    getAttribute: () => "sidebar-workspace-trailing-scrim",
+  };
+  const row = {
+    closest: () => null,
+    matches: (selector) => selector === "[data-testid^=\"sidebar-workspace-row-\"]" || selector === ":hover",
+    querySelectorAll: (selector) => {
+      if (selector === "[data-testid^=\"sidebar-workspace-kebab-\"]") return [workspaceAction];
+      if (selector === "[data-testid=\"sidebar-workspace-trailing-scrim\"]") return [trailingScrim];
+      if (selector === "*") return [statisticsLabel, trailingScrim, workspaceAction];
+      return [];
+    },
+    style: {
+      getPropertyPriority: () => "",
+      getPropertyValue: () => "",
+    },
+  };
+  const expression = buildRendererStyleHoverStateExpression(
+    `document.querySelector('[data-testid="target"]')`,
+  );
+
+  const result = vm.runInNewContext(expression, {
+    document: { querySelector: () => row },
+    getComputedStyle: (element) => ({
+      backgroundColor: "transparent",
+      display: element === trailingScrim ? "flex" : "block",
+      stopColor: "transparent",
+    }),
+    Node: { TEXT_NODE: 3 },
+  });
+
+  assert.deepEqual(JSON.parse(JSON.stringify(result.auxiliaryLayerIssues)), [
+    { kind: "workspace-trailing-scrim", value: "flex" },
+  ]);
+  assert.deepEqual(JSON.parse(JSON.stringify(result.workspaceActionOverlaps)), [
+    {
+      actionTestId: "sidebar-workspace-kebab-server:workspace",
+      overlapHeight: 14,
+      overlapWidth: 11,
+      text: "-17.4k",
+    },
+  ]);
+});
+
+test("renderer style audit rejects workspace statistics covered by the trailing action", () => {
+  const hoverChecks = createCleanHoverChecks();
+  const workspaceHover = hoverChecks.find(({ label }) => label === "sidebar:workspace-row");
+  workspaceHover.workspaceActionOverlaps = [
+    {
+      actionTestId: "sidebar-workspace-kebab-server:workspace",
+      overlapHeight: 14,
+      overlapWidth: 11,
+      text: "-17.4k",
+    },
+  ];
+
+  const report = buildRendererStyleAuditReport({
+    hoverChecks,
+    originalPath: "/h/server/workspace/workspace-id",
+    originalSidebarScrollTop: 240,
+    pages: createCleanPages(),
+    restoredPath: "/h/server/workspace/workspace-id",
+    restoredSidebarScrollTop: 240,
+  });
+
+  assert.equal(report.pass, false);
+  assert.deepEqual(report.failures, [
+    {
+      actionTestId: "sidebar-workspace-kebab-server:workspace",
+      code: "workspace-action-overlap",
+      hover: "sidebar:workspace-row",
+      overlapHeight: 14,
+      overlapWidth: 11,
+      text: "-17.4k",
+    },
+  ]);
 });
 
 test("renderer style audit report rejects contrast, hover, auxiliary layer, and restoration regressions", () => {

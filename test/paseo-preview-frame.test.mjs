@@ -16,6 +16,10 @@ test("shared Paseo preview matches the current workspace shell", async () => {
   assert.match(markup, /paseo-preview-workspace-root/);
   assert.match(markup, /paseo-preview-workspace-tab is-selected/);
   assert.match(markup, /paseo-preview-workspace-tab is-live/);
+  assert.match(markup, /paseo-preview-workspace-tab has-action/);
+  assert.match(markup, /\+28\.1k/);
+  assert.match(markup, /-17\.4k/);
+  assert.match(markup, /data-icon="moreVertical"/);
   assert.match(markup, /demo-workspace/);
   assert.match(markup, /paseo-labs/);
   assert.deepEqual(
@@ -38,5 +42,7 @@ test("shared Paseo preview matches the current workspace shell", async () => {
   assert.match(styles, /\.paseo-preview-toolbar\s*\{[^}]*height:\s*4\.5%/s);
   assert.match(styles, /\.paseo-preview-workspace-tab\.is-selected\s*\{[^}]*color:\s*var\(--preview-text\)/s);
   assert.match(styles, /\.paseo-preview-workspace-tab\.is-selected\s*>\s*i::after/);
+  assert.match(styles, /\.paseo-preview-workspace-tab\.has-action\s*>\s*em\s*\{[^}]*margin-left:\s*auto/s);
+  assert.match(styles, /\.paseo-preview-workspace-tab\.has-action\s*>\s*\.paseo-preview-icon\s*\{[^}]*flex:\s*0\s+0\s+auto/s);
   assert.match(styles, /\.community-card-preview\s*\{[^}]*aspect-ratio:\s*16\/9/s);
 });

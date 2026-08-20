@@ -4,7 +4,10 @@ Paseo Skins 通过运行时 DOM 与 CDP target 能力判断兼容性，不只比
 
 | Paseo | Platform | Last checked | Evidence |
 |---|---|---|---|
+| 0.5.0-beta.2 | macOS arm64 | 2026-08-20 | Live `status`, `verify`, 21-page/5-hover renderer audit, skin version 17, long diff counters with trailing workspace action, 101 automated tests |
 | 0.3.0 | macOS arm64 | 2026-08-09 | Live `status` and `verify`, skin version 12, workspace/schedules/sessions/new SPA routes, workspace menu and hover-in/hover-out screenshots, 74 automated tests |
+
+当前兼容审计使用本机 Paseo `0.5.0-beta.2` 与回环 CDP `127.0.0.1:9224`。新版 workspace 行使用 `sidebar-workspace-trailing-scrim`，主题隐藏该原生遮罩并为统计区预留 24px；真实 `+27.5k/-17.4k` 行在 hover 后与更多按钮的横向重叠为 0px，`auxiliaryLayerIssues` 与 `workspaceActionOverlaps` 均为空。renderer audit 覆盖 21 类页面和 5 类 hover，原路径与侧栏滚动位置完整恢复。
 
 0.9.0 发布审计使用本机正在运行的 Paseo 0.3.0 与回环 CDP `127.0.0.1:9224`。真实 renderer 验证确认 `#root` 可见、overlay 不接收指针、无横向溢出、浅色主题使用 `color-scheme: light`；workspace、计划、历史、新建页分别同步到 `workspace`、`utility`、`utility`、`home`。非选中 workspace 行的背景在 hover 前后均为透明，hover 中为主题主色 10%，三种状态都没有残留内联背景。
 

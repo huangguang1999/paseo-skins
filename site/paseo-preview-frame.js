@@ -4,6 +4,7 @@ const PREVIEW_ICONS = {
   help: '<circle cx="12" cy="12" r="9"/><path d="M9.8 9a2.3 2.3 0 0 1 4.4 1c0 1.8-2.2 2-2.2 3.7M12 17h.01"/>',
   history: '<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5m4-1v5l3 2"/>',
   home: '<path d="m4 11 8-7 8 7v9h-6v-6h-4v6H4z"/>',
+  moreVertical: '<circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/>',
   panel: '<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 4v16"/>',
   plus: '<path d="M12 5v14M5 12h14"/>',
   search: '<circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 4 4"/>',
@@ -35,7 +36,7 @@ export function renderPaseoPreviewFrame() {
           <div class="paseo-preview-workspace-tab is-live"><i></i><span>主题包适配</span></div>
           <div class="paseo-preview-workspace-tab is-selected"><i></i><span>预览效果检查</span></div>
           <div class="paseo-preview-workspace-tab"><i></i><span>交互样式验证</span></div>
-          <div class="paseo-preview-workspace-tab"><i></i><span>兼容性检查</span></div>
+          <div class="paseo-preview-workspace-tab has-action"><i></i><span>兼容性检查</span><em><b>+28.1k</b> -17.4k</em>${renderPreviewIcon("moreVertical")}</div>
         </section>
         <section class="paseo-preview-workspace-group">
           <div class="paseo-preview-workspace-root"><i><b>S</b></i><strong>paseo-skins</strong></div>

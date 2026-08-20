@@ -16,7 +16,7 @@
 | 症状 | 根因 | 修复与防护 |
 |---|---|---|
 | hover 后背景固定 | 把 hover 计算色复制成内联 `!important`，移出后 CSS 状态无法接管 | 交互条目只使用状态 CSS；巡检报告中的 `persistentInlineBackgrounds` 必须为空 |
-| 工作区操作区出现白块 | 原生 kebab 按钮白底与 48×20 SVG `sidebar-scrim-*` 同时覆盖主题背景 | kebab 继承父行背景；SVG stop 必须透明；hover 时检查 `auxiliaryLayerIssues` |
+| 工作区操作区出现白块或统计值被截断 | Paseo 0.3 使用 `sidebar-scrim-*`，Paseo 0.5 改为 `sidebar-workspace-trailing-scrim`，并把 kebab 绝对定位在统计值上方 | 旧 SVG stop 保持透明；新版隐藏原生尾部遮罩，并为统计容器预留 24px；hover 时同时检查 `auxiliaryLayerIssues` 与 `workspaceActionOverlaps` |
 | 深色按钮显示深色文字 | 背景和文字被独立转换，或嵌套文字节点没有读取按钮背景 | 从真实文字节点向上找到交互祖先，以最终填充背景计算对比度；最低 4.5 |
 | 冷注入异常，导航进入正常 | 初始全量扫描与 React 复用节点后的增量扫描看到的 DOM 状态不同 | 目标页冷注入和导航进入各验证一次；文字子节点不能因扫描时机改变颜色 |
 | 顶部 hover 太浅或没有主题色 | 全局入口或设置导航漏出统一 hover 选择器，继续使用 Paseo 原生中性灰 | 侧栏 hover 使用 14% 主题 accent，selected 使用 18%；真实触发 `:hover` 后比较前后颜色 |
@@ -39,7 +39,7 @@ npm run audit:renderer -- --port 9224
 - 检查 5 类 hover：新建工作区、历史、计划、workspace 行和设置导航。
 - 检查 hover 是否真正进入、能否移出、颜色是否可见，以及是否留下永久内联背景。
 - 为避免后台窗口的 CSS transition 停在透明中间帧，巡检会临时关闭这 5 类被测控件的动画，结束时删除临时样式。
-- 检查 workspace kebab 与 SVG scrim 是否残留不透明背景。
+- 检查 workspace kebab、旧 SVG scrim 与新版 trailing scrim 是否残留不透明背景，并检查统计文字是否与操作按钮相交。
 - 最后恢复原路径和侧栏滚动位置；恢复不完整会让命令失败。
 
 命令输出 JSON，失败时退出码非零。需要保存纯 JSON 证据时使用 `--silent`，避免 npm 自身的命令前缀混入文件：
@@ -55,6 +55,7 @@ npm --silent run audit:renderer -- --port 9224 \
 - `failures`：带稳定 `code` 的问题列表。
 - `pages`：每个页面的低对比度、内联背景和辅助层结果。
 - `hoverChecks`：hover 进入、移出、可见性与残留结果。
+- `hoverChecks[].workspaceActionOverlaps`：workspace 统计文字与更多按钮的二维交集；非空时报告 `workspace-action-overlap`。
 - `originalPath` / `restoredPath`：用于证明巡检没有改变用户最终页面。
 - `originalSidebarScrollTop` / `restoredSidebarScrollTop`：用于证明 workspace 列表滚动位置也已恢复。
 
@@ -87,3 +88,4 @@ npm --silent run audit:renderer -- --port 9224 \
 - 冷注入与 SPA 导航是否得到相同结果？
 - 移出 hover、切换路由或执行 `reset` 后是否完全恢复？
 - 同类控件是否存在于设置、计划、历史和 workspace 等其他页面？
+- workspace 行出现操作按钮时，增删统计是否仍完整可见且与按钮没有矩形交集？

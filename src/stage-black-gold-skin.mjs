@@ -6,7 +6,7 @@ export const STAGE_BLACK_GOLD_GLOBAL_KEY = "__PASEO_STAGE_BLACK_GOLD_SKIN__";
 
 const STAGE_BLACK_GOLD_CONFIGURATION = {
   globalKey: STAGE_BLACK_GOLD_GLOBAL_KEY,
-  version: 16,
+  version: 17,
   styleIdentifier: STAGE_BLACK_GOLD_STYLE_ID,
   overlayIdentifier: STAGE_BLACK_GOLD_OVERLAY_ID,
   heroImageDataUrl: null,
@@ -434,6 +434,12 @@ function installStageBlackGoldSkin(configuration) {
       }
       #root [data-testid^="sidebar-workspace-row-"] [id^="sidebar-scrim-"] stop {
         stop-color: transparent !important;
+      }
+      #root [data-testid="sidebar-workspace-trailing-scrim"] {
+        display: none !important;
+      }
+      #root [data-testid^="sidebar-workspace-row-"] div:has(> [data-testid="sidebar-workspace-trailing-scrim"]) {
+        padding-right: 24px !important;
       }
       #root [data-testid="sidebar-global-new-workspace"]:hover,
       #root [data-testid="sidebar-sessions"]:hover,

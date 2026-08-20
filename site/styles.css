@@ -114,6 +114,8 @@ img { display: block; max-width: 100%; }
 .paseo-preview-workspace-tab > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 .paseo-preview-workspace-tab > em { flex: 0 0 auto; margin-left: auto; color: #bd5e5e; font-size: clamp(2.5px,.61cqw,9px); font-style: normal; }
 .paseo-preview-workspace-tab > em b { color: #438e5a; font-weight: 400; }
+.paseo-preview-workspace-tab.has-action > em { margin-left: auto; }
+.paseo-preview-workspace-tab.has-action > .paseo-preview-icon { flex: 0 0 auto; width: clamp(3px,.72cqw,11px); height: clamp(3px,.72cqw,11px); margin-left: 1.5%; }
 .paseo-preview-workspace-tab.is-live > i { background: #27ad63; }
 .paseo-preview-workspace-tab.is-selected { color: var(--preview-text); }
 .paseo-preview-workspace-tab.is-selected > i { position: relative; width: clamp(4px,.66cqw,10px); margin-left: 0; border: clamp(1px,.11cqw,2px) solid color-mix(in srgb, var(--preview-selection) 52%, transparent); background: transparent; box-shadow: 0 0 0 clamp(1px,.1cqw,2px) color-mix(in srgb, var(--preview-selection) 18%, transparent); }

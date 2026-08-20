@@ -184,13 +184,13 @@ export function buildRendererStylePageSnapshotExpression(label) {
         [...candidate.childNodes].some((node) =>
           node.nodeType === Node.TEXT_NODE && node.textContent?.trim(),
         ),
-      ) ?? element;
-      const text = (labelElement.textContent || element.getAttribute('aria-label') || '')
+      ) ?? null;
+      const text = (labelElement?.textContent || '')
         .trim()
         .replace(/\s+/g, ' ')
         .slice(0, 120);
       const background = parseColor(style.backgroundColor);
-      const foreground = parseColor(getComputedStyle(labelElement).color);
+      const foreground = labelElement ? parseColor(getComputedStyle(labelElement).color) : null;
       const compositedForeground = background && foreground
         ? composite(foreground, background)
         : null;
@@ -207,7 +207,7 @@ export function buildRendererStylePageSnapshotExpression(label) {
       return {
         ariaLabel: element.getAttribute('aria-label'),
         background: style.backgroundColor,
-        color: getComputedStyle(labelElement).color,
+        color: labelElement ? getComputedStyle(labelElement).color : null,
         contrast: ratio === null ? null : Number(ratio.toFixed(2)),
         dataTestId: element.getAttribute('data-testid'),
         hasPersistentInlineBackground:
@@ -260,7 +260,7 @@ function buildHoverLocateExpression(selectorExpression) {
   })()`;
 }
 
-function buildHoverStateExpression(selectorExpression) {
+export function buildRendererStyleHoverStateExpression(selectorExpression) {
   return `(() => {
     const element = ${selectorExpression};
     if (!element) return null;
@@ -275,10 +275,59 @@ function buildHoverStateExpression(selectorExpression) {
           auxiliaryLayerIssues.push({ kind: 'workspace-scrim', value });
         }
       }
+      for (const scrim of row.querySelectorAll('[data-testid="sidebar-workspace-trailing-scrim"]')) {
+        const value = getComputedStyle(scrim).display;
+        if (value !== 'none') {
+          auxiliaryLayerIssues.push({ kind: 'workspace-trailing-scrim', value });
+        }
+      }
       for (const kebab of row.querySelectorAll('[data-testid^="sidebar-workspace-kebab-"]')) {
         const value = getComputedStyle(kebab).backgroundColor;
         if (value !== 'rgba(0, 0, 0, 0)' && value !== 'transparent') {
           auxiliaryLayerIssues.push({ kind: 'workspace-kebab', value });
+        }
+      }
+    }
+    const workspaceActionOverlaps = [];
+    if (row) {
+      const textElements = [...row.querySelectorAll('*')].map((candidate) => {
+        const text = [...candidate.childNodes]
+          .filter((node) => node.nodeType === Node.TEXT_NODE)
+          .map((node) => node.textContent || '')
+          .join(' ')
+          .trim()
+          .replace(/\s+/g, ' ');
+        return { candidate, text };
+      }).filter(({ text }) => text);
+      for (const action of row.querySelectorAll('[data-testid^="sidebar-workspace-kebab-"]')) {
+        const actionRectangle = action.getBoundingClientRect();
+        for (const { candidate, text } of textElements) {
+          if (
+            candidate === action ||
+            action.contains?.(candidate) ||
+            candidate.contains?.(action)
+          ) {
+            continue;
+          }
+          const textRectangle = candidate.getBoundingClientRect();
+          const overlapWidth = Math.max(
+            0,
+            Math.min(textRectangle.right, actionRectangle.right) -
+              Math.max(textRectangle.left, actionRectangle.left),
+          );
+          const overlapHeight = Math.max(
+            0,
+            Math.min(textRectangle.bottom, actionRectangle.bottom) -
+              Math.max(textRectangle.top, actionRectangle.top),
+          );
+          if (overlapWidth > 0 && overlapHeight > 0) {
+            workspaceActionOverlaps.push({
+              actionTestId: action.getAttribute('data-testid'),
+              overlapHeight: Number(overlapHeight.toFixed(2)),
+              overlapWidth: Number(overlapWidth.toFixed(2)),
+              text,
+            });
+          }
         }
       }
     }
@@ -288,6 +337,7 @@ function buildHoverStateExpression(selectorExpression) {
       hover: element.matches(':hover'),
       inlineBackgroundPriority: element.style.getPropertyPriority('background-color'),
       inlineBackgroundValue: element.style.getPropertyValue('background-color'),
+      workspaceActionOverlaps,
     };
   })()`;
 }
@@ -395,6 +445,7 @@ async function performHoverCheck(session, hoverPlan, wait) {
       label: hoverPlan.label,
       persistentInlineBackground: false,
       visible: false,
+      workspaceActionOverlaps: [],
     };
   }
 
@@ -410,7 +461,7 @@ async function performHoverCheck(session, hoverPlan, wait) {
     );
     await wait(INTERACTION_DELAY_MILLISECONDS + NAVIGATION_POLL_MILLISECONDS * attempt);
     enteredState = await session.evaluate(
-      buildHoverStateExpression(hoverPlan.selectorExpression),
+      buildRendererStyleHoverStateExpression(hoverPlan.selectorExpression),
     );
     if (isVisibleThemedHover(location.background, enteredState?.background, enteredState?.hover)) {
       break;
@@ -419,7 +470,7 @@ async function performHoverCheck(session, hoverPlan, wait) {
   await session.movePointer(900, 110);
   await wait(INTERACTION_DELAY_MILLISECONDS);
   const exitedState = await session.evaluate(
-    buildHoverStateExpression(hoverPlan.selectorExpression),
+    buildRendererStyleHoverStateExpression(hoverPlan.selectorExpression),
   );
 
   const before = normalizeCssColor(location.background);
@@ -435,6 +486,7 @@ async function performHoverCheck(session, hoverPlan, wait) {
       enteredState?.inlineBackgroundPriority === "important" ||
       exitedState?.inlineBackgroundPriority === "important",
     visible: isVisibleThemedHover(before, after, enteredState?.hover),
+    workspaceActionOverlaps: enteredState?.workspaceActionOverlaps ?? [],
   };
 }
 
@@ -541,6 +593,9 @@ export function buildRendererStyleAuditReport({
     }
     for (const issue of hover.auxiliaryLayerIssues ?? []) {
       failures.push({ code: "auxiliary-layer", hover: hover.label, ...issue });
+    }
+    for (const overlap of hover.workspaceActionOverlaps ?? []) {
+      failures.push({ code: "workspace-action-overlap", hover: hover.label, ...overlap });
     }
   }
 
