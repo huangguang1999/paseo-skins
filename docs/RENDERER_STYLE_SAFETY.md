@@ -15,6 +15,7 @@
 
 | 症状 | 根因 | 修复与防护 |
 |---|---|---|
+| Paseo 已选 Dark，但仍是浅色界面，选中项文字消失 | 皮肤清单覆盖原生颜色和 color-scheme，内联颜色在主题切换后残留 | 有 Unistyles 颜色变量时保留原生控件配色，视觉层用动态 CSS 变量；无变量的旧版保留清单回退。验证 Light、Dark、Zinc、Midnight、Claude、Ghostty、纯黑和系统明暗切换，并覆盖原生样式晚于注入加载 |
 | hover 后背景固定 | 把 hover 计算色复制成内联 `!important`，移出后 CSS 状态无法接管 | 交互条目只使用状态 CSS；巡检报告中的 `persistentInlineBackgrounds` 必须为空 |
 | 工作区操作区出现白块或统计值被截断 | Paseo 0.3 使用 `sidebar-scrim-*`，Paseo 0.5 改为 `sidebar-workspace-trailing-scrim`，并把 kebab 绝对定位在统计值上方 | 旧 SVG stop 保持透明；新版隐藏原生尾部遮罩，并为统计容器预留 24px；hover 时同时检查 `auxiliaryLayerIssues` 与 `workspaceActionOverlaps` |
 | 深色按钮显示深色文字 | 背景和文字被独立转换，或嵌套文字节点没有读取按钮背景 | 从真实文字节点向上找到交互祖先，以最终填充背景计算对比度；最低 4.5 |

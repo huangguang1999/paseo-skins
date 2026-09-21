@@ -6,7 +6,7 @@ export const STAGE_BLACK_GOLD_GLOBAL_KEY = "__PASEO_STAGE_BLACK_GOLD_SKIN__";
 
 const STAGE_BLACK_GOLD_CONFIGURATION = {
   globalKey: STAGE_BLACK_GOLD_GLOBAL_KEY,
-  version: 17,
+  version: 18,
   styleIdentifier: STAGE_BLACK_GOLD_STYLE_ID,
   overlayIdentifier: STAGE_BLACK_GOLD_OVERLAY_ID,
   heroImageDataUrl: null,
@@ -87,6 +87,22 @@ function installStageBlackGoldSkin(configuration) {
   let routeIntervalIdentifier = null;
   let routePathname = window.location.pathname;
   const originalRouteAttribute = document.documentElement?.getAttribute("data-paseo-skin-route");
+  let usesNativeTheme = false;
+  // Unistyles resolves built-in, system and plugin themes into these variables.
+  // Keep the references live: a host theme switch must not freeze computed colors.
+  const nativeColorTokens = {
+    background: "surface0",
+    panel: "popover",
+    panelAlt: "surface1",
+    text: "foreground",
+    muted: "foreground-muted",
+    accent: "accent",
+    glow: "ring",
+    line: "border",
+  };
+  const palette = Object.fromEntries(Object.entries(nativeColorTokens).map(([key, token]) =>
+    [key, `var(--colors-${token}, ${configuration.theme.colors[key]})`],
+  ));
 
   const isSameColor = (color, candidate) =>
     color.red === candidate[0] && color.green === candidate[1] && color.blue === candidate[2];
@@ -160,6 +176,33 @@ function installStageBlackGoldSkin(configuration) {
     }
     rememberInlineStyle(element, property);
     element.style.setProperty(property, value, "important");
+  };
+
+  const restoreInlineStyles = () => {
+    for (const [element, elementStyles] of originalInlineStyles) {
+      for (const [property, originalStyle] of elementStyles) {
+        if (originalStyle.value) {
+          element.style.setProperty(property, originalStyle.value, originalStyle.priority);
+        } else {
+          element.style.removeProperty(property);
+        }
+      }
+    }
+    originalInlineStyles.clear();
+  };
+
+  const syncNativeTheme = () => {
+    if (!document.documentElement) return;
+    const rootStyle = getComputedStyle(document.documentElement);
+    const background = parseColor(rootStyle.getPropertyValue("--colors-surface0").trim());
+    const foreground = parseColor(rootStyle.getPropertyValue("--colors-foreground").trim());
+    const nextUsesNativeTheme = background?.alpha === 1 && foreground?.alpha === 1;
+    if (nextUsesNativeTheme === usesNativeTheme) return;
+    // Early injection can run before the host stylesheet is mounted. Remove any
+    // fallback recoloring once native tokens arrive, including on existing nodes.
+    restoreInlineStyles();
+    usesNativeTheme = nextUsesNativeTheme;
+    pendingElements.add(document.documentElement);
   };
 
   const resolveSurfaceColor = (luminance) => {
@@ -259,7 +302,7 @@ function installStageBlackGoldSkin(configuration) {
         setImportantStyle(
           element,
           "background-color",
-          `color-mix(in srgb, ${configuration.theme.colors.background} 4%, transparent)`,
+          `color-mix(in srgb, ${palette.background} 4%, transparent)`,
         );
       } else if (isTallNavigationSurface) {
         setImportantStyle(
@@ -270,7 +313,7 @@ function installStageBlackGoldSkin(configuration) {
         setImportantStyle(
           element,
           "background-image",
-          `linear-gradient(90deg, color-mix(in srgb, ${configuration.theme.colors.background} 34%, transparent), transparent)`,
+          `linear-gradient(90deg, color-mix(in srgb, ${palette.background} 34%, transparent), transparent)`,
         );
         setImportantStyle(element, "backdrop-filter", "blur(10px) saturate(0.94)");
       } else if (isBottomChromeSurface) {
@@ -282,19 +325,19 @@ function installStageBlackGoldSkin(configuration) {
         setImportantStyle(
           element,
           "background-image",
-          `linear-gradient(180deg, transparent, color-mix(in srgb, ${configuration.theme.colors.background} 28%, transparent))`,
+          `linear-gradient(180deg, transparent, color-mix(in srgb, ${palette.background} 28%, transparent))`,
         );
         setImportantStyle(element, "backdrop-filter", "blur(12px) saturate(0.92)");
       } else if (isTopChromeSurface) {
         setImportantStyle(
           element,
           "background-color",
-          `color-mix(in srgb, ${configuration.theme.colors.panelAlt} 24%, transparent)`,
+          `color-mix(in srgb, ${palette.panelAlt} 24%, transparent)`,
         );
         setImportantStyle(element, "backdrop-filter", "blur(10px) saturate(0.92)");
-      } else if (!isStagePaletteColor(backgroundColor) && isAccentColor(backgroundColor)) {
+      } else if (!usesNativeTheme && !isStagePaletteColor(backgroundColor) && isAccentColor(backgroundColor)) {
         setImportantStyle(element, "background-color", configuration.theme.colors.accent);
-      } else if (!isStagePaletteColor(backgroundColor) && backgroundColor.saturation < 0.22) {
+      } else if (!usesNativeTheme && !isStagePaletteColor(backgroundColor) && backgroundColor.saturation < 0.22) {
         setImportantStyle(
           element,
           "background-color",
@@ -304,7 +347,7 @@ function installStageBlackGoldSkin(configuration) {
     }
 
     const foregroundColor = parseColor(computedStyle.color);
-    if (foregroundColor && foregroundColor.alpha > 0.03) {
+    if (!usesNativeTheme && foregroundColor && foregroundColor.alpha > 0.03) {
       if (interactiveBackgroundColor?.alpha >= 0.7) {
         if (resolveContrastRatio(interactiveBackgroundColor, foregroundColor) < 4.5) {
           setImportantStyle(
@@ -330,7 +373,7 @@ function installStageBlackGoldSkin(configuration) {
     ]) {
       const borderColor = parseColor(computedStyle.getPropertyValue(borderProperty));
       if (
-        borderColor &&
+        !usesNativeTheme && borderColor &&
         borderColor.alpha > 0.03 &&
         !isStagePaletteColor(borderColor) &&
         (borderColor.saturation < 0.22 || isAccentColor(borderColor))
@@ -366,6 +409,7 @@ function installStageBlackGoldSkin(configuration) {
 
   const flushPendingElements = () => {
     animationFrameIdentifier = null;
+    syncNativeTheme();
     for (const element of pendingElements) {
       scanElement(element);
     }
@@ -390,8 +434,8 @@ function installStageBlackGoldSkin(configuration) {
     style.id = configuration.styleIdentifier;
     style.textContent = `
       html, body, #root {
-        background: ${configuration.theme.colors.background} !important;
-        color-scheme: ${configuration.theme.appearance === "light" ? "light" : "dark"} !important;
+        background: ${palette.background} !important;
+        color-scheme: var(--color-scheme, ${configuration.theme.appearance === "light" ? "light" : "dark"}) !important;
       }
       body {
         position: relative !important;
@@ -405,29 +449,29 @@ function installStageBlackGoldSkin(configuration) {
         background: transparent !important;
       }
       ::selection {
-        background: color-mix(in srgb, ${configuration.theme.colors.accent} 32%, transparent) !important;
+        background: color-mix(in srgb, ${palette.accent} 32%, transparent) !important;
       }
       #root [data-testid="user-message"]::selection,
       #root [data-testid="user-message"] ::selection {
-        background: ${configuration.theme.colors.text} !important;
-        color: ${configuration.theme.colors.background} !important;
+        background: ${palette.text} !important;
+        color: ${palette.background} !important;
         text-shadow: none !important;
       }
       #root input, #root textarea, #root [contenteditable="true"] {
-        caret-color: ${configuration.theme.colors.accent} !important;
+        caret-color: ${palette.accent} !important;
       }
       #root * {
-        scrollbar-color: ${configuration.theme.colors.glow} transparent;
+        scrollbar-color: ${palette.glow} transparent;
       }
       ${sidebarInteractiveItemSelector} {
         background-color: transparent !important;
         transition: background-color 140ms ease !important;
       }
       ${sidebarInteractiveItemHoverSelector} {
-        background-color: color-mix(in srgb, ${configuration.theme.colors.accent} 14%, transparent) !important;
+        background-color: color-mix(in srgb, ${palette.accent} 14%, transparent) !important;
       }
       ${sidebarInteractiveItemSelectedSelector} {
-        background-color: color-mix(in srgb, ${configuration.theme.colors.accent} 18%, transparent) !important;
+        background-color: color-mix(in srgb, ${palette.accent} 18%, transparent) !important;
       }
       #root [data-testid^="sidebar-workspace-kebab-"] {
         background-color: transparent !important;
@@ -445,7 +489,7 @@ function installStageBlackGoldSkin(configuration) {
       #root [data-testid="sidebar-sessions"]:hover,
       #root [data-testid="sidebar-schedules"]:hover,
       #root [data-testid="settings-sidebar"] button:hover {
-        background-color: color-mix(in srgb, ${configuration.theme.colors.accent} 14%, transparent) !important;
+        background-color: color-mix(in srgb, ${palette.accent} 14%, transparent) !important;
       }
       #${configuration.overlayIdentifier} {
         position: fixed;
@@ -453,7 +497,7 @@ function installStageBlackGoldSkin(configuration) {
         z-index: 0;
         pointer-events: none;
         overflow: hidden;
-        background: ${configuration.theme.colors.background};
+        background: ${palette.background};
       }
       #${configuration.overlayIdentifier} [data-paseo-skin-layer] {
         position: absolute;
@@ -480,15 +524,15 @@ function installStageBlackGoldSkin(configuration) {
       #${configuration.overlayIdentifier} [data-paseo-skin-layer="shade"] {
         background:
           linear-gradient(90deg,
-            color-mix(in srgb, ${configuration.theme.colors.background} 34%, transparent) 0%,
-            color-mix(in srgb, ${configuration.theme.colors.background} 18%, transparent) 24%,
-            color-mix(in srgb, ${configuration.theme.colors.background} 8%, transparent) 50%,
-            color-mix(in srgb, ${configuration.theme.colors.background} 6%, transparent) 76%,
-            color-mix(in srgb, ${configuration.theme.colors.background} 20%, transparent) 100%),
+            color-mix(in srgb, ${palette.background} 34%, transparent) 0%,
+            color-mix(in srgb, ${palette.background} 18%, transparent) 24%,
+            color-mix(in srgb, ${palette.background} 8%, transparent) 50%,
+            color-mix(in srgb, ${palette.background} 6%, transparent) 76%,
+            color-mix(in srgb, ${palette.background} 20%, transparent) 100%),
           linear-gradient(0deg,
-            color-mix(in srgb, ${configuration.theme.colors.background} 30%, transparent) 0%,
+            color-mix(in srgb, ${palette.background} 30%, transparent) 0%,
             transparent 28%, transparent 72%,
-            color-mix(in srgb, ${configuration.theme.colors.background} 24%, transparent) 100%);
+            color-mix(in srgb, ${palette.background} 24%, transparent) 100%);
       }
       #${configuration.overlayIdentifier} [data-paseo-skin-layer="grain"] {
         opacity: 0.14;
@@ -501,13 +545,13 @@ function installStageBlackGoldSkin(configuration) {
       #root [contenteditable="true"],
       #root [role="dialog"],
       #root [role="menu"] {
-        border-color: ${configuration.theme.colors.line} !important;
+        border-color: ${palette.line} !important;
       }
       #root [role="dialog"],
       #root [role="menu"] {
-        background: ${configuration.theme.colors.panel} !important;
+        background: ${palette.panel} !important;
         backdrop-filter: blur(28px) saturate(0.84) !important;
-        box-shadow: 0 28px 90px rgba(0, 0, 0, 0.58), 0 0 0 1px ${configuration.theme.colors.line} !important;
+        box-shadow: 0 28px 90px rgba(0, 0, 0, 0.58), 0 0 0 1px ${palette.line} !important;
       }
     `;
     (document.head ?? document.documentElement).append(style);
@@ -570,15 +614,7 @@ function installStageBlackGoldSkin(configuration) {
         document.documentElement.setAttribute("data-paseo-skin-route", originalRouteAttribute);
       }
     }
-    for (const [element, elementStyles] of originalInlineStyles) {
-      for (const [property, originalStyle] of elementStyles) {
-        if (originalStyle.value) {
-          element.style.setProperty(property, originalStyle.value, originalStyle.priority);
-        } else {
-          element.style.removeProperty(property);
-        }
-      }
-    }
+    restoreInlineStyles();
     delete window[configuration.globalKey];
   };
 
@@ -590,8 +626,15 @@ function installStageBlackGoldSkin(configuration) {
     observer = new MutationObserver((mutations) => {
       for (const mutation of mutations) {
         if (mutation.type === "childList") {
+          if (mutation.target?.tagName === "STYLE") {
+            scheduleElement(document.documentElement);
+          }
           for (const node of mutation.addedNodes) {
             scheduleElement(node);
+          }
+        } else if (mutation.type === "characterData") {
+          if (mutation.target.parentElement?.tagName === "STYLE") {
+            scheduleElement(document.documentElement);
           }
         } else {
           scheduleElement(mutation.target);
@@ -604,6 +647,7 @@ function installStageBlackGoldSkin(configuration) {
     observer.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["class", "style"],
+      characterData: true,
       childList: true,
       subtree: true,
     });
