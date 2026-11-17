@@ -117,6 +117,14 @@ class FakeElement {
   }
 }
 
+class FakeSvgElement extends FakeElement {}
+
+class FakeHTMLElement {
+  static [Symbol.hasInstance](element) {
+    return element instanceof FakeElement && !(element instanceof FakeSvgElement);
+  }
+}
+
 function createRendererHarness({ flushAnimationFrames = false } = {}) {
   const animationFrames = [];
   let mutationCallback = null;
@@ -158,7 +166,8 @@ function createRendererHarness({ flushAnimationFrames = false } = {}) {
         getPropertyValue: (property) =>
           element.style.getPropertyValue(property) || element.computedStyle[property] || "rgba(0, 0, 0, 0)",
       }),
-      HTMLElement: FakeElement,
+      HTMLElement: FakeHTMLElement,
+      SVGElement: FakeSvgElement,
       Map,
       MutationObserver: class {
         constructor(callback) { mutationCallback = callback; }
@@ -522,6 +531,74 @@ test("native backdrop overrides stay live and are removed on destroy", () => {
   assert.equal(surface.style.getPropertyValue("background-color"), "rgb(0, 0, 0)");
   assert.equal(surface.style.getPropertyPriority("background-color"), "");
   assert.equal(harness.document.getElementById(STAGE_BLACK_GOLD_STYLE_ID), null);
+});
+
+test("model brand icons keep their colors in every scene and restore on destroy", () => {
+  const harness = createRendererHarness();
+  const root = harness.document.documentElement;
+  const agentTab = new FakeElement();
+  agentTab.setAttribute("data-testid", "workspace-tab-agent_123");
+  const kimiIcon = new FakeSvgElement("svg");
+  kimiIcon.style.setProperty("color", "rgb(113, 113, 122)");
+  const kimiPath = new FakeSvgElement("path");
+  kimiPath.setAttribute("d", "M19.514 7.342C19.711 7.862");
+  kimiPath.setAttribute("fill", "currentColor");
+  kimiIcon.append(kimiPath);
+  agentTab.append(kimiIcon);
+  root.append(agentTab);
+
+  const providerRow = new FakeElement();
+  providerRow.setAttribute("data-testid", "model-provider-claude-seed");
+  const fallbackIcon = new FakeSvgElement("svg");
+  const fallbackPath = new FakeSvgElement("path");
+  fallbackPath.setAttribute("d", "M12 8V4H8");
+  fallbackIcon.append(fallbackPath);
+  providerRow.append(fallbackIcon);
+  root.append(providerRow);
+
+  const settingsRow = new FakeElement();
+  settingsRow.setAttribute("data-testid", "settings-host-section-agents");
+  const settingsIcon = new FakeSvgElement("svg");
+  const settingsPath = new FakeSvgElement("path");
+  settingsPath.setAttribute("d", "M12 8V4H8");
+  settingsIcon.append(settingsPath);
+  settingsRow.append(settingsIcon);
+  root.append(settingsRow);
+
+  vm.runInNewContext(buildStageBlackGoldInjectionSource({ theme: createTheme("#f6f6f6") }), harness.context);
+  harness.flush();
+
+  assert.equal(kimiIcon.style.getPropertyValue("color"), "#7c3aed");
+  assert.equal(kimiIcon.style.getPropertyPriority("color"), "important");
+  assert.equal(fallbackIcon.style.getPropertyValue("color"), "#0891b2");
+  assert.equal(settingsIcon.style.getPropertyValue("color"), "");
+
+  const codexIcon = new FakeSvgElement("svg");
+  codexIcon.setAttribute("fill", "var(--colors-foreground-muted)");
+  const codexPath = new FakeSvgElement("path");
+  codexPath.setAttribute("d", "M21.55 10.004a5.416");
+  codexIcon.append(codexPath);
+  harness.mutate([{ type: "childList", target: root, addedNodes: [codexIcon] }]);
+  harness.flush();
+  assert.equal(codexIcon.style.getPropertyValue("color"), "#10a37f");
+  assert.equal(codexIcon.style.getPropertyValue("fill"), "#10a37f");
+
+  const traeIcon = new FakeSvgElement("svg");
+  const traePath = new FakeSvgElement("path");
+  traePath.setAttribute("d", "M24 20.541H3.428v-3.426");
+  traeIcon.append(traePath);
+  harness.mutate([{ type: "childList", target: root, addedNodes: [traeIcon] }]);
+  harness.flush();
+  assert.equal(traeIcon.style.getPropertyValue("color"), "#2563eb");
+
+  harness.context.window.__PASEO_STAGE_BLACK_GOLD_SKIN__.destroy();
+  assert.equal(kimiIcon.style.getPropertyValue("color"), "rgb(113, 113, 122)");
+  assert.equal(kimiIcon.style.getPropertyPriority("color"), "");
+  assert.equal(fallbackIcon.style.getPropertyValue("color"), "");
+  assert.equal(codexIcon.style.getPropertyValue("color"), "");
+  assert.equal(codexIcon.style.getPropertyValue("fill"), "");
+  assert.equal(codexIcon.getAttribute("fill"), "var(--colors-foreground-muted)");
+  assert.equal(traeIcon.style.getPropertyValue("color"), "");
 });
 
 test("stage black gold verification checks renderer safety and theme identity", () => {

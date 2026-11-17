@@ -6,7 +6,7 @@ export const STAGE_BLACK_GOLD_GLOBAL_KEY = "__PASEO_STAGE_BLACK_GOLD_SKIN__";
 
 const STAGE_BLACK_GOLD_CONFIGURATION = {
   globalKey: STAGE_BLACK_GOLD_GLOBAL_KEY,
-  version: 18,
+  version: 21,
   styleIdentifier: STAGE_BLACK_GOLD_STYLE_ID,
   overlayIdentifier: STAGE_BLACK_GOLD_OVERLAY_ID,
   heroImageDataUrl: null,
@@ -68,6 +68,17 @@ function installStageBlackGoldSkin(configuration) {
     .join(", ");
   const interactiveElementSelector =
     'button, a[href], [role="button"], [role="menuitem"], [role="option"], [role="tab"], [role="treeitem"], [aria-selected]';
+  const modelBrandIcons = [
+    { color: "#d97757", paths: ["M4.709 15.955", "M 233.959793 800.214905"] },
+    { color: "#10a37f", paths: ["M21.55 10.004", "M22.282 9.821"] },
+    { color: "#8e75c2", paths: ["M11.04 19.32"] },
+    { color: "#4f46e5", paths: ["M395.479 633.828", "M325.226 695.251"] },
+    { color: "#7c3aed", paths: ["M19.514 7.342"] },
+    { color: "#2563eb", paths: ["M2.4 4.8H21.6V19.2H2.4Z", "M24 20.541H3.428"] },
+  ];
+  const fallbackModelIconColor = "#0891b2";
+  const modelIconContextPattern =
+    /(?:^|[-_])(?:agent|model|provider)(?:[-_]|$)|^(?:schedule|schedules|session|sessions|import-session|user-message)(?:[-_]|$)/;
   const existingSkin = window[configuration.globalKey];
   if (
     existingSkin?.version === configuration.version &&
@@ -249,6 +260,40 @@ function installStageBlackGoldSkin(configuration) {
       ? "#ffffff"
       : "#000000";
 
+  const applyModelIconTheme = (element) => {
+    if (!(element instanceof SVGElement) || element.tagName.toLowerCase() !== "svg") {
+      return;
+    }
+    const pathData = [...element.querySelectorAll("path")]
+      .map((path) => path.getAttribute("d")?.trim() ?? "")
+      .filter(Boolean);
+    const brandIcon = modelBrandIcons.find((candidate) =>
+      candidate.paths.some((signature) => pathData.some((data) => data.startsWith(signature))),
+    );
+    let color = brandIcon?.color;
+    if (
+      !color &&
+      pathData.some((data) => data.startsWith("M12 8V4H8"))
+    ) {
+      let current = element;
+      while (current) {
+        const testIdentifier = current.getAttribute?.("data-testid") ?? "";
+        if (modelIconContextPattern.test(testIdentifier)) {
+          color = fallbackModelIconColor;
+          break;
+        }
+        current = current.parentElement;
+      }
+    }
+    if (color) {
+      setImportantStyle(element, "color", color);
+      const fill = element.getAttribute("fill");
+      if (fill && fill !== "none" && fill !== "currentColor" && !fill.startsWith("url(")) {
+        setImportantStyle(element, "fill", color);
+      }
+    }
+  };
+
   const applyElementTheme = (element) => {
     if (
       !(element instanceof HTMLElement) ||
@@ -401,8 +446,10 @@ function installStageBlackGoldSkin(configuration) {
   };
 
   const scanElement = (element) => {
+    applyModelIconTheme(element);
     applyElementTheme(element);
     for (const descendant of element.querySelectorAll("*")) {
+      applyModelIconTheme(descendant);
       applyElementTheme(descendant);
     }
   };
@@ -417,7 +464,7 @@ function installStageBlackGoldSkin(configuration) {
   };
 
   const scheduleElement = (element) => {
-    if (!(element instanceof HTMLElement)) {
+    if (!(element instanceof HTMLElement) && !(element instanceof SVGElement)) {
       return;
     }
     pendingElements.add(element);
