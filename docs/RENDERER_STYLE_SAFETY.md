@@ -21,7 +21,7 @@
 | 深色按钮显示深色文字 | 背景和文字被独立转换，或嵌套文字节点没有读取按钮背景 | 从真实文字节点向上找到交互祖先，以最终填充背景计算对比度；最低 4.5 |
 | 冷注入异常，导航进入正常 | 初始全量扫描与 React 复用节点后的增量扫描看到的 DOM 状态不同 | 目标页冷注入和导航进入各验证一次；文字子节点不能因扫描时机改变颜色 |
 | 顶部 hover 太浅或没有主题色 | 全局入口或设置导航漏出统一 hover 选择器，继续使用 Paseo 原生中性灰 | 侧栏 hover 使用 14% 主题 accent，selected 使用 18%；真实触发 `:hover` 后比较前后颜色 |
-| 模型图标失去品牌色，或普通图标被误着色 | 模型图标与普通界面图标一样继承 `currentColor`，内置 Claude 和 Codex 还在外层 SVG 使用灰色 `fill`，且没有统一的 `data-provider` 标记 | 品牌 SVG 按路径签名恢复品牌色，同时处理 `color` 与外层 `fill`；通用机器人图标只在模型、Agent 或 provider 容器内使用彩色。验证选择器、Agent 标签页、设置页及 `destroy` 恢复 |
+| 模型图标失去品牌色、品牌图形或普通图标被误着色 | 模型图标与普通界面图标一样继承 `currentColor`，内置 Claude 和 Codex 在外层 SVG 使用灰色 `fill`，Lucide 通用机器人还在子路径写死灰色 `stroke`，且没有统一的 `data-provider` 标记 | 品牌 SVG 按路径签名恢复品牌色，同时处理 `color`、外层 `fill` 和 Lucide 子节点的 `stroke`；Seed、DeepSeek 按 provider id 将通用机器人替换为 LobeHub 品牌 SVG，`destroy` 恢复原始节点；其他通用机器人只在模型、Agent 或 provider 容器内使用彩色。验证选择器、Agent 标签页、设置页及 `destroy` 恢复 |
 | 用户消息已经全选但看不出来 | 消息气泡与全局 `::selection` 同用主题 accent，半透明选区叠加后色差过小 | 对 `[data-testid="user-message"]` 及其后代单独设置不透明、高反差的选区背景和文字颜色；真实执行整段选择并截图放大 |
 | 代码判断正常但截图仍有残留 | 只检查命中栈或按钮祖先，没有检查不参与命中的兄弟遮罩 | 截图放大目标区域，并扫描所有相交节点、SVG gradient 与伪元素 |
 
