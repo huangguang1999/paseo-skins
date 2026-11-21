@@ -9,3 +9,28 @@
 - DreamSkin 来源图片继续受各自原许可证或原包条款约束，不包含在本仓库 MIT License 的授权范围内；下载者应按主题包标注的条款使用。
 - 私有开发仓曾使用来自 [Wallhaven 壁纸页面](https://wallhaven.cc/w/5gzzp7) 的本机测试素材。图片权利仍归原权利人，不包含在本项目 MIT License 中；对应清单、图片与预览通过 `export-ignore` 明确排除，不进入公开 `paseo-skins` 仓库或网站。
 - 用户自行添加的主题图片不因放入本仓库而自动获得 MIT 授权，提交者必须拥有相应使用与再分发权。
+- `src/stage-black-gold-skin.mjs` 中的 Doubao 和 DeepSeek SVG 路径来自 LobeHub 的 `@lobehub/icons-static-svg@1.104.0`，源文件分别为 `icons/doubao-color.svg` 与 `icons/deepseek-color.svg`，上游地址为 <https://github.com/lobehub/lobe-icons>。这些图标按下列 MIT License 使用；Doubao、DeepSeek 及相关商标仍归各自权利人所有，仅用于标识对应模型提供方。
+
+## LobeHub icons
+
+MIT License
+
+Copyright (c) 2023 LobeHub
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

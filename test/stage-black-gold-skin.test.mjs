@@ -53,6 +53,12 @@ class FakeElement {
     this.children.push(child);
   }
 
+  replaceChildren(...children) {
+    for (const child of this.children) child.parentElement = null;
+    this.children = [];
+    for (const child of children) this.append(child);
+  }
+
   closest(selector) {
     let element = this;
     while (element) {
@@ -69,6 +75,10 @@ class FakeElement {
 
   getAttribute(name) {
     return this.attributes.get(name) ?? null;
+  }
+
+  getAttributeNames() {
+    return [...this.attributes.keys()];
   }
 
   getBoundingClientRect() {
@@ -143,6 +153,7 @@ function createRendererHarness({ flushAnimationFrames = false } = {}) {
   const document = {
     body: null,
     createElement: (tagName) => new FakeElement(tagName),
+    createElementNS: (_namespace, tagName) => new FakeSvgElement(tagName),
     documentElement,
     getElementById: (identifier) =>
       findById(head, identifier) ?? findById(documentElement, identifier),
@@ -547,11 +558,21 @@ test("model brand icons keep their colors in every scene and restore on destroy"
   agentTab.append(kimiIcon);
   root.append(agentTab);
 
+  const agyIcon = new FakeSvgElement("svg");
+  const agyPath = new FakeSvgElement("path");
+  agyPath.setAttribute("d", "M21.751 22.607c1.34 1.005");
+  agyPath.setAttribute("fill", "currentColor");
+  agyIcon.append(agyPath);
+  agentTab.append(agyIcon);
+
   const providerRow = new FakeElement();
   providerRow.setAttribute("data-testid", "model-provider-claude-seed");
   const fallbackIcon = new FakeSvgElement("svg");
+  fallbackIcon.setAttribute("fill", "none");
+  fallbackIcon.setAttribute("stroke", "#71717a");
   const fallbackPath = new FakeSvgElement("path");
   fallbackPath.setAttribute("d", "M12 8V4H8");
+  fallbackPath.setAttribute("stroke", "#71717a");
   fallbackIcon.append(fallbackPath);
   providerRow.append(fallbackIcon);
   root.append(providerRow);
@@ -570,7 +591,10 @@ test("model brand icons keep their colors in every scene and restore on destroy"
 
   assert.equal(kimiIcon.style.getPropertyValue("color"), "#7c3aed");
   assert.equal(kimiIcon.style.getPropertyPriority("color"), "important");
+  assert.equal(agyIcon.style.getPropertyValue("color"), "#3186ff");
   assert.equal(fallbackIcon.style.getPropertyValue("color"), "#0891b2");
+  assert.equal(fallbackIcon.style.getPropertyValue("stroke"), "#0891b2");
+  assert.equal(fallbackPath.style.getPropertyValue("stroke"), "#0891b2");
   assert.equal(settingsIcon.style.getPropertyValue("color"), "");
 
   const codexIcon = new FakeSvgElement("svg");
@@ -594,11 +618,80 @@ test("model brand icons keep their colors in every scene and restore on destroy"
   harness.context.window.__PASEO_STAGE_BLACK_GOLD_SKIN__.destroy();
   assert.equal(kimiIcon.style.getPropertyValue("color"), "rgb(113, 113, 122)");
   assert.equal(kimiIcon.style.getPropertyPriority("color"), "");
+  assert.equal(agyIcon.style.getPropertyValue("color"), "");
   assert.equal(fallbackIcon.style.getPropertyValue("color"), "");
+  assert.equal(fallbackIcon.style.getPropertyValue("stroke"), "");
+  assert.equal(fallbackPath.style.getPropertyValue("stroke"), "");
   assert.equal(codexIcon.style.getPropertyValue("color"), "");
   assert.equal(codexIcon.style.getPropertyValue("fill"), "");
   assert.equal(codexIcon.getAttribute("fill"), "var(--colors-foreground-muted)");
   assert.equal(traeIcon.style.getPropertyValue("color"), "");
+});
+
+test("Seed and DeepSeek fallback icons use brand artwork and restore on destroy", () => {
+  const harness = createRendererHarness();
+  const root = harness.document.documentElement;
+  const createFallbackIcon = () => {
+    const icon = new FakeSvgElement("svg");
+    icon.setAttribute("viewBox", "0 0 24 24");
+    icon.setAttribute("fill", "none");
+    icon.setAttribute("stroke", "#71717a");
+    const path = new FakeSvgElement("path");
+    path.setAttribute("d", "M12 8V4H8");
+    path.setAttribute("stroke", "#71717a");
+    icon.append(path);
+    return { icon, path };
+  };
+
+  const seedRow = new FakeElement();
+  seedRow.setAttribute("data-testid", "model-provider-seed");
+  const { icon: seedIcon, path: seedPath } = createFallbackIcon();
+  seedRow.append(seedIcon);
+  root.append(seedRow);
+
+  const deepSeekRow = new FakeElement();
+  deepSeekRow.setAttribute("data-testid", "model-row-deepseek-superrelay/ark/deepseek-v4");
+  const { icon: deepSeekIcon, path: deepSeekPath } = createFallbackIcon();
+  deepSeekIcon.style.setProperty("stroke", "rgb(113, 113, 122)");
+  deepSeekRow.append(deepSeekIcon);
+  root.append(deepSeekRow);
+
+  vm.runInNewContext(buildStageBlackGoldInjectionSource(), harness.context);
+  harness.flush();
+
+  assert.equal(seedIcon.children.length, 4);
+  assert.deepEqual(
+    seedIcon.children.map((path) => path.getAttribute("fill")),
+    ["#1E37FC", "#37E1BE", "#A569FF", "#1E37FC"],
+  );
+  assert.match(seedIcon.children[0].getAttribute("d"), /^M5\.31 15\.756/);
+  assert.equal(seedIcon.getAttribute("fill"), null);
+  assert.equal(seedIcon.getAttribute("stroke"), null);
+
+  assert.equal(deepSeekIcon.children.length, 1);
+  assert.match(deepSeekIcon.children[0].getAttribute("d"), /^M23\.748 4\.482/);
+  assert.equal(deepSeekIcon.children[0].getAttribute("fill"), "#4D6BFE");
+  assert.equal(deepSeekIcon.getAttribute("stroke"), null);
+  assert.equal(deepSeekIcon.style.getPropertyValue("stroke"), "");
+
+  vm.runInNewContext(
+    buildStageBlackGoldInjectionSource({
+      theme: { ...createTheme("#123456"), id: "alternate-theme" },
+    }),
+    harness.context,
+  );
+  harness.flush();
+  assert.equal(seedIcon.children.length, 4);
+  assert.equal(deepSeekIcon.children.length, 1);
+
+  harness.context.window.__PASEO_STAGE_BLACK_GOLD_SKIN__.destroy();
+  assert.equal(seedIcon.children[0], seedPath);
+  assert.equal(seedIcon.getAttribute("fill"), "none");
+  assert.equal(seedIcon.getAttribute("stroke"), "#71717a");
+  assert.equal(deepSeekIcon.children[0], deepSeekPath);
+  assert.equal(deepSeekIcon.getAttribute("fill"), "none");
+  assert.equal(deepSeekIcon.getAttribute("stroke"), "#71717a");
+  assert.equal(deepSeekIcon.style.getPropertyValue("stroke"), "rgb(113, 113, 122)");
 });
 
 test("stage black gold verification checks renderer safety and theme identity", () => {
