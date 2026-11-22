@@ -501,6 +501,17 @@ test("native themes retain surfaces, selected text, semantic colors and live CSS
   }
 });
 
+test("chat find keeps an opaque surface and readable controls on native themes", () => {
+  const harness = createRendererHarness();
+  vm.runInNewContext(buildStageBlackGoldInjectionSource({ theme: createTheme("#f6f6f6") }), harness.context);
+  const style = harness.document.getElementById(STAGE_BLACK_GOLD_STYLE_ID);
+  assert.match(style.textContent, /#better-paseo-find \{[^}]*background: var\(--colors-popover,/);
+  assert.match(style.textContent, /#better-paseo-find \{[^}]*color: var\(--colors-foreground,/);
+  assert.match(style.textContent, /#better-paseo-find input \{[^}]*background: var\(--colors-surface1,/);
+  assert.match(style.textContent, /#better-paseo-find::placeholder \{[^}]*var\(--colors-foreground-muted,/);
+  assert.match(style.textContent, /#better-paseo-find button:hover \{[^}]*var\(--colors-accent,/);
+});
+
 test("early fallback recoloring is removed when native theme tokens mount", () => {
   const harness = createRendererHarness();
   const root = harness.document.documentElement;
