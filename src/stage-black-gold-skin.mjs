@@ -6,7 +6,7 @@ export const STAGE_BLACK_GOLD_GLOBAL_KEY = "__PASEO_STAGE_BLACK_GOLD_SKIN__";
 
 const STAGE_BLACK_GOLD_CONFIGURATION = {
   globalKey: STAGE_BLACK_GOLD_GLOBAL_KEY,
-  version: 23,
+  version: 24,
   styleIdentifier: STAGE_BLACK_GOLD_STYLE_ID,
   overlayIdentifier: STAGE_BLACK_GOLD_OVERLAY_ID,
   heroImageDataUrl: null,
@@ -681,6 +681,25 @@ function installStageBlackGoldSkin(configuration) {
         opacity: 0.14;
         background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.26'/%3E%3C/svg%3E");
         mix-blend-mode: soft-light;
+      }
+      #better-paseo-find {
+        background: ${palette.panel} !important;
+        color: ${palette.text} !important;
+        border-color: ${palette.line} !important;
+      }
+      #better-paseo-find input {
+        background: ${palette.panelAlt} !important;
+        color: ${palette.text} !important;
+        border-color: ${palette.line} !important;
+      }
+      #better-paseo-find::placeholder {
+        color: ${palette.muted} !important;
+      }
+      #better-paseo-find button {
+        color: ${palette.text} !important;
+      }
+      #better-paseo-find button:hover {
+        background: color-mix(in srgb, ${palette.accent} 14%, transparent) !important;
       }
       #root button,
       #root input,
